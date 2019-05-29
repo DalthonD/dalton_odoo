@@ -1,0 +1,19 @@
+select ROW_NUMBER () OVER (ORDER BY f.date_invoice,coalesce(F.reference,F.number))  as Registro
+        ,left(coalesce(F.reference,F.number),14) as Serie
+		,CASE WHEN textregexeq(right(coalesce(F.reference,F.number),length(coalesce(F.reference,F.number))-14),'^[[:digit:]]+(\.[[:digit:]]+)?$') = TRUE THEN
+			cast(right(coalesce(F.reference,F.number),(length(coalesce(F.reference,F.number))-14)) as Integer)
+		ELSE F.ID *1000 end as correlativo
+        ,F.date_invoice as fecha
+        ,case
+        when F.state='cancel' then 'ANULADA'
+        else 'Valida' end as estado
+        ,coalesce(F.reference,F.number) as factura,F.id
+        from Account_invoice F
+        inner join account_fiscal_position afp on F.fiscal_position_id=afp.id
+		where date_part('year',COALESCE(F.sv_fecha_tax,F.date_invoice))= 2019
+        and date_part('month',COALESCE(F.sv_fecha_tax,F.date_invoice))= 2
+        and F.state<>'draft' and F.company_id=1
+        and F.type in ('out_invoice')
+        and ((F.sv_no_tax is null ) or (F.sv_no_tax=false))
+        --and afp.sv_contribuyente=False
+        order by fecha,factura 
