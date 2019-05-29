@@ -1,0 +1,44 @@
+<odoo>
+  <data>
+	 
+	<record model="ir.ui.view" id="strategiksv.company_form">
+	  <field name="inherit_id" ref="base.view_company_form"/>	 
+      <field name="name">strategiksv company form</field>
+      <field name="model">res.company</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//field[@name='website']" position="after">
+			<field name="sv_nit"/>
+			<field name="sv_nrc"/>
+			<field name="sv_formato_factura"/>
+			<field name="sv_formato_creditofiscal"/>
+          </xpath>
+          <!--xpath expr="/form/sheet/notebook" position="inside">
+			  <page string="Impuestos y configuracion de cuentas" >
+				<group>
+					<group>
+						<field name="sv_elebora_partida"/>
+						<field name="sv_revisa_partida"/>
+						<field name="sv_aprueba_partida"/>
+						<field name="sv_account_sing_ids" context="{'default_company_id': active_id}" nolabel="1" colspan="2">
+						  <tree string="Signos de las cuentas"  editable="bottom">
+							  <field name="name" string="Codigo de la cuenta"/>                        
+							  <field name="negativo"/>
+						  </tree>
+						</field>
+					</group>
+					<group>
+						<field name="sv_iva_compra" domain="[('company_id','=',active_id)]"/>
+						<field name="sv_iva_venta_consumidor" domain="[('company_id','=',active_id)]"/>
+						<field name="sv_iva_venta_contribuyente" domain="[('company_id','=',active_id)]"/>
+						<field name="sv_retencion" domain="[('company_id','=',active_id)]"/>
+						<field name="sv_perseccion" domain="[('company_id','=',active_id)]"/>
+					</group>
+				</group>
+			  </page>
+		  </xpath-->	            
+          
+       </field>
+    </record>  
+	
+  </data>
+</odoo>

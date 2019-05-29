@@ -1,0 +1,20 @@
+if record.journal_id.wallet_journal==True:
+  wallet_partner_id = env["pos.wallet"].search([('partner_id','=',record.partner_id.id)])
+  partner_obj = env["res.partner"].search([('id','=',record.partner_id.id)])
+  payTrans = env["pos.wallet.transaction"].search([('x_payment_id','=',record.id)],limit=1).id
+  if payTrans == False:
+    if partner_obj.wallet_credits >= record.amount:
+      env["pos.wallet.transaction"].create({'wallet_id': wallet_partner_id.id,
+                                          'partner_id': record.partner_id.id,
+                                          'created_by': record.create_uid.id,
+                                          'create_uid': record.create_uid.id,
+                                          'amount': record.amount,
+                                          'name': record.communication,
+                                          'trans_reason': 'Use wallet money',
+                                          'create_date': record.create_date,
+                                          'payment_type': 'DEBIT',
+                                          'write_date': record.create_date,
+					                                'write_uid': record.create_uid.id,
+                                          'x_payment_id': record.id})
+    else:
+      raise Warning("El Saldo del Wallet del Cliente es inferior al monto a pagar. Saldo actual: %s" % partner_obj.wallet_credits)

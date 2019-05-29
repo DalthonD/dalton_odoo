@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cryo_sv.pos_config" model="ir.ui.view">
+            <field name="name">cryo_sv.pos_config</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='inventory_location']" position="after">
+  <group>
+    <field name="header_ticket" widget="html"/>  
+						<field name="footer_ticket" widget="html"/>  
+						<field name="header_recibo" widget="html"/>  
+						<field name="footer_recibo" widget="html"/>  
+						<field name="ticket_sequence"/>  
+  </group>
+						
+                </xpath>
+            </field>
+        </record>
+    
+        
+  </data>   
+</odoo>
+

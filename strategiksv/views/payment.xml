@@ -1,0 +1,29 @@
+<odoo>
+  <data>
+	<record model="ir.ui.view" id="strategiksv.account_payment_form">
+	  <field name="inherit_id" ref="account.view_account_payment_form"/>	 
+      <field name="name">strategiksv account payment form</field>
+      <field name="model">account.payment</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//button[@name='post']" position="after">
+			  
+			<button name="cancel_payment" class="oe_highlight" states="draft" string="Anular" type="object"/>
+			<button  class="btn btn-sm btn-primary" string="Imprimir" custom="click_cheque">
+				
+			</button>
+			
+          </xpath>
+          <xpath expr="//field[@name='payment_method_code']" position="after">
+			<field name="sv_caja_chica" invisible="1"/>
+			<field name="sv_cajachica_id" domain="[('journal_id', '=', journal_id),('state', '=', 'open')]" attrs="{'invisible':[('sv_caja_chica', '!=', True)]}"/>
+			<field name="sv_referencia" />
+			<field name="sv_resumen" />
+          </xpath>
+          <xpath expr="//field[@name='name']" position="after">			
+			<div id="identidad" style="display:none"><field name="id" readonly="True"/></div>
+			<div id="reporte" style="display:none"><field name="sv_reporte" readonly="True"/></div>
+          </xpath>
+       </field>
+    </record>  
+  </data>
+</odoo>

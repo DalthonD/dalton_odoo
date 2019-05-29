@@ -1,0 +1,68 @@
+<odoo>
+  <data>
+	 
+	<record model="ir.ui.view" id="strategiksv.category_product_tree">
+	  <field name="inherit_id" ref="product.product_category_list_view"/>	 
+      <field name="name">strategiksv product_category_tree</field>
+      <field name="model">product.category</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//field[@name='display_name']" position="after">
+			<field name="company_id"/>
+          </xpath>
+       </field>
+    </record>
+    
+    
+    <record model="ir.ui.view" id="strategiksv.category_product_form">
+	  <field name="inherit_id" ref="product.product_category_form_view"/>	 
+      <field name="name">strategiksv product_category_form</field>
+      <field name="model">product.category</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//field[@name='parent_id']" position="after">
+			<field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+          </xpath>
+       </field>
+    </record> 
+    
+    
+    	
+    <record model="ir.ui.view" id="strategiksv.category_product_landed_form">
+	  <field name="inherit_id" ref="stock_landed_costs.view_product_landed_cost_form"/>	 
+      <field name="name">strategiksv product_category_landed_form</field>
+      <field name="model">product.template</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//field[@name='split_method']" position="after">
+			<field name="sv_tipo_costo" attrs="{'invisible':['|', ('landed_cost_ok', '=' ,False), ('type', 'not in', ['product', 'consu', 'service'])]}"/>
+          </xpath>
+       </field>
+    </record>
+    
+    <record model="ir.ui.view" id="strategiksv.category_landed_form">
+	  <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>	 
+      <field name="name">strategiksv product_landed_form</field>
+      <field name="model">stock.landed.cost</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//field[@name='account_move_id']" position="after">
+			<field name="sv_referencia" />
+			<field name="sv_declaracion" />
+			<field name="sv_guia" />
+			<field name="sv_comentario" />
+          </xpath>
+       </field>
+    </record>
+	
+	<record model="ir.ui.view" id="strategiksv.category_landed_tree">
+	  <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_tree"/>	 
+      <field name="name">strategiksv product_landed_tree</field>
+      <field name="model">stock.landed.cost</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//field[@name='name']" position="after">
+			<field name="sv_referencia" />
+			<field name="sv_declaracion" />
+			<field name="sv_guia" />
+          </xpath>
+       </field>
+    </record>
+	
+  </data>
+</odoo>

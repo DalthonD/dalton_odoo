@@ -1,0 +1,48 @@
+<odoo>
+  <data>
+	 <record model="ir.ui.view" id="strategiksv.account_move_tree">
+	  <field name="inherit_id" ref="account.view_move_tree"/>
+      <field name="name">strategiksv account move tree</field>
+      <field name="model">account.move</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="sv_concepto"/>
+          </xpath>
+      </field>
+    </record>
+
+
+	<record model="ir.ui.view" id="strategiksv.account_move_form">
+	  <field name="inherit_id" ref="account.view_move_form"/>
+      <field name="name">strategiksv account move form</field>
+      <field name="model">account.move</field>
+      <field name="arch" type="xml">
+		  <!--xpath expr="//button[@name='button_cancel']" position="after"-->
+
+			<button  class="btn btn-sm btn-primary" string="Imprimir" custom="click_partida">
+
+			</button>
+          </xpath>
+		  <xpath expr="//field[@name='date']" position="after">
+			<field name="sv_concepto"/>
+          </xpath>
+          <xpath expr="//button[@name='open_reconcile_view']" position="after">
+				<div id="identidad" style="float:left"><field name="id" readonly="True"/></div>
+		  </xpath>
+          <xpath expr="//field[@name='line_ids']/tree/field[@name='name']" position="attributes">
+			 <attribute name="string">Concepto</attribute>
+          </xpath>
+          <xpath expr="//field[@name='account_id']" position="attributes">
+			  <attribute name="domain">[('company_id', '=', parent.company_id), ('deprecated', '=', False), ('internal_type', '!=', 'view')]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='date_maturity']" position="replace"/>
+          <xpath expr="//field[@name='currency_id']" position="after">
+			<field name="sv_elebora" />
+			<field name="sv_revisa"/>
+			<field name="sv_aprueba"/>
+          </xpath>
+       </field>
+    </record>
+
+  </data>
+</odoo>

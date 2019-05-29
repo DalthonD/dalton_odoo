@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vim:fdn=3:-->
+<odoo>
+    <data>
+
+        <record id="view_company_form_ace" model="ir.ui.view">
+            <field name="name">res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <page position="after">
+                    <!--<page name="zreport" string="POS Report Configuration">-->
+                    	<!--<group>-->
+                    		<!--<field name="report_ip_address"/>-->
+                    	<!--</group>-->
+                    <!--</page>-->
+                </page>
+            </field>
+        </record>
+
+    </data>
+</odoo>

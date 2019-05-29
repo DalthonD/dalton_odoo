@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <template id="front_sales_report_x_pdf_template">
+      <t t-call="web.html_container">
+        <t t-call="web.basic_layout">
+          <div class="page">
+            <t t-foreach="docs" t-as="o">
+              <table style="width:100%;margin-top:15px;">
+                <thead>
+                  <div align="center" style="margin:0 auto;padding:0 auto;font-size:20px;margin-top:8px;">
+                    <div style="font-size:13px;">
+                      <t t-if="o.get_company_data_x().name">
+                        <t t-esc="o.get_company_data_x().name"/><br/>
+                      </t>
+                      <t t-if="o.get_company_data_x().street">
+                        <t t-esc="o.get_company_data_x().street"/><br/>
+                      </t>
+                      <t t-if="o.get_company_data_x().street2">
+                        <t t-esc="o.get_company_data_x().street2"/>
+                      </t>
+                      <t t-if="o.get_company_data_x().city">
+                        <t t-esc="o.get_company_data_x().city"/>
+                      </t>
+                      <t t-if="o.get_company_data_x().state_id.name">
+                        <t t-esc="o.get_company_data_x().state_id.name"/>
+                      </t>
+                      <t t-if="o.get_company_data_x().country_id.name">
+                        <t t-esc="o.get_company_data_x().country_id.name"/>
+                      </t><br/>
+                      <t t-if="o.get_company_data_x().phone">
+                        Tel: <t t-esc="o.get_company_data_x().phone"/><br/>
+                      </t>
+                      <t t-if="o.get_company_data_x().email">
+                        Email: <t t-esc="o.get_company_data_x().email"/><br/>
+                      </t>
+                      <t t-if="o.get_company_data_x().website">
+                        Website: <t t-esc="o.get_company_data_x().website"/><br/>
+                      </t>
+                    </div>
+                  </div>
+                  --------------------------------------------------------
+                  <strong>REPORTE X</strong><br/>
+                  --------------------------------------------------------
+                  <table style="width:100%;margin-top:15px;">
+                    <tr>
+                      <td class="text-left">
+                        FECHA:
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.get_session_date(o.start_at)"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        IMPRESION:
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.get_current_date_x()"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        HORA:
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.get_current_time_x()"/>
+                      </td>
+                    </tr>
+                  </table>
+                  <table style="width:100%;margin-top:15px;">
+                    <tr>
+                      <td class="text-left">
+                        POS #
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.config_id.name"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        ESTADO:
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.state"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        APERTURA:
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.get_session_date(o.start_at)"/>
+                        <span t-esc="o.get_session_time(o.start_at)"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        CIERRE:
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.get_session_date(o.stop_at)"/>
+                        <span t-esc="o.get_session_time(o.start_at)"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        USUARIO:
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.user_id.name"/>
+                      </td>
+                    </tr>
+                  </table>
+                  --------------------------------------------------------
+                  <table style="width:100%;margin-top:15px;">
+                    <tr>
+                      <td class="text-left">
+                        FACTURAS: <span t-esc="o.get_invoice_range_no_contr()"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL VENTAS GRAVADAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_invoice_gravado_no_contr())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL VENTAS EXENTAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_invoice_exento_no_contr())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL VENTAS NO SUJETAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_invoice_no_aplica_no_contr())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-right" colspan="2">
+                        ----------------------
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL
+                      </td>
+                      <td class="text-right">
+                        <t t-set="total1" t-value="o.get_total_sales_invoice_gravado_no_contr() + o.get_total_sales_invoice_exento_no_contr() + o.get_total_sales_invoice_no_aplica_no_contr()"/>
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total1)"/>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <table style="width:100%;margin-top:15px;">
+                    <tr>
+                      <td class="text-left">
+                        CCF: <span t-esc="o.get_invoice_range_ccf()"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL VENTAS GRAVADAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_invoice_gravado_ccf())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL VENTAS EXENTAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_invoice_exento_ccf())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL VENTAS NO SUJETAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_invoice_no_aplica_ccf())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-right" colspan="2">
+                        ----------------------
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL
+                      </td>
+                      <td class="text-right">
+                        <t t-set="total2" t-value="o.get_total_sales_invoice_gravado_ccf() + o.get_total_sales_invoice_exento_ccf() + o.get_total_sales_invoice_no_aplica_ccf()"/>
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total2)"/>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <table style="width:100%;margin-top:15px;">
+                    <tr>
+                      <td class="text-left">
+                        TIQUETE: <span t-esc="o.get_ticket_range()"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL VENTAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_tickets() +  o.get_total_returns_tickets_x())"/><!--Se debe sumar la devolucion para que cuadre porque viene alterada por las devoluciones-->
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        DEVOLUCIONES
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'-{0:.2f}'.format(o.get_total_returns_tickets_x())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL VENTAS GRAVADAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_ticket_gravado())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL VENTAS EXENTAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_ticket_exento())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL VENTAS NO SUJETAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_ticket_no_aplica())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-right" colspan="2">
+                        ----------------------
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL
+                      </td>
+                      <td class="text-right">
+                        <t t-set="total3" t-value="o.get_total_sales_tickets()"/><!-- el total de ventas regresa laterado por las devoluciones. No debe volverse a restar-->
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total3)"/>
+                      </td>
+                    </tr>
+                  </table>
+                  <table style="width:100%;margin-top:15px;">
+                    <tr>
+                      <td class="text-left">
+                        RECIBO: <span t-esc="o.get_wallet_reciept()"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL RECARGAS
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_wallet_recharges())"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-right" colspan="2">
+                        ----------------------
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL
+                      </td>
+                      <td class="text-right">
+                        <!--t t-set="total3" t-value="o.get_total_sales_tickets() - o.get_total_returns_tickets_x()"/-->
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_wallet_recharges())"/>
+                      </td>
+                    </tr>
+                  </table>
+                  <div align="center">
+                    --------------------------------------------------------
+                    <br/>*DETALLE DE PAGOS*<br/>
+                    --------------------------------------------------------
+                  </div>
+                </thead>
+                <tbody class="invoice_tbody">
+                  <t t-set="total1" t-value="0"/>
+                  <t t-set="total2" t-value="0"/>
+                  <table style="width:100%;margin-top:15px;">
+                    <tr>
+                      <td class="text-left">TIQUETE</td>
+                    </tr>
+                    <tr t-foreach="o.get_payments()" t-as="l">
+                      <td class="text-left">
+                        <span t-esc="l.get('name')"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(l.get('sum'))"/>
+                      </td>
+                      <t t-set="total1" t-value="total1 + l.get('sum')"/>
+                    </tr>
+                    <!--tr><td></td></tr>
+                    <tr>
+                      <td class="text-left">FACTURA y CCF</td>
+                    </tr>
+                    <tr t-foreach="o.get_payments_invoice()" t-as="l">
+                      <td class="text-left">
+                        <span t-esc="l.get('name')"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(l.get('sum'))"/>
+                      </td>
+                      <t t-set="total2" t-value="total2 + l.get('sum')"/>
+                    </tr-->
+                    <tr>
+                      <td class="text-right" colspan="2">
+                        ----------------------
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        TOTAL
+                      </td>
+                      <td style="width:50%; !important" class="text-right">
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total1+total2)"/>
+                      </td>
+                    </tr>
+                  </table><br/>
+                </tbody>
+                <tfoot>
+                  <div style="font-size:13px;">
+                    <t t-if="o.get_company_data_x().name">
+                      <t t-esc="o.get_company_data_x().name"/><br/>
+                    </t>
+                    <t t-if="o.get_company_data_x().street">
+                      <t t-esc="o.get_company_data_x().street"/><br/>
+                    </t>
+                    <t t-if="o.get_company_data_x().street2">
+                      <t t-esc="o.get_company_data_x().street2"/>
+                    </t>
+                    <t t-if="o.get_company_data_x().city">
+                      <t t-esc="o.get_company_data_x().city"/>
+                    </t>
+                    <t t-if="o.get_company_data_x().state_id.name">
+                      <t t-esc="o.get_company_data_x().state_id.name"/>
+                    </t>
+                    <t t-if="o.get_company_data_x().country_id.name">
+                      <t t-esc="o.get_company_data_x().country_id.name"/>
+                    </t>
+                  </div><br/>
+                </tfoot>
+              </table>
+            </t>
+          </div>
+        </t>
+      </t>
+    </template>
+  </data>
+</odoo>

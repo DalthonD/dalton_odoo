@@ -1,0 +1,141 @@
+-p_series_lenght
+
+
+account_invoice_formato_cryo
+
+<t t-name='account.account_invoice_formato_cryo'>
+        <t t-call="web.basic_layout">
+            <div class="page" style="position:absolute;top:64px;left:20px;width:530px;height:130px;">
+              <div style="position:absolute;top:130px;left:0px;width:530px;">
+                <table class="table o_report_block_table small table-borderless" style="border-bottom:none;width:400px;margin-top:5px;margin-left:-14px;">
+                  <thead class="small">
+                    <tr>
+                      <th>
+                        <span>
+                          <font style="font-size: 8px;">
+                            <font style="font-size: 12px;">
+                              <font style="font-size: 8px;"/></font>
+                            </font>
+                          </span>
+                        </th>
+                        <th>
+                          <span>
+                            <font style="font-size: 8px;"/>
+                          </span>
+                        </th>
+                        <th>
+                          <span>
+                            <font style="font-size: 8px;"/>
+                          </span>
+                        </th>
+                        <th style="margin-top:10px;margin-bottom:10px;width:68px;">
+                          <span>
+                            <font style="font-size: 8px;"/>
+                          </span>
+                        </th>
+                        <th>
+                          <span>
+                            <font style="font-size: 8px;"/>
+                          </span>
+                        </th>
+                        <th>
+                          <span>
+                            <font style="font-size: 8px;"/>
+                          </span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr t-foreach="doc.invoice_line_ids" t-as="table_line">
+                        <td>
+                          <span t-field="table_line.quantity" style="position:absolute; left:-1px;"/>
+                        </td>
+                        <td style="width:300px">
+                          <span t-field="table_line.display_name" t-options-widget="&quot;&quot;" style="display:inline-block;width:245px; position:absolute; left:55px;"/>
+                        </td>
+                        <td>
+                          <span t-esc="table_line.price_unit" style="position:absolute; left:310px;"/>
+                        </td>
+                        <td style="color:#FFFFFF">
+                          <span t-esc="table_line.quantity" class="small"/>
+                        </td>
+                        <td>
+                          <span t-field="table_line.price_subtotal" t-if="table_line.price_subtotal == table_line.sv_total_con_iva" style="position:absolute; left:470px;"/>
+                        </td>
+                        <td>
+                          <span t-field="table_line.price_subtotal" t-if="table_line.price_subtotal != table_line.sv_total_con_iva" style="position:absolute; left:470px;"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="position:absolute;top:630px;left:0px;width:530px;height:110px;"/>
+                <span t-field="doc.date_invoice" class="small" style="position:absolute;top:6px;left:400px;width:70px;color:black;"/>
+                <span t-field="doc.partner_id.name" class="small" style="position:absolute;top:30px;left:80px;width:250px;color:black;"/>
+                <span t-field="doc.partner_id.street" class="small" style="position:absolute;top:58px;left:97px;width:120px;color:black;"/>
+                <span t-field="doc.partner_id.city" class="small" style="position:absolute;top:90px;left:400px;width:120px;color:black;"/>
+                <span t-field="doc.partner_id.x_nit" class="small" style="position:absolute;top:115px;left:72px;width:120px;color:black;"/>
+                <span t-field="docs.payment_term_id.name" class="small" style="position:absolute;top:115px;left:287px;width:120px;color:black;"/>
+                <span t-field="doc.x_letras" class="small" style="position:absolute;top:657px;left:30px;width:60%;color:black;"/>
+                <!--span t-field="doc.amount_total" t-if="doc.amount_untaxed == doc.amount_total" class="small" style="position:absolute;top:657px;left:470px;width:65px;color:black;"/-->
+                <span class="small" style="position:absolute;top:675px;left:470px;width:50px;color:black;">0</span>
+                <span class="small" style="position:absolute;top:700px;left:470px;width:50px;color:black;">0</span>
+                <span t-field="doc.amount_total" t-if="doc.amount_untaxed != doc.amount_total" class="small" style="position:absolute;top:700px;left:460px;width:50px;color:black; display:none"/>
+                <span t-field="doc.amount_total" class="small" style="position:absolute;top:730px;left:470px;width:65px;color:black;"/>
+                <span t-field="doc.amount_total" class="small" style="position:absolute;top:657px;left:470px;width:65px;color:black;"/>
+              </div>
+            </t>
+          </t>
+
+Aniadir esto en Report.invoice 
+
+<t t-set="fiscal_position" t-value="o.fiscal_position_id.sv_contribuyente if o.fiscal_position_id else false"/>
+                    <t t-if="fiscal_position == false" t-call="cryo_sv.account_invoice_formato_cryo"/>
+                    <t t-else="fiscal_position == true" t-call="cryo_sv.account_ccf_formato_cryo"/>
+
+
+[submodule "robertogracias/pack"]
+	path = robertogracias/pack
+	url = git@github.com:robertogracias/pack.git
+	branch = master
+
+[submodule "robertogracias/wallet"]
+	path = robertogracias/wallet
+	url = git@github.com:robertogracias/wallet.git
+	branch = master
+
+[submodule "OCA/account-invoicing"]
+	path = OCA/account-invoicing
+	url = git@github.com:OCA/account-invoicing.git
+branch = 12.0
+
+
+
+
+
+
+class cryo_sv_wallet_amount(models.Model):
+    _inherit = 'pos.wallet.transaction'
+    prueba= fields.Char("Prueba de recarga")
+    
+    @api.model
+    def create(self, values):
+        res = super(cryo_sv_wallet_amount, self).create(values)
+        if (values['payment_type']=='CREDIT'):
+            prices=False
+            lst=self.env['cryo.wallet.amount'].search([('id','>',0)])
+            lst.sorted(key=lambda r: r.amount)
+            for am in lst:
+                saldo=values['amount']
+                if (saldo>=am.amount):
+                    prices=am.pricelist
+            if (prices!=False):
+                cliente=self.env['res.partner'].search([("id",'=',values['partner_id'])],limit=1)
+                cliente.property_product_pricelist=prices.id
+        else:
+            wallet = self.env['pos.wallet'].search([("id",'=',values['wallet_id'])],limit=1)
+            if wallet:
+                saldo=values['amount']
+                if (wallet.amount<=saldo):
+                    cliente=self.env['res.partner'].search([("id",'=',values['partner_id'])],limit=1)
+                    cliente.property_product_pricelist=1
