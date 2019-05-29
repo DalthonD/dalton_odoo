@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+strategiksv_accountsign,strategiksv_accountsign,model_strategiksv_accountsign,base.group_user,1,1,1,1
+
+strategiksv_product_fiscal_type,strategiksv_product_fiscal_type,model_strategiksv_product_fiscal_type,account.group_account_manager,1,1,1,1
+all_strategiksv_product_fiscal_type,all_strategiksv_product_fiscal_type,model_strategiksv_product_fiscal_type,base.group_user,1,0,0,0
+
+strategiksv_company_tax,strategiksv_company_tax,model_strategiksv_company_tax,account.group_account_manager,1,1,1,1
+all_strategiksv_company_tax,all_strategiksv_company_tax,model_strategiksv_company_tax,base.group_user,1,0,0,0
+
+
+strategiksv_cajachica,strategiksv_cajachica,model_strategiksv_cajachica,account.group_account_manager,1,1,1,1
+all_strategiksv_cajachica,all_strategiksv_cajachica,model_strategiksv_cajachica,base.group_user,1,0,0,0

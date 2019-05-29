@@ -1,0 +1,45 @@
+table, th, tr, tbody {
+  border-color: black;
+  height: 100%;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  vertical-align: middle;
+  border-spacing: 0px;
+  padding: 0;
+}
+td, th {
+  text-align: center;
+  vertical-align: middle;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+}
+.pagenumber:before {
+  content: counter(page);
+}
+.pagecount:before {
+  content: counter(pages);
+}
+@page {
+  size: A4;
+  margin: 1mm 1mm 1mm 1mm;
+  @bottom-left{
+    content: "Pag. " counter(page) " de " counter(pages);
+  }
+}
+@media print {
+  .page {
+    page-break-before: always;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+  }
+
+  html {
+    width: 216mm;
+    height: 279mm;
+  }
+}

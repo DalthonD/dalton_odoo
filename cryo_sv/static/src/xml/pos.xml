@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+	<t t-name="posticketsv">
+		<div class="pos-sale-ticket">
+			
+			
+			
+			<t t-if="widget.get_iswallet()==true">
+				<div class="pos-center-align">
+					<t t-esc="order.formatted_validation_date"/>
+					<t t-esc="order.name"/>
+				</div>
+				<t t-if="pos.config.header_recibo">
+					<div style='text-align:center'>
+						<t t-raw="pos.config.header_recibo" />
+					</div>
+					<span>------------------------------------</span>
+					<br />
+					RECIBO # <t t-esc="order.recibo_number"/>
+					<br />
+					<span>------------------------------------</span>
+					<br />
+				</t>
+				<table class='receipt-orderlines'  style="width:90% !important">
+					<colgroup>
+						<col width='45%' />
+						<col width='20%' />
+						<col width='20%' />
+					</colgroup>
+					<tr t-foreach="orderlines" t-as="orderline">
+						<td>
+							<t t-esc="orderline.get_product().display_name"/>
+							<t t-if="orderline.get_discount() > 0">
+								<div class="pos-disc-font"> with a 
+									<t t-esc="orderline.get_discount()"/>% discount 
+								</div>
+							</t>
+						</td>
+						<td class="pos-right-align">
+							<t t-esc="orderline.get_quantity_str_with_unit()"/>
+						</td>
+						<td class="pos-right-align">
+							<t t-esc="widget.format_currency(orderline.get_display_price())"/>
+						</td>
+					</tr>
+				</table>
+				<br />
+				<table class='receipt-total'  style="width:90% !important">
+					<!--tr>
+						<td>subtotal:</td>
+						<td class="pos-right-align">
+							<t t-esc="widget.format_currency(order.get_total_without_tax())"/>
+						</td>
+					</tr>
+					<t t-foreach="order.get_tax_details()" t-as="taxdetail">
+						<tr>
+							<td>
+								<t t-esc="taxdetail.name" />
+							</td>
+							<td class="pos-right-align">
+								<t t-esc="widget.format_currency(taxdetail.amount)" />
+							</td>
+						</tr>
+					</t>
+					<tr>
+						<t t-if="order.get_total_discount() > 0">
+							<td>discount:</td>
+							<td class="pos-right-align">
+								<t t-esc="widget.format_currency(order.get_total_discount())"/>
+							</td>
+						</t>
+					</tr-->
+					<tr class="emph">
+						<td>total:</td>
+						<td class="pos-right-align">
+							<t t-esc="widget.format_currency(order.get_total_with_tax())"/>
+						</td>
+					</tr>
+				</table>
+				<br />
+				<table class='receipt-paymentlines'  style="width:90% !important">
+					<t t-foreach="paymentlines" t-as="line">
+						<tr>
+							<td>
+								<t t-esc="line.name"/>
+							</td>
+							<td class="pos-right-align">
+								<t t-esc="widget.format_currency(line.get_amount())"/>
+							</td>
+						</tr>
+					</t>
+				</table>
+				<br />
+				<table class='receipt-change'  style="width:90% !important">
+					<tr>
+						<td>change:</td>
+						<td class="pos-right-align">
+							<t t-esc="widget.format_currency(order.get_change())"/>
+						</td>
+					</tr>
+				</table>
+				<t t-if="pos.config.footer_recibo">
+					<br />
+					<div style='text-align:center'>
+						<t t-raw="pos.config.footer_recibo" />
+					</div>
+				</t>
+			</t>
+			
+			
+			
+			
+			
+			<t t-if="widget.get_iswallet()==false">
+				<div class="pos-center-align">
+					<t t-esc="order.formatted_validation_date"/>
+					<t t-esc="order.name"/>
+				</div>
+				<t t-if="pos.config.header_ticket">
+					<div style='text-align:center'>
+						<t t-raw="pos.config.header_ticket" />
+					</div>
+					<span>------------------------------------</span>
+					<br />
+					TICKET # <t t-esc="order.ticket_number"/>
+					<br />
+					<span>------------------------------------</span>
+					<br />
+				</t>
+				<table class='receipt-orderlines' style="width:90% !important">
+					<colgroup>
+						<col width='50%' />
+						<col width='20%' />
+						<col width='20%' />
+					</colgroup>
+					<tr t-foreach="orderlines" t-as="orderline">
+						<td >
+							<t t-esc="orderline.get_product().display_name"/>
+							<t t-if="orderline.get_discount() > 0">
+								<div class="pos-disc-font"> with a 
+									<t t-esc="orderline.get_discount()"/>% discount 
+								</div>
+							</t>
+						</td>
+						<td class="pos-right-align" >
+							<t t-esc="orderline.get_quantity_str_with_unit()"/>
+						</td>
+						<td class="pos-right-align"  >
+							<t t-esc="widget.format_currency(orderline.get_display_price())"/>
+						</td>
+					</tr>
+				</table>
+				<br />
+				<table class='receipt-total' style="width:90% !important">
+					<!--tr>
+						<td > subtotal:</td>
+						<td  class="pos-right-align">
+							<t t-esc="widget.format_currency(order.get_total_without_tax())"/>
+						</td>
+					</tr>
+					<t t-foreach="order.get_tax_details()" t-as="taxdetail">
+						<tr>
+							<td>
+								<t t-esc="taxdetail.name" />
+							</td>
+							<td class="pos-right-align">
+								<t t-esc="widget.format_currency(taxdetail.amount)" />
+							</td>
+						</tr>
+					</t>
+					<tr>
+						<t t-if="order.get_total_discount() > 0">
+							<td>discount:</td>
+							<td class="pos-right-align">
+								<t t-esc="widget.format_currency(order.get_total_discount())"/>
+							</td>
+						</t>
+					</tr-->
+					<tr class="emph">
+						<td>total:</td>
+						<td class="pos-right-align">
+							<t t-esc="widget.format_currency(order.get_total_with_tax())"/>
+						</td>
+					</tr>
+				</table>
+				<br />
+				<table class='receipt-paymentlines' style="width:90% !important">
+					<t t-foreach="paymentlines" t-as="line">
+						<tr>
+							<td>
+								<t t-esc="line.name"/>
+							</td>
+							<td class="pos-right-align">
+								<t t-esc="widget.format_currency(line.get_amount())"/>
+							</td>
+						</tr>
+					</t>
+				</table>
+				<br />
+				<table class='receipt-change' style="width:90% !important">
+					<tr>
+						<td>change:</td>
+						<td class="pos-right-align">
+							<t t-esc="widget.format_currency(order.get_change())"/>
+						</td>
+					</tr>
+				</table>
+				<t t-if="pos.config.footer_ticket">
+					<br />
+					<div style='text-align:center'>
+						<t t-raw="pos.config.footer_ticket" />
+					</div>
+				</t>
+			</t>
+			
+			
+			
+			
+		</div>
+	</t>
+</templates>

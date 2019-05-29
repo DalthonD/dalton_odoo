@@ -1,0 +1,32 @@
+<odoo>
+  <data>
+	 
+	<!--record model="ir.ui.view" id="strategiksv.partner_form_1">
+	  <field name="inherit_id" ref="base.view_partner_form"/>	 
+      <field name="name">strategiksv parner form 1</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+		   <xpath expr="//field[@name='category_id']" position="after">
+			  <field name="sv_nit" />
+			  <field name="sv_nrc" />
+          </xpath> 
+          
+       </field>
+    </record-->  
+	 
+	<record model="ir.ui.view" id="strategiksv.partner_form_2">
+	  <field name="inherit_id" ref="account.view_partner_property_form"/>	 
+      <field name="name">strategiksv parner form</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+		   <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">
+			  <attribute name="domain">[('deprecated', '=', False), ('internal_type', '!=', 'view')]</attribute>
+          </xpath> 
+           <xpath expr="//field[@name='property_account_payable_id']" position="attributes">
+			  <attribute name="domain">[('deprecated', '=', False), ('internal_type', '!=', 'view')]</attribute>
+          </xpath> 
+       </field>
+    </record>  
+	
+  </data>
+</odoo>

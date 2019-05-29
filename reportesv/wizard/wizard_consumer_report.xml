@@ -1,0 +1,36 @@
+<odoo>
+  <data>
+    <record id="report_consumer_wizard_view" model="ir.ui.view" >
+      <field name="name">wizard.sv.consumer.report.form.view</field>
+      <field name="model">wizard.sv.consumer.report</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <field name="company_id"/>
+          </group>
+          <group col="4">
+            <field name="date_month"/>
+            <field name="date_year"/>
+            <field name="stock_location_id"/>
+          </group>
+          <footer>
+            <button name="print_consumer_sales_report" string="Imprimir" type="object" default_focus="1" class="oe_highlight"/>
+            or
+            <button string="Cancelar" class="oe_link" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <record id="action_consumer_report_wizard" model="ir.actions.act_window">
+  		<field name="name">Libro de Ventas Consumidores</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">wizard.sv.consumer.report</field>
+      <field name="view_type">form</field>
+  		<field name="view_mode">form</field>
+      <field name="target">new</field>
+  	</record>
+
+        <menuitem id="consumer_report" name="Libro de Ventas a Consumidores(PDF)" action="action_consumer_report_wizard" parent="legal_report" sequence="13"/>
+  </data>
+</odoo>

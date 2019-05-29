@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+
+        <record id="pos_config_inherit_view" model="ir.ui.view">
+            <field name="name">pos.config.inherit.view</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr = "//sheet" position="inside">
+                    <h2>Product Summary</h2>
+                    <group col="4">
+                        <field name="print_product_summary"/>
+                        <field name="product_current_month_date" attrs="{'invisible': [('print_product_summary', '=', False)]}"/>
+                        <field name="no_of_product_receipt" attrs="{'invisible': [('print_product_summary', '=', False)]}"/>
+                        <field name="signature" attrs="{'invisible': [('print_product_summary', '=', False)]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <h2>Order Summary</h2>
+                    <group col="4">
+                        <field name="enable_order_summary" />
+                        <field name="order_current_month_date" attrs="{'invisible': [('enable_order_summary', '=', False)]}"/>
+                        <field name="no_of_order_receipt" attrs="{'invisible': [('enable_order_summary', '=', False)]}"/>
+                        <field name="signature" attrs="{'invisible': [('enable_order_summary', '=', False)]}"/>
+                    </group>
+                </xpath>
+                <xpath expr = "//sheet" position="inside">
+                    <h2>Payment Summary</h2>
+                    <group col="4">
+                        <field name="payment_summary"/>
+                        <field name="payment_current_month_date" attrs="{'invisible': [('payment_summary', '=', False)]}"/>
+                    </group>
+                </xpath>
+                <xpath expr = "//sheet" position="inside">
+                    <h2>Audit Report</h2>
+                    <group col="2">
+                        <field name="print_audit_report"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

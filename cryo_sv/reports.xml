@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="report_factura_pdf"
+            string="Factura Cryo"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            file="cryo_sv.account_invoice_formato_cryo"
+            name="cryo_sv.account_invoice_formato_cryo"
+            menu="False"
+        />
+        <report
+            id="report_ccf_pdf"
+            string="Credito fiscal Cryo"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            file="cryo_sv.account_ccf_formato_cryo"
+            name="cryo_sv.account_ccf_formato_cryo"
+            menu="False"
+        />
+
+        <record id="paperformat_book_report_pdf" model="report.paperformat">
+            <field name="name">Formatos Cryo</field>
+            <field name="default" eval="True" />
+            <field name="format">Letter</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">23</field>
+            <field name="margin_bottom">25</field>
+            <field name="margin_left">6</field>
+            <field name="margin_right">4</field>
+            <field name="header_line" eval="True" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+            <field name="report_ids" eval="[(6,0,[ref('cryo_sv.report_factura_pdf'),
+                                                  ref('cryo_sv.report_ccf_pdf'),])]"/>
+        </record>
+
+    </data>
+</odoo>

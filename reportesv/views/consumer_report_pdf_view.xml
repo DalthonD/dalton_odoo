@@ -1,0 +1,166 @@
+<odoo>
+  <data>
+    <template id ='company_strategiksv_consumer_report_pdf'>
+      <t t-call="web.html_container">
+        <t t-call="web.basic_layout">
+          <div class="page">
+            <!--Declaracion de variables-->
+            <t t-set="month" t-value="int(0)"/>
+            <t t-set="year" t-value="int(0)"/>
+            <t t-set="company_id" t-value="int(0)"/>
+            <t t-set="contador" t-value="null"/>
+            <t t-set="company" t-value="null"/>
+            <t t-set="importacion" t-value="False"/>
+
+            <t t-set="total" t-value="float(0.00)"/>
+            <t t-set="zero" t-value="float(0.00)"/>
+            <t t-set="totalExentas" t-value="float(0.00)"/>
+            <t t-set="totalGravadasLocal" t-value="float(0.00)"/>
+            <t t-set="totalGravadasExp" t-value="float(0.00)"/>
+            <t t-set="totalRetenido" t-value="float(0.00)"/>
+            <t t-set="ventaNeta" t-value="float(0.00)"/>
+            <t t-set="totalIvaLocal" t-value="float(0.00)"/>
+            <t t-set="totalIvaExp" t-value="float(0.00)"/>
+            <t t-set="ventas" t-value="float(0.00)"/>
+            <t t-set="totalPercibido" t-value="float(0.00)"/>
+            <t t-set="totalventas" t-value="float(0.00)"/>
+            <!--Fin de declaraciones-->
+
+            <!--Encabezado-->
+              <t t-foreach="docs" t-as="o">
+                <t t-set="month" t-value="int(data.get('form').get('date_month'))"/>
+                <t t-set="year" t-value="int(data.get('form').get('date_year'))"/>
+                <t t-set="company_id" t-value="int(data.get('form').get('company_id')[0])"/>
+                <t t-set="stock_id" t-value="int(data.get('form').get('stock_location_id')[0])"/>
+                <t t-set="contador" t-value="o.sv_aprueba_partida"/>
+                <t t-set="company" t-value="o"/>
+                <div style="text-align: center">
+                  <h2 style="font-size: 40px; text-transform: uppercase">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
+                  <h2 style="font-size: 30px; text-transform: uppercase">SUCURSAL: <span t-esc="o.get_stock_name(stock_id)"/></h2>
+                  <h2>LIBRO DE VENTAS A CONSUMIDORES Y EXPORTACIONES</h2>
+                  <h2>NIT: <span t-field="o.sv_nit"/> NRC: <span t-field="o.sv_nrc"/></h2>
+                  <h2>MES: <span t-esc="o.get_month_str(month)"/> DE <span t-esc="year"/></h2>
+                  <h2>VALORES EXPRESADOS EN DOLARES DE LOS ESTADOS UNIDOS</h2>
+                </div>
+              </t>
+            <!--Fin encabezado-->
+            <!--Contenido de reporte-->
+            <!--t t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c"-->
+              <table class="table table-bordered" style="border: 1px solid black; text-align: center; vertical-align: middle; height: auto; width: 100%; padding: 0px; border-collapse: collapse;">
+                  <tr style="width: 100%;">
+                    <th rowspan="3" valign="middle">#</th>
+                    <th rowspan="3" valign="middle">Fecha</th>
+                    <th colspan="2" align="center">Documentos Emitidos</th>
+                    <th colspan="4" align="center">Ventas</th>
+                    <th rowspan="3">Ventas Totales</th>
+                  </tr>
+                  <tr>
+                    <th rowspan="2">Del No.</th>
+                    <th rowspan="2">Al No.</th>
+                    <th rowspan="2">Exentas</th>
+                    <th colspan="2">Gravadas</th>
+                    <th rowspan="2">Retención</th>
+                  </tr>
+                  <tr>
+                    <th align="center">Locales</th>
+                    <th align="center">Exportación</th>
+                  </tr>
+                <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" style="text-align: right; vertical-align: middle; height: auto; width: 100%; padding: 0px; border-collapse: collapse;">
+                  <td style="text-align: center;"><span t-esc="int(c_index) + 1"/></td>
+                  <td style="text-align: left;"><span t-esc="c.get('fecha')"/></td>
+                  <td style="text-align: left;"><span t-esc="c.get('delnum')"/></td>
+                  <td style="text-align: left;"><span t-esc="c.get('alnum')"/></td>
+                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
+                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadolocal'))"/></td>
+                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadoexportacion'))"/></td>
+                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('retenido'))"/></td>
+                  <t t-set="total" t-value="total + c.get('exento') + c.get('retenido') + c.get('gravadolocal') + c.get('gravadoexportacion')"/>
+                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total)"/></td>
+
+                  <!--Calculo de totales-->
+                  <t t-set="totalExentas" t-value="totalExentas + c.get('exento')"/>
+                  <t t-set="totalGravadasLocal" t-value="totalGravadasLocal + c.get('gravadolocal')"/>
+                  <t t-set="totalGravadasExp" t-value="totalGravadasExp + c.get('gravadoexportacion')"/>
+                  <t t-set="totalRetenido" t-value="totalRetenido + c.get('retenido')"/>
+                  <t t-set="ventas" t-value="ventas + total"/>
+                  <t t-set="totalIvaLocal" t-value="totalIvaLocal + c.get('ivalocal')"/>
+                  <t t-set="totalIvaExp" t-value="totalIvaExp + c.get('ivaexportacion')"/>
+                  <!--Fin ce calculos-->
+                </tr>
+                <tr align="right">
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
+                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasLocal)"/></td>
+                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasExp)"/></td>
+                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalRetenido)"/></td>
+                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(ventas)"/></td>
+                </tr>
+              </table>
+            <!--/t-->
+              <table align="center">
+                <tr style="width: 100%;">
+                  <td align="right">
+                    <table class="table table-bordered" style="border: 1.5px solid black; border-collapse: collapse; padding: 0px;">
+                      <tr style="width: 100%;">
+                        <th align="center">Resumen de Operaciones</th>
+                        <th align="center">Valor Total</th>
+                        <th align="center">Débito Fiscal</th>
+                        <th align="center">Venta Neta</th>
+                      </tr>
+                      <tr>
+                        <td align="center">Ventas Internas Gravadas</td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasLocal)"/></td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIvaLocal)"/></td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasLocal + totalIvaLocal)"/></td>
+                      </tr>
+                      <tr>
+                        <td align="center">Ventas Internas Exentas</td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(0.00)"/></td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
+                      </tr>
+                      <tr>
+                        <td align="center">Ventas Gravada a Sujeto Tasa Cero (0%)</td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasExp)"/></td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIvaExp)"/></td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIvaExp + totalGravadasExp)"/></td>
+                      </tr>
+                      <tr>
+                        <td align="center">Totales</td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadas)"/></td>
+                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIva)"/></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td style="width: 10%"></td>
+                  <td style="text-align: right; vertical-align: bottom">
+                    <div style="text-align: center;">
+                        <p align="center">_________________________________________</p>
+                        <p align="center" style="vertical-align: top"><span t-esc="contador"/></p>
+                        <p align="center" style="vertical-align: top">Contador</p>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+                <!--Fin contenido-->
+              <!--Pie de pagina-->
+              <div class="footer" style="background-color: lightgray; bottom: 0; position: fixed; width: 100%; border-width: 55%;">
+                <div class="row">
+
+                </div>
+              </div>
+              <!-- Fin Pie de pagina-->
+          </div>
+        </t>
+      </t>
+    </template>
+  </data>
+</odoo>

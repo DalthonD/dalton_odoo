@@ -1,0 +1,1107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+
+    <t t-name="AddProductSummaryButton">
+        <span class="control-button">
+            <i class="fa fa-sticky-note"></i>
+            Product Summary
+        </span>
+    </t>
+
+    <t t-name="PosOrderSummary">
+        <span class="control-button">
+            <i class="fa fa-sticky-note"></i>
+            Order Summary
+        </span>
+    </t>
+
+    <t t-name="AddPaymentSummaryButton">
+        <span class="control-button">
+            <i class="fa fa-sticky-note"></i>
+            Payment Summary
+        </span>
+    </t>
+
+    <t t-name="AuditReport">
+        <div class="control-button">
+            <i class="fa fa-sticky-note"></i>
+            Audit Report
+        </div>
+    </t>
+
+    <t t-name="ReportPopupWidget">
+        <div class="modal-dialog">
+            <div class="popup inventory-report-popup" style="height: 445px;">
+                <p class="title">Audit Reports</p>
+                <div class="tab">
+					<button class="tablinks active" value="sessions">Sessions</button>
+					<button class="tablinks" value="locations">Locations</button>
+				</div>
+				<div id="sessions" class="tabcontent">
+					<div class="scrollable-y touch-scrollable inventory-report-div">
+	                    <table class="inventory_report_table">
+	                        <t t-if="widget.pos.all_pos_session.length &gt; 0">
+		                        <t t-foreach="widget.pos.all_pos_session" t-as="session">
+		                            <tr class="session_record">
+		                                <td style="width: 75%;">
+		                                    <t t-esc="session.name"/>
+		                                </td>
+		                                <td class="report" t-att-title="'Thermal Report of ' + session.name + ' Session'">
+		                                    <t t-if="widget.enable_thermal_print">
+		                                        <img class="report_thermal session" t-att-data-id="session.id" src="/cortes_x_z/static/src/img/printer.png" style="width: 30px;"/>
+		                                    </t>
+		                                </td>
+		                                <td class="report" t-att-title="'PDF Report of ' + session.name + ' Session'" style="text-align: right;padding-right: 20px;">
+		                                    <img class="report_pdf session" src="/cortes_x_z/static/src/img/pdf.png" t-att-data-id="session.id"/>
+		                                </td>
+		                            </tr>
+		                        </t>
+	                        </t>
+	                        <t t-else="">
+	                           <tr class="session_record">
+	                               <td style="text-align: center;color: brown;">
+	                                   POS sessions not found.
+	                               </td>
+	                           </tr>
+	                        </t>
+	                    </table>
+                    </div>
+				</div>
+				<div id="locations" class="tabcontent" style="display:none;">
+				    <div class="scrollable-y touch-scrollable inventory-report-div">
+                        <table class="inventory_report_table">
+                            <t t-if="widget.pos.all_pos_session.length &gt; 0">
+	                            <t t-foreach="widget.pos.all_locations" t-as="location">
+	                                <tr class="location_record">
+	                                    <td style="width: 75%;">
+	                                        <t t-esc="location.complete_name"/>
+	                                    </td>
+	                                    <td class="report" t-att-title="'Thermal Report of ' + location.name + ' Location'">
+	                                        <t t-if="widget.enable_thermal_print">
+	                                            <img class="report_thermal location" t-att-data-id="location.id" src="/cortes_x_z/static/src/img/printer.png" style="width: 30px;"/>
+	                                        </t>
+	                                    </td>
+	                                    <td class="report" t-att-title="'PDF Report of ' + location.name + ' Location'" style="text-align: right;padding-right: 20px;">
+	                                        <img class="report_pdf location" src="/cortes_x_z/static/src/img/pdf.png" t-att-data-id="location.id"/>
+	                                    </td>
+	                                </tr>
+	                            </t>
+                            </t>
+                            <t t-else="">
+                               <tr class="session_record">
+                                   <td style="text-align: center;color: brown;">
+                                       Locations not found.
+                                   </td>
+                               </tr>
+                            </t>
+                        </table>
+                    </div>
+				</div>
+                <div class="footer">
+                    <div class="button cancel">
+                        Close
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+	<t t-name="ProductSummaryReportPopupWizard">
+        <div class="modal-dialog">
+            <div class="popup popup-textinput" style="height:415px;width:600px;">
+                <p class="title" style="font-size:24px;margin-bottom: 5px;">Product Summary</p>
+                <div class="container_summary_popup">
+                    <div>
+                        <input id="product_current_session_report" type="checkbox" style="min-height: 25px;width:25px!important;vertical-align: middle;"/>
+                         <span style="font-weight:normal;">Current Session Report</span>
+                    </div>
+                    <div class="summary_main_div">
+                        <div class="date_input_container">
+	                        <div class="summary_date_div">
+	                            <span class="start_date">Start Date </span>
+	                            <input id="start_date" type="date" class="date"/>
+	                        </div>
+	                        <div class="summary_date_div">
+	                            <span class="end_date">End Date </span>
+	                            <input id="end_date" type="date" class="date"/>
+	                        </div>
+	                    </div>
+                    	<div>
+	                    	<span style="float:left;margin-top: 15px;width: 100%;">Summary :</span>
+	                    </div>
+	                    <br />
+	                    <div class="summary_option_container" style="font-weight: normal;width:100%">
+	                        <div style="float:left;width:50%">
+	                        	<input id="product_summary" type="checkbox" style="min-height: 25px;width:25px!important;vertical-align: middle;"/> <span>Product</span>
+	                        </div>
+	                        <div style="float:left;width:50%">
+	                        	<input id="category_summary" type="checkbox" style="min-height: 25px;width:25px!important;vertical-align:middle"/> <span>Category</span>
+	                        </div>
+	                    </div>
+	                    <div class="summary_option_container" style="font-weight: normal; width:100%">
+	                        <div style="float:left;width:50%">
+	                        	<input id="location_summary" type="checkbox" style="min-height: 25px;width:25px!important;vertical-align:middle;"/> <span>Location</span>
+	                        </div>
+	                        <div style="float:left;width:50%">
+	                        	<input id="payment_summary" type="checkbox" style="min-height: 25px;width:25px!important;vertical-align:middle;"/> <span>Payment</span>
+	                        </div>
+	                    </div>
+	                    <div class="receipt_option_container">
+	                    	<div style="float: left;margin-left: 30px;margin-top: 20px;">
+	                            <span style="font-weight: normal;">No.of Copies </span>
+	                            <input id="no_of_summary" type="text" style="width:50px;min-height: 40px !important;height: 40%;"></input>
+	                        </div>
+	                    </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="button confirm">
+                        Print
+                    </div>
+                    <div class="button cancel">
+                        Close
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="OrderSummaryPopupWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-textinput" style="height:400px;width:600px;">
+                <p class="title" style="font-size:24px;margin-bottom: 5px;">Order Summary</p>
+                <div class="container_summary_popup">
+                    <div>
+                        <input id="order_current_session_report" type="checkbox" style="min-height: 25px;width:25px!important;vertical-align: middle;"/>
+                         <span style="font-weight:normal;">Current Session Report</span>
+                    </div>
+                    <div class="summary_main_div">
+                        <div class="date_input_container">
+	                        <div class="summary_date_div">
+	                            <span class="start_date">Start Date </span>
+	                            <input id="order_start_date" type="date" class="date"/>
+	                        </div>
+	                        <div class="summary_date_div">
+	                            <span class="end_date">End Date </span>
+	                            <input id="order_end_date" type="date" class="date"/>
+	                        </div>
+	                    </div>
+                        <div>
+	                    	<span style="float:left;margin-top: 15px;width: 100%;">Summary :</span>
+	                    </div>
+	                    <br />
+                        <div class="summary_option_container" style="font-weight: normal;width:100%">
+	                        <div style="float:left;width:30%">
+	                        	<input id="order_summary_report" type="checkbox" style="min-height: 25px;width:25px!important;vertical-align: middle;"/> <span>Order</span>
+	                        </div>
+	                        <div style="float:left;width:30%">
+	                        	<input id="category_summary_report" type="checkbox" style="min-height: 25px;width:25px!important;vertical-align:middle"/> <span>Category</span>
+	                        </div>
+                            <div style="float:left;width:30%">
+	                        	<input id="payment_summary_report" type="checkbox" style="min-height: 25px;width:25px!important;vertical-align:middle"/> <span>Payment</span>
+	                        </div>
+	                    </div>
+                    </div>
+                    <div class="summary_option_container" style="font-weight: normal;width:100%">
+                        <div style="float: left;margin-left: 30px;margin-top:5%">
+                            <span style="font-weight: normal;">No.of Copies </span>
+                            <input id="no_of_copies" type="text" style="width:50px;min-height: 40px !important;height: 40%;"></input>
+                        </div>
+                           <div style="float: left;margin-left: 135px;margin-top:6%">
+                            <span style="font-weight: normal;">States</span>
+                            <select style="margin-left:30px;width:141px;height:30px;" id="states">
+                               <option value="">Select State</option>
+                               <option value="new">New</option>
+                               <option value="paid">Paid</option>
+                               <option value="done">Posted</option>
+                               <option value="invoiced">Invoiced</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="button confirm">
+                        Print
+                    </div>
+                    <div class="button cancel">
+                        Close
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="PaymentSummaryReportPopupWizard">
+        <div class="modal-dialog">
+            <div class="popup popup-textinput" style="height:310px;width:600px;">
+                <p class="title" style="font-size:24px;margin-bottom: 5px;">Payment Summary</p>
+                <div class="container_summary_popup">
+                     <div>
+                        <input id="current_session_report" type="checkbox" style="min-height: 25px;width:25px!important;vertical-align: middle;"/>
+                         <span style="font-weight:normal;">Current Session</span>
+                    </div>
+                    <div class="summary_main_div">
+                        <div class="summary_date_div">
+                            <span class="start_date">Start Date</span>
+                            <input id="pay_start_date" type="date" class="date"/>
+                        </div>
+                        <div class="summary_date_div">
+                            <span class="end_date">End Date </span>
+                            <input id="pay_end_date" type="date" class="date"/>
+                        </div>
+                    </div>
+                    <div class="receipt_option_container">
+                        <div style="float: left;margin-left: 30px;margin-top:4%">
+                            <span style="font-weight: normal;">Summary</span>
+                            <select style="margin-left:30px;width:143px;height:30px;" id="dropdown_data">
+                                <option value="sales_person">Salespersons</option>
+                                <option value="journals">Journals</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="button confirm">
+                        Print
+                    </div>
+                    <div class="button cancel">
+                        Close
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+     <t t-name="ProductSummaryReport">
+        <div class="pos-sale-ticket">
+            <div class="pos-center-align"><t t-esc="moment().format('L LT')"/><br />
+                <t t-esc="widget.pos.company.name"/><br />
+                Phone: <t t-esc="widget.pos.company.phone || ''"/><br />
+                User: <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/><br />
+                Email: <t t-esc="widget.pos.company.email || ''"/><br /><br />
+                <t t-if="widget.pos.print_date">
+                    Start Date:<t t-esc="widget.pos.from_date" /> End Date:<t t-esc="widget.pos.to_date" />
+                </t>
+                <t t-if="product_details">
+                    <h3 align="center">Product Summary</h3>
+                    <table class='receipt-orderlines'>
+                        <colgroup>
+                            <col width='70%' />
+                            <col width='30%' />
+                        </colgroup>
+                        <tr border-bottom = "5px solid">
+                            <th style="border-bottom: 1px solid black;"  align="left">Product</th>
+                            <th style="border-bottom: 1px solid black;"  >Quantity</th>
+                        </tr>
+                        <tr  t-foreach="product_details" t-as="product">
+                            <td align="left">
+                                <t t-esc="product"/>
+                            </td>
+                            <td>
+                               <t t-esc="product_value"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <hr />
+                    <table>
+                        <tr>
+                            <th align="left">Total</th>
+                            <td width='30%'><t t-esc="widget.pos.product_total_qty"/></td>
+                        </tr>
+                    </table>
+                </t>
+                <br/>
+                <t t-if="category_details">
+                    <h3 align="center">Category Summary</h3>
+                    <table class='receipt-orderlines'>
+                        <colgroup>
+                            <col width='70%' />
+                            <col width='30%' />
+                        </colgroup>
+                        <tr>
+                            <th style="border-bottom: 1px solid black;" align="left">Category</th>
+                            <th style="border-bottom: 1px solid black;" >Quantity</th>
+                        </tr>
+                        <tr  t-foreach="category_details" t-as="category">
+                            <td align="left">
+                                <t t-esc="category"/>
+                            </td>
+                            <td>
+                               <t t-esc="category_value"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <hr />
+                    <table>
+                        <tr>
+                            <th align="left">Total</th>
+                            <td width='30%'><t t-esc="widget.pos.category_total_qty"/></td>
+                        </tr>
+                    </table>
+                    <br/>
+                </t>
+                <t t-if="payment_details">
+                    <h3 align="center">Payment Summary</h3>
+                    <table class='receipt-orderlines'>
+                        <colgroup>
+                            <col width='70%' />
+                            <col width='30%' />
+                        </colgroup>
+                        <tr>
+                            <th style="border-bottom: 1px solid black;" align="left">Journal</th>
+                            <th style="border-bottom: 1px solid black;">Amount</th>
+                        </tr>
+                        <tr  t-foreach="payment_details" t-as="payment">
+                            <td align="left">
+                                <t t-esc="payment"/>
+                            </td>
+                            <td>
+                               <t t-esc="widget.format_currency(payment_value)"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <hr />
+                    <table>
+                        <tr>
+                            <th align="left">Total</th>
+                            <td width='30%'><t t-esc="widget.format_currency(widget.pos.payment_summary_total.toFixed(2))"/></td>
+                        </tr>
+                    </table>
+                    <br/>
+                </t>
+                <t t-if="location_details">
+                    <h3 align="center">Location Summary</h3>
+                     <t t-foreach="location_details" t-as="location">
+                         <h4 align="left"><b>Location : </b><t t-esc="location"/></h4>
+                         <t t-set="total" t-value="0"/>
+                         <table class='receipt-orderlines'>
+                             <colgroup>
+                                <col width='70%' />
+                                <col width='30%' />
+                             </colgroup>
+                             <tr>
+                                <th style="border-bottom: 1px solid black;" align="left">Product</th>
+                                <th style="border-bottom: 1px solid black;" >Quantity</th>
+                             </tr>
+                             <tr  t-foreach="location_value" t-as="value">
+                                <td align="left">
+                                    <t t-esc="value"/>
+                                </td>
+                                 <td>
+                                    <t t-esc="value_value"/>
+                                </td>
+                                 <t t-set="total" t-value="value_value+total"/>
+                             </tr>
+                         </table>
+                         <hr />
+                         <table>
+                            <tr>
+                                <th align="left">Total</th>
+                                <td width='30%'><t t-esc="total"/></td>
+                            </tr>
+                         </table>
+                         <br/>
+                     </t>
+                </t>
+                <t t-if="widget.pos.signature">
+                    <div style="margin-top: 20%;">
+                        <h4 align="center" style="border-bottom: 1px dotted black;width:50%;margin-left: 25%;"/>
+                        <h4 align="center">Signature</h4>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="CustomTicket">
+        <div class="pos-sale-ticket">
+            <div class="pos-center-align"><t t-esc="moment().format('L LT')" />
+                <t t-esc="widget.pos.company.name" /><br />
+                Email :  <t t-esc="widget.pos.company.email || ''" /><br />
+                User: <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name" /><br />
+            </div><br/>
+            <t t-if="widget.pos.print_date">
+                Start Date:<t t-esc="widget.pos.from_date" /> End Date:<t t-esc="widget.pos.to_date" />
+            </t>
+            <t t-if="order_report">
+                <t t-if="widget.pos.state">
+                    <table>
+                        <h3 align="center">Order Summary</h3>
+                        <tr>
+                            <th style="border-bottom: solid 1px black">Order Ref</th>
+                            <th style="text-align:right;border-bottom: solid 1px black">Order Date</th>
+                            <th style="text-align:right;border-bottom: solid 1px black">Total</th>
+                        </tr>
+                        <tr t-foreach="order_report" t-as="order">
+                            <td align="left">
+                                <t t-esc="order.order_ref" />
+                            </td>
+                            <td align="right">
+                               <t t-esc="order.order_date" />
+                            </td>
+                            <td align="right">
+                                <t t-esc="widget.format_currency(order.total)" />
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                </t>
+                <t t-if="!widget.pos.state">
+                    <h3 align="center">Order Summary</h3>
+                     <t t-foreach="order_report" t-as="order">
+                        <h4 align="center" style="text-transform: capitalize"><t t-esc="order"/></h4>
+                         <table>
+                            <tr margin-top = "20%;padding-top:4%">
+                                <th style="border-bottom: solid 1px black">Order Ref</th>
+                                <th style="text-align:right;border-bottom: solid 1px black">Order date</th>
+                                <th style="text-align:right;border-bottom: solid 1px black">Total</th>
+                            </tr>
+                            <t t-foreach="order_value" t-as="value">
+                                <tr>
+                                 <td align="left">
+                                     <t t-esc="value_value.order_ref" />
+                                 </td>
+                                 <td align="right">
+                                     <t t-esc="value_value.order_date" />
+                                 </td>
+                                 <td align="right">
+                                     <t t-esc="widget.format_currency(value_value.total)" />
+                                 </td>
+                                </tr>
+                            </t>
+                         </table>
+                     </t>
+                </t>
+            </t>
+            <t t-if="category_report">
+                <t t-if="!widget.pos.state">
+                   <h3 align="center" style="margin-top:10%">Category Summary</h3>
+                   <t t-foreach="category_report" t-as="category">
+                      <h4 align="center" style="text-transform: capitalize"><t t-esc="category"/></h4>
+                       <table>
+                           <tr margin-top = "20%">
+                               <th style="border-bottom: solid 1px black">Category</th>
+                               <th style="text-align:right;border-bottom: solid 1px black">Qty</th>
+                               <th style="text-align:right;border-bottom: solid 1px black">Total</th>
+                           </tr>
+                           <t t-set="total" t-value="0"/>
+                           <t t-foreach="category_value" t-as="value">
+                               <tr>
+                                   <td align="left">
+                                       <t t-esc="value" />
+                                   </td>
+                                   <td align="right">
+                                       <t t-esc="value_value[0]" />
+                                   </td>
+                                   <td align="right">
+                                       <t t-esc="widget.format_currency(value_value[1].toFixed(2))" />
+                                   </td>
+                                   <t t-set="total" t-value="value_value[1]+total"/>
+                                </tr>
+                           </t>
+                       </table><br /><hr />
+                       <table>
+                          <tr>
+                              <th>Total</th>
+                              <td align="right">
+                                  <t t-esc="widget.format_currency(total.toFixed(2))"/>
+                              </td>
+                          </tr>
+                      </table>
+                   </t>
+                  <br />
+            	</t>
+	            <t t-if="widget.pos.state">
+	                <h3 align="center" style="margin-top:10%">Category Summary</h3>
+	                <table>
+	                    <tr>
+	                        <th style="border-bottom: solid 1px black">Category</th>
+	                        <th style="text-align:right;border-bottom: solid 1px black">Qty</th>
+	                        <th style="text-align:right;border-bottom: solid 1px black">Total</th>
+	                    </tr>
+	                    <tr t-foreach="category_report" t-as="category">
+	                        <td align="left">
+	                            <t t-esc="category" />
+	                        </td>
+	                        <td align="right">
+	                           <t t-esc="category_value[0]" />
+	                        </td>
+	                        <td align="right">
+	                           <t t-esc="widget.format_currency(category_value[1].toFixed(2))" />
+	                        </td>
+	                    </tr>
+	                </table>
+	                <br /><hr />
+	                <table>
+	                    <tr>
+	                        <th>Total</th>
+	                        <td align="right">
+	                             <t t-esc="widget.format_currency(widget.pos.total_categ_amount.toFixed(2))" />
+	                        </td>
+	                    </tr>
+	                </table>
+	            </t>
+        	</t>
+	        <t t-if="payment_report">
+				<t t-if="!widget.pos.state">
+				   <h3 align="center" style="margin-top:10%">Payment Summary</h3>
+				    <t t-foreach="payment_report" t-as="payment">
+				        <h4 align="center" style="text-transform: capitalize"><t t-esc="payment"/></h4>
+				        <table>
+				          <tr margin-top = "20%">
+				            <th style="border-bottom: solid 1px black">Journal Name</th>
+				            <th style="text-align:right;border-bottom: solid 1px black">Amount</th>
+				          </tr>
+				          <t t-set="total" t-value="0"/>
+				          <t t-foreach="payment_value" t-as="value">
+				                <tr>
+				                    <td align="left">
+				                        <t t-esc="value" />
+				                    </td>
+				                    <td align="right">
+				                        <t t-esc="widget.format_currency(value_value)" />
+				                    </td>
+				                    <t t-set="total" t-value="value_value+total"/>
+				                </tr>
+				          </t>
+				        </table><br /><hr />
+				        <table>
+				            <tr>
+				                <th>Total</th>
+				                <td align="right">
+				                    <t t-esc="widget.format_currency(total.toFixed(2))"/>
+				                </td>
+				            </tr>
+				        </table>
+				    </t>
+				    <br />
+				</t>
+	             <t t-if="widget.pos.state">
+	                 <h3 align="center">Payment Summary</h3>
+	                 <table>
+	                    <colgroup>
+	                            <col width='70%' />
+	                            <col width='30%' />
+	                    </colgroup>
+	                    <tr>
+	                        <th style="border-bottom: solid 1px black">Journal Name</th>
+	                        <th style="text-align:right;border-bottom: solid 1px black">Amount</th>
+	                    </tr>
+	                    <tr t-foreach="payment_report" t-as="payment">
+	                        <td align="left">
+	                            <t t-esc="payment" />
+	                        </td>
+	                        <td align="right">
+	                           <t t-esc="widget.format_currency(payment_value)" />
+	                        </td>
+	                    </tr>
+	                </table>
+	                <br /><hr />
+	                <table>
+	                    <tr>
+	                        <th>Total</th>
+	                        <td align="right">
+	                            <t t-esc="widget.format_currency(widget.pos.total_amount)" />
+	                        </td>
+	                    </tr>
+	                </table>
+	            </t>
+	        </t>
+	        <t t-if="widget.pos.signature">
+	            <div style="margin-top: 20%;">
+	                    <h4 align="center" style="border-bottom: 1px dotted black;width:50%;margin-left: 25%;"/>
+	                    <h4 align="center">Signature</h4>
+	            </div>
+	        </t>
+    	</div>
+	</t>
+
+    <t t-name="PaymentSummaryReport">
+        <div class="pos-sale-ticket">
+            <div class="pos-center-align"><t t-esc="moment().format('L LT')"/><br />
+                <t t-esc="widget.pos.company.name"/><br />
+                Phone: <t t-esc="widget.pos.company.phone || ''"/><br />
+                User: <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/><br />
+                Email: <t t-esc="widget.pos.company.email || ''"/><br /><br />
+                <t t-if="widget.pos.print_date">
+                    Start Date:<t t-esc="widget.pos.from_date" /> End Date:<t t-esc="widget.pos.to_date" />
+                </t>
+                <t t-if="journal_details">
+                    <h3 align="center">Journal Summary</h3>
+                    <t t-foreach="journal_details" t-as="journal">
+                         <h4 align="left"><b>Month : </b><t t-esc="journal"/></h4>
+                         <t t-set="total" t-value="0"/>
+                         <table class='receipt-orderlines'>
+                             <colgroup>
+                                <col width='70%' />
+                                <col width='30%' />
+                             </colgroup>
+                             <tr>
+                                <th style="border-bottom: 1px solid black;" align="left">Journal</th>
+                                <th style="border-bottom: 1px solid black;" >Amount</th>
+                             </tr>
+                             <tr  t-foreach="journal_value" t-as="value">
+                                <td align="left">
+                                    <t t-esc="value"/>
+                                </td>
+                                 <td>
+                                    <t t-esc="widget.format_currency(value_value)"/>
+                                </td>
+                                 <t t-set="total" t-value="value_value+total"/>
+                             </tr>
+                         </table>
+                         <hr />
+                         <table>
+                            <tr>
+                                <th align="left">Total</th>
+                                <td width='30%'><t t-esc="widget.format_currency(total.toFixed(2))"/></td>
+                            </tr>
+                         </table>
+                         <br/>
+                    </t>
+                    <t t-if="total_summary">
+                        <h3 align="center">Total Summary</h3>
+                        <t t-set="total_sum" t-value="0"/>
+                        <table class='receipt-orderlines'>
+                            <colgroup>
+                                <col width='70%' />
+                                <col width='30%' />
+                            </colgroup>
+                            <tr border-bottom = "5px solid">
+                                <th style="border-bottom: 1px solid black;"  align="left">Journal</th>
+                                <th style="border-bottom: 1px solid black;">Amount</th>
+                            </tr>
+                            <tr  t-foreach="total_summary" t-as="summary">
+                                <td align="left">
+                                    <t t-esc="summary"/>
+                                </td>
+                                <td>
+                                   <t t-esc="widget.format_currency(summary_value)"/>
+                                </td>
+                                <t t-set="total_sum" t-value="summary_value+total_sum"/>
+                            </tr>
+                        </table>
+                        <hr />
+                        <table>
+                            <tr>
+                                <th align="left">Total</th>
+                                <td width='30%'><t t-esc="widget.format_currency(total_sum.toFixed(2))"/></td>
+                            </tr>
+                        </table>
+                    </t>
+                </t>
+                <br/>
+                <t t-if="salesmen_details">
+                    <h3 align="center">Payment Summary</h3>
+                    <t t-foreach="salesmen_details" t-as="salesmen">
+                        <h4 align="center"><b>Salesperson : </b><t t-esc="salesmen"/></h4>
+                        <t t-foreach="salesmen_value" t-as="payment">
+                            <h4 align="left"><b>Month : </b><t t-esc="payment"/></h4>
+                             <t t-set="total" t-value="0"/>
+                             <table class='receipt-orderlines'>
+                                 <colgroup>
+                                    <col width='70%' />
+                                    <col width='30%' />
+                                 </colgroup>
+                                 <tr>
+                                    <th style="border-bottom: 1px solid black;" align="left">Journal</th>
+                                    <th style="border-bottom: 1px solid black;" >Amount</th>
+                                 </tr>
+                                 <tr  t-foreach="payment_value" t-as="value">
+                                    <td align="left">
+                                        <t t-esc="value"/>
+                                    </td>
+                                     <td>
+                                        <t t-esc="widget.format_currency(value_value)"/>
+                                    </td>
+                                     <t t-set="total" t-value="value_value+total"/>
+                                 </tr>
+                             </table>
+                             <hr />
+                             <table>
+                                <tr>
+                                    <th align="left">Total</th>
+                                    <td width='30%'><t t-esc="widget.format_currency(total.toFixed(2))"/></td>
+                                </tr>
+                             </table>
+                             <br/>
+                        </t>
+                    </t>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="ProductSummaryReportXmlReceipt">
+        <receipt align='center' width='40' value-thousands-separator='' >
+            <h1><t t-esc='receipt.company.name' /></h1>
+            <br />
+            <b>Start Date : </b><t t-esc="widget.pos.from_date" /><br/>
+            <b>End Date : </b><t t-esc="widget.pos.to_date" />
+            <br/><br/>
+            <t t-if="product_details">
+                <br/>
+                <h5>Product Summary</h5>
+                <line>
+                    <left>Product</left>
+                    <right>Qty</right>
+                </line>
+                <line>
+                    <left>-----------------</left>
+                    <right>----------------</right>
+                </line>
+                <t t-foreach='product_details' t-as='product'>
+                    <line>
+                        <left><t t-esc='product' /></left>
+                        <right><t t-esc="product_value"/> </right>
+                    </line>
+                </t>
+            </t>
+            <hr />
+            <line>
+                <left>Total</left>
+                <right><t t-esc="widget.pos.product_total_qty"/> </right>
+            </line>
+            <br/>
+            <t t-if="category_details">
+                <h5>Category Summary</h5>
+                <line>
+                    <left>Category</left>
+                    <right>Qty</right>
+                </line>
+                 <line>
+                    <left>-----------------</left>
+                    <right>----------------</right>
+                </line>
+                <t t-foreach='category_details' t-as='category'>
+                    <line>
+                        <left><t t-esc='category' /></left>
+                        <right><t t-esc="category_value"/> </right>
+                    </line>
+                </t>
+            </t>
+            <hr />
+            <line>
+                <left>Total</left>
+                <right><t t-esc="widget.pos.category_total_qty"/> </right>
+            </line>
+            <br/>
+            <t t-if="payment_details">
+                <h5>Payment Summary</h5>
+                <line>
+                    <left>Journal</left>
+                    <right>Amount</right>
+                </line>
+                 <line>
+                    <left>-----------------</left>
+                    <right>----------------</right>
+                </line>
+                <t t-foreach='payment_details' t-as='payment'>
+                    <line>
+                        <left><t t-esc='payment' /></left>
+                        <right><t t-esc="payment_value"/> </right>
+                    </line>
+                </t>
+            </t>
+            <br/>
+            <t t-if="location_details">
+                <h5>Location Summary</h5>
+                <br />
+                <t t-foreach='location_details' t-as='location'>
+                     <h5 align="left"><b>Location : </b><t t-esc="location"/></h5>
+                     <t t-set="total" t-value="0"/>
+                     <line>
+                        <left>Product</left>
+                        <right>Qty</right>
+                    </line>
+                    <line>
+                        <left>-----------------</left>
+                        <right>----------------</right>
+                    </line>
+                    <t t-foreach="location_value" t-as="value">
+                         <line>
+                            <left><t t-esc='value' /></left>
+                            <right><t t-esc="value_value"/> </right>
+                         </line>
+                        <t t-set="total" t-value="value_value+total"/>
+                    </t>
+                    <hr />
+                    <line>
+                        <left>Total</left>
+                        <right><t t-esc="total"/></right>
+                    </line>
+                    <br/>
+                </t>
+            </t>
+            <br/>
+            <div font='b'>
+                <div><t t-esc='receipt.date.localestring' /></div>
+            </div>
+        </receipt>
+    </t>
+
+    <t t-name="OrderXmlReceipt">
+        <receipt align='center' width='40' value-thousands-separator='' >
+            <h1><t t-esc='receipt.company.name' /></h1><br />
+            <b>Start Date:</b><t t-esc="widget.pos.from_date" /><br/>
+            <b>End Date:</b><t t-esc="widget.pos.to_date" />
+            <br/><br/>
+            <t t-if="order_report">
+                <t t-if="widget.pos.state">
+                    <div><b>Order Summary</b></div>
+                    <line>
+                        <left><b>Order Ref</b></left>
+                        <right><b>Total</b></right>
+                    </line>
+                    <line>
+                        <left>-----------------</left>
+                        <right>----------------</right>
+                    </line>
+                    <t t-foreach="order_report" t-as="order">
+                        <line>
+                            <left><t t-esc="order.order_ref" /></left>
+                        </line>
+                        <line indent="1">
+                               <left font='b'><t t-esc="order.order_date" /></left>
+                               <right><t t-esc="order.total.toFixed(2)" /></right>
+                        </line>
+                    </t>
+                </t>
+
+                <t t-if="!widget.pos.state">
+                    <div><b>Order Summary</b></div>
+                    <t t-foreach="order_report" t-as="order">
+                        <br /><div style="text-transform: capitalize;"><t t-esc="order" /></div>
+                        <line>
+                            <left><b>Order Ref</b></left>
+                            <right><b>Total</b></right>
+                        </line>
+                        <line>
+                            <left>-----------------</left>
+                            <right>----------------</right>
+                        </line>
+                        <t t-foreach="order_value" t-as="value">
+                            <line>
+                                <left><t t-esc="value_value.order_ref" /></left>
+                            </line>
+                            <line indent="1">
+                                <left font='b'><t t-esc="value_value.order_date" /></left>
+                                <right><t t-esc="value_value.total.toFixed(2)" /></right>
+                            </line>
+                        </t>
+                     </t>
+                </t>
+            </t>
+             <br />
+            <t t-if="category_report">
+                <t t-if="widget.pos.state">
+                    <div><b>Category Summary</b></div>
+                    <line>
+                        <left><b>Category</b></left>
+                        <right><b>Total</b></right>
+                    </line>
+                    <line>
+                        <left>-----------------</left>
+                        <right>----------------</right>
+                    </line>
+                    <t t-foreach="category_report" t-as="category">
+                        <line>
+                            <left><t t-esc="category" /></left>
+                        </line>
+                        <line indent="1">
+                            <left>Qty : <t t-esc="category_value[0]" /></left>
+                            <right><t t-esc="category_value[1].toFixed(2)" /></right>
+                        </line>
+                    </t><hr />
+                    <line>
+                        <left>Total</left>
+                        <right><t t-esc="widget.pos.total_categ_amount.toFixed(2)" /></right>
+                    </line>
+                </t>
+                <t t-if="!widget.pos.state">
+                    <div><b>Category Summary</b></div>
+                    <t t-foreach="category_report" t-as="category">
+                        <br /><div style="text-transform: capitalize;"><t t-esc="category" /></div>
+                        <line>
+                            <left><b>Category</b></left>
+                            <right><b>Total</b></right>
+                        </line>
+                        <line>
+                            <left>-----------------</left>
+                            <right>----------------</right>
+                        </line>
+                        <t t-set="total" t-value="0"/>
+                        <t t-foreach="category_value" t-as="value">
+                            <line>
+                                <left><t t-esc="value" /></left>
+                            </line>
+                            <line indent="1">
+                                <left>Qty : <t t-esc="value_value[0]" /></left>
+                                <right><t t-esc="value_value[1]" /></right>
+                                <t t-set="total" t-value="value_value[1]+total"/>
+                            </line>
+                        </t><hr />
+                        <line>
+                            <left>Total</left>
+                            <right><t t-esc="total.toFixed(2)"/></right>
+                        </line>
+                    </t>
+                </t>
+            </t>
+            <br />
+            <t t-if="payment_report">
+                <t t-if="widget.pos.state">
+                    <div><b>Payment Summary</b></div>
+                    <line>
+                        <left><b>Journal Name</b></left>
+                        <right><b>Amount</b></right>
+                    </line>
+                    <line>
+                        <left>-----------------</left>
+                        <right>----------------</right>
+                    </line>
+                    <t t-foreach="payment_report" t-as="payment">
+                        <line>
+                            <left><t t-esc="payment" /></left>
+                            <right><t t-esc="payment_value.toFixed(2)" /></right>
+                        </line>
+                    </t><hr />
+                    <line>
+                        <left>Total</left>
+                        <right><t t-esc="widget.pos.total_amount.toFixed(2)" /></right>
+                    </line>
+                </t>
+                <t t-if="!widget.pos.state">
+                    <div><b>Payment Summary</b></div>
+                     <t t-foreach="payment_report" t-as="payment">
+                        <br /><div style="text-transform: capitalize;"><t t-esc="payment" /></div>
+                        <line>
+                            <left><b>Journal Name</b></left>
+                            <right><b>Amount</b></right>
+                        </line>
+                        <line>
+                            <left>-----------------</left>
+                            <right>----------------</right>
+                        </line>
+                        <t t-set="total" t-value="0"/>
+                        <t t-foreach="payment_value" t-as="value">
+                            <line>
+                                <left><t t-esc="value" /></left>
+                                <right><t t-esc="value_value.toFixed(2)" /></right>
+                                <t t-set="total" t-value="value_value+total"/>
+                            </line>
+                        </t><hr />
+                         <line>
+                            <left>Total</left>
+                            <right><t t-esc="total.toFixed(2)"/></right>
+                         </line>
+                     </t>
+                </t>
+            </t>
+            <br />
+        </receipt>
+    </t>
+
+    <t t-name="PaymentSummaryReportXmlReceipt">
+        <receipt align='center' width='40' value-thousands-separator='' >
+            <h1><t t-esc='receipt.company.name' /></h1>
+            <br />
+            <b>Start Date : </b><t t-esc="widget.pos.from_date" /><br/>
+            <b>End Date : </b><t t-esc="widget.pos.to_date" />
+            <br/><br/>
+            <t t-if="journal_details">
+                <h5>Journal Summary</h5>
+                <br />
+                <t t-foreach='journal_details' t-as='journal'>
+                     <h5 align="left"><b>Month : </b><t t-esc="journal"/></h5>
+                     <t t-set="total" t-value="0"/>
+                     <line>
+                        <left>Journal</left>
+                        <right>Amount</right>
+                    </line>
+                    <line>
+                        <left>-----------------</left>
+                        <right>----------------</right>
+                    </line>
+                    <t t-foreach="journal_value" t-as="value">
+                         <line>
+                            <left><t t-esc='value' /></left>
+                            <right><t t-esc="value_value"/> </right>
+                         </line>
+                        <t t-set="total" t-value="value_value+total"/>
+                    </t>
+                    <hr />
+                    <line>
+                        <left>Total</left>
+                        <right><t t-esc="total.toFixed(2)"/></right>
+                    </line>
+                    <br/>
+                </t>
+                <t t-if="total_summary">
+                    <h3 align="center">Total Summary</h3>
+                    <br/>
+                    <t t-set="total_sum" t-value="0"/>
+                    <line>
+                        <left>Journal</left>
+                        <right>Amount</right>
+                    </line>
+                    <line>
+                        <left>-----------------</left>
+                        <right>----------------</right>
+                    </line>
+                    <t t-foreach="total_summary" t-as="summary">
+                        <line>
+                            <left><t t-esc='summary' /></left>
+                            <right><t t-esc="summary_value.toFixed(2)"/> </right>
+                        </line>
+                        <t t-set="total_sum" t-value="summary_value+total_sum"/>
+                    </t>
+                    <hr />
+                    <line>
+                        <left>Total</left>
+                        <right><t t-esc="total_sum.toFixed(2)"/></right>
+                    </line>
+                    <br/>
+                </t>
+            </t>
+            <br/>
+            <t t-if="salesmen_details">
+                <h5>Payment Summary</h5>
+                <br />
+                <t t-foreach='salesmen_details' t-as='salesmen'>
+                    <h5 align="center"><b>Salesperson : </b><t t-esc="salesmen"/></h5>
+                    <br />
+                    <t t-foreach="salesmen_value" t-as="payment">
+                         <h5 align="left"><b>Month : </b><t t-esc="payment"/></h5>
+                        <br/>
+                         <t t-set="total" t-value="0"/>
+                         <line>
+                            <left>Journal</left>
+                            <right>Amount</right>
+                        </line>
+                        <line>
+                            <left>-----------------</left>
+                            <right>----------------</right>
+                        </line>
+                        <t t-foreach="payment_value" t-as="value">
+                             <line>
+                                <left><t t-esc='value' /></left>
+                                <right><t t-esc="value_value"/> </right>
+                             </line>
+                            <t t-set="total" t-value="value_value+total"/>
+                        </t>
+                        <hr />
+                        <line>
+                            <left>Total</left>
+                            <right><t t-esc="total.toFixed(2)"/></right>
+                        </line>
+                        <br/>
+                    </t>
+                </t>
+            </t>
+            <br/>
+        </receipt>
+    </t>
+
+</templates>

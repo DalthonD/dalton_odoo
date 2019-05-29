@@ -1,0 +1,157 @@
+<odoo>
+  <data>
+
+
+	<record model="ir.ui.view" id="strategiksv.fiscal_position_form">
+      <field name="name">strategiksv fiscal position form</field>
+       <field name="inherit_id" ref="account.view_account_position_form"/>
+      <field name="model">account.fiscal.position</field>
+      <field name="arch" type="xml">
+		 <xpath expr="//field[@name='company_id']" position="after">			
+			<field name="sv_contribuyente" />
+			<field name="sv_persona" />
+			<field name="sv_tamanio" />
+			<field name="sv_clase" />
+			<field name="sv_region" />
+          </xpath>
+          <xpath expr="//page[@name='account_mapping']" position="after">
+			  <page name="TablaImpuestos" string="Tabla de Impuestos">
+                        <group>
+                        <field name="sv_company_tax_ids" context="{'default_company_id': company_id,'default_fiscal_position_id':active_id}" nolabel="1" colspan="2">
+						  <tree string="Configuracion de impuestos"  editable="bottom">
+							  <field name="name" />  
+							  <field name="product_fiscal_type_id" />
+							  <field name="buy_tax_ids" widget="many2many_tags" domain="[('type_tax_use', '=', 'purchase')]" />
+							  <field name="sale_tax_ids" widget="many2many_tags" domain="[('type_tax_use', '=', 'sale')]" />
+						  </tree>
+						</field>
+                        </group>
+               </page>
+		  </xpath>
+       </field>
+    </record>
+    
+    
+    <record model="ir.ui.view" id="strategiksv.product_fiscal_type_form">
+      <field name="name">strategiksv product fiscal type form</field>
+      <field name="model">strategiksv.product_fiscal_type</field>
+      <field name="arch" type="xml">
+		<form string="Product Fiscal Type">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="comment"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <div class="oe_clear"/>
+                </sheet>
+                </form>	
+       </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="sv_action_product_fiscal_type">
+		<field name="name">Categorias Fiscales de los productos</field>
+		<field name="res_model">strategiksv.product_fiscal_type</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Categorias Fiscales de los productos</p>
+		</field>
+	</record>
+	
+	<record model="ir.rule" id="sv_product_fiscal_type_rule">
+		<field name="name">Categorias Fiscales de los productos</field>
+		<field name="model_id" ref="model_strategiksv_product_fiscal_type"/>
+		<field name="domain_force">[('company_id', '=', user.company_id.id)]</field>
+	</record>
+
+    
+    <menuitem name="Categorias Fiscales de los productos" 
+		parent="account.account_account_menu" 
+		id="strategiksv.product_fiscal_type" 
+		sequence="4" 
+		action="sv_action_product_fiscal_type"
+		groups="account.group_account_manager"/>
+
+
+
+
+	<record model="ir.ui.view" id="strategiksv.company_tax_form">
+	  <field name="inherit_id" ref="base.view_company_form"/>	 
+      <field name="name">strategiksv company tax form</field>
+      <field name="model">res.company</field>
+      <field name="arch" type="xml">
+          <xpath expr="/form/sheet/notebook" position="inside">
+			  <page string="configuracion de cuentas" >
+				<group>
+					<group>
+						<field name="sv_elebora_partida"/>
+						<field name="sv_revisa_partida"/>
+						<field name="sv_aprueba_partida"/>
+						<field name="sv_invoice_serie_size"/>
+						<field name="sv_account_sing_ids" context="{'default_company_id': active_id}" nolabel="1" colspan="2">
+						  <tree string="Signos de las cuentas"  editable="bottom">
+							  <field name="name" string="Codigo de la cuenta"/>                        
+							  <field name="negativo"/>
+						  </tree>
+						</field>
+					</group>
+					<group>
+					</group>
+				</group>
+				
+			  </page>
+			  <page string="Configuracion de Impuestos" >
+				<group>
+						<field name="sv_company_tax_ids" context="{'default_company_id': active_id}" nolabel="1" colspan="2">
+						  <tree string="Configuracion de impuestos"  editable="bottom">
+							  <field name="name" />  
+							  <field name="fiscal_position_id"  />                        
+							  <field name="product_fiscal_type_id" />
+							  <field name="buy_tax_ids" widget="many2many_tags" domain="[('type_tax_use', '=', 'purchase')]" />
+							  <field name="sale_tax_ids" widget="many2many_tags" domain="[('type_tax_use', '=', 'sale')]" />
+						  </tree>
+						</field>
+					<group>
+					</group>
+				</group>
+				
+			  </page>
+			  <page string="Configuración de de reportes Strategik" >
+				<group>
+					<field name="sv_account_ingreso" />
+					<field name="sv_account_egreso" />
+					<field name="sv_account_activo" />
+					<field name="sv_account_pasivo" />
+					<field name="sv_account_capital" />
+					<field name="sv_account_cierre" />
+					<field name="sv_account_efectivo" />
+					<field name="sv_efectivo_depth" />
+					<field name="sv_cuenta_salarios" />
+				</group>
+			  </page>
+		  </xpath>
+          
+       </field>
+    </record>  
+    
+    
+    <record model="ir.ui.view" id="strategiksv.product_tax_form">
+	  <field name="inherit_id" ref="product.product_template_form_view"/>	 
+      <field name="name">strategiksv product tax form</field>
+      <field name="model">product.template</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//field[@name='categ_id']" position="after">			
+			<field name="product_fiscal_type_id" />
+          </xpath>
+      </field>
+    </record>  
+    
+  </data>
+</odoo>
