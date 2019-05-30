@@ -560,7 +560,14 @@ class pos_session(models.Model):
     #############FACTURA CORTE Z#############
     @api.multi
     def get_invoice_range_no_contr1(self):
+        session_ids = []
+        invoices = []
+        ccfs = []
+        tiquetes = []
+        data = {}
         invran = '0-0'
+        ccfran = '0-0'
+        ticketran = '0-0'
         if self:
             for record in self:
                 pos_order_obj = []
