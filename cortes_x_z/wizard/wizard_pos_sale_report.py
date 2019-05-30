@@ -29,6 +29,7 @@ class wizard_pos_sale_report(models.TransientModel):
         return self.env.ref('cortes_x_z.report_pos_sales_pdf').report_action(self, data=datas)
 
     session_ids = fields.Many2many('pos.session', 'pos_session_list', 'wizard_id', 'session_id', string="Session(es) Cerradas")
+    pos_ids = fields.Many2many('pos.config', 'pos_config_list', 'wizard_id', 'pos_id', string="Punto(s) de venta(s)")
     report_type = fields.Selection([('thermal', 'Thermal'),
                                     ('pdf', 'PDF')], default='pdf', readonly=True, string="Report Type")
     proxy_ip = fields.Char(string="Proxy IP", default=get_ip)
