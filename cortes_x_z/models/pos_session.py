@@ -575,10 +575,10 @@ class pos_session(models.Model):
         if self:
             for record in self:
                 for pos in pos_ids:
-                    session_ids = pos.session_ids
+                    session_ids = pos
                     pos_invoice_obj = []
                     fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
-                    pos_session_obj = self.env['pos.session'].search([('id','in',session_ids),('stop_at','>=',stop_at)])
+                    pos_session_obj = self.env['pos.session'].search([('config_id','=',session_ids),('stop_at','>=',stop_at)])
                     if pos_session_obj:
                         for session in pos_session_obj:
                             start_at = session.start_at
