@@ -1,3 +1,17 @@
+CREATE OR REPLACE FUNCTION monto_to_text() RETURNS TRIGGER AS $monto_to_text$
+  BEGIN
+  	new.x_letras=fu_numero_letras(new.amount_total);
+    RETURN NEW;
+  END;
+$monto_to_text$
+LANGUAGE plpgsql;
+
+
+CREATE TRIGGER monto_to_text BEFORE UPDATE
+    ON account_invoice FOR EACH ROW
+    EXECUTE PROCEDURE monto_to_text ();
+
+
 CREATE OR REPLACE FUNCTION fu_numero_letras(numero numeric) RETURNS text AS
 $body$
 DECLARE
@@ -17,8 +31,9 @@ BEGIN
      lcRetorno := '';
      lnTerna := 1;
      IF lnEntero > 0 THEN
-     lnSw := LENGTH(lnEntero::varchar);
-     WHILE lnTerna <= lnSw LOOP
+     lnSw := LENGTH(lnEntero::text);
+        --raise exception 'valor %',lnSw;
+        WHILE lnTerna <= lnSw LOOP
         -- Recorro terna por terna
         lcCadena = '';
         lnUnidades = lnEntero % 10;
@@ -110,21 +125,14 @@ BEGIN
   IF lnTerna = 1 THEN
     lcRetorno := 'CERO';
   END IF;
-  lcRetorno := RTRIM(COALESCE(lcRetorno,'CERO')) || ' CON ' || LTRIM(COALESCE(lnFraccion::varchar,'CERO')) || '0/100 ';
+  --raise exception 'retorno %',lnFraccion;
+  if lnFraccion<10 then
+        lcRetorno := RTRIM(lcRetorno::text) || '  0' || LTRIM(lnFraccion::text) || '/100 ';
+  else
+        lcRetorno := RTRIM(lcRetorno::text) || '  ' || LTRIM(lnFraccion::text) || '/100 ';
+  end if;
 RETURN lcRetorno;
 END;
 $body$
 LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION monto_to_text() RETURNS TRIGGER AS $monto_to_text$
-  BEGIN
-  	new.x_letras=fu_numero_letras(new.amount_total);
-    RETURN NEW;
-  END;
-$monto_to_text$
-LANGUAGE plpgsql;
-
-
-CREATE TRIGGER monto_to_letras BEFORE UPDATE
-    ON account_invoice FOR EACH ROW
-    EXECUTE PROCEDURE monto_to_text ();
+CREATE FUNCTION
