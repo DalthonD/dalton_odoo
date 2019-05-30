@@ -559,9 +559,9 @@ class pos_session(models.Model):
 
     #############FACTURA CORTE Z#############
     @api.multi
-    def get_invoice_range_no_contr1(self):
+    def get_invoice_range_no_contr1(self, pos_ids):
         session_ids = []
-        invoices = []
+        invoices = set()
         invran = '0-0'
         total_price1 = 0.0
         ccfs = []
@@ -571,45 +571,43 @@ class pos_session(models.Model):
         ticketran = '0-0'
         total_price3 = 0.00
         data = {}
+        stop_at = date.today()
         if self:
             for record in self:
-                pos_order_obj = []
-                pos_invoice_obj = []
-                orders = []
-                invoices = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id)], order='invoice_id asc')
-                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False)], order='reference asc')
-                if len(fiscal_position_ids)>1 and pos_invoice_obj and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_invoice_obj and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
+                for pos in pos_ids:
+                    session_ids = pos.session_ids
+                    pos_invoice_obj = []
+                    fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
+                    pos_session_obj = self.env['pos.session'].search([('id','in',session_ids),('stop_at','>=',stop_at)])
+                    if pos_session_obj:
+                        for session in pos_session_obj:
+                            start_at = session.start_at
+                            stop_at = record.stop_at
+                            pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
+                            ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at)], order='reference asc')
+                            if len(fiscal_position_ids)>1 and pos_invoice_obj:
+                                for inv in pos_invoice_obj:
+                                    if inv.fiscal_position_id in fiscal_position_ids:
+                                        invoices.add(inv)
+                            elif len(fiscal_position_ids)==1 and pos_invoice_obj:
+                                for inv in pos_invoice_obj:
+                                    if inv.fiscal_position_id == fiscal_position_ids:
+                                        invoices.add(inv)
+                            else:
+                                continue
+                        if len(invoices)>1:
+                            inv_in = invoices[0].reference
+                            inv_fin = invoices[-1].reference
+                        elif len(invoices)==1:
+                            inv_in = invoices[0].reference
+                            inv_fin = '(único)'
+                        else:
+                            inv_in = 0
+                            inv_fin = 0
+                        invran = '{0}-{1}'.format(inv_in,inv_fin)
+                        return invran
                     return invran
-                for order in orders:
-                    invoice = pos_invoice_obj.filtered(lambda r: r.id==order.invoice_id)
-                    invoices.append(invoice.number)
-                    #for invoice in pos_invoice_obj:
-                    #    if order.invoice_id == invoice.id:
-                    #        invoices.append(invoice.reference)
-                    raise UserError(_("Contenido de la lista facturas: ", invoices))
-                if len(invoices)>1:
-                    inv_in = invoices[0]
-                    inv_fin = invoices[-1]
-                elif len(invoices)==1:
-                    inv_in = invoices[0]
-                    inv_fin = '(único)'
-                else:
-                    inv_in = 0
-                    inv_fin = 0
-                invran = '{0}-{1}'.format(inv_in,inv_fin)
-                return invran
-        else:
-            return invran
+        return invran
 
     @api.multi
     def get_total_sales_invoice_gravado_no_contr1(self):
