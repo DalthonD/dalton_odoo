@@ -562,12 +562,15 @@ class pos_session(models.Model):
     def get_invoice_range_no_contr1(self):
         session_ids = []
         invoices = []
-        ccfs = []
-        tiquetes = []
-        data = {}
         invran = '0-0'
+        total_price1 = 0.0
+        ccfs = []
         ccfran = '0-0'
+        total_price2 = 0.0
+        tiquetes = []
         ticketran = '0-0'
+        total_price3 = 0.00
+        data = {}
         if self:
             for record in self:
                 pos_order_obj = []
