@@ -21,7 +21,7 @@
                     </group>
                     <footer>
                         <button type="object" id="main_print_button" name="print_receipt"
-                                string="Print" class="oe_highlight"/>
+                                string="Imprimir" class="oe_highlight"/>
                         <button string="Cancel" class="oe_link" special="cancel"/>
                     </footer>
                 </form>
