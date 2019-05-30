@@ -39,6 +39,7 @@
                       </t>
                     </div>
                   </div>
+                  <t t-set="pos_ids" t-value="data.get('form').get('pos_ids')"/>
                   --------------------------------------------------------
                   <strong>REPORTE Z</strong><br/>
                   --------------------------------------------------------
@@ -116,7 +117,7 @@
                   <table style="width:100%;margin-top:15px;">
                     <tr>
                       <td class="text-left">
-                        FACTURAS: <span t-esc="o.get_invoice_range_no_contr1(data.get['form'].get['pos_ids'])"/>
+                        FACTURAS: <span t-esc="o.get_invoice_range_no_contr1(pos_ids)"/>
                       </td>
                     </tr>
                     <tr>
