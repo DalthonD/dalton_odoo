@@ -135,4 +135,3 @@ RETURN lcRetorno;
 END;
 $body$
 LANGUAGE plpgsql;
-CREATE FUNCTION
