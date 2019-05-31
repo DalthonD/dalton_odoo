@@ -155,7 +155,7 @@
                         TOTAL
                       </td>
                       <td class="text-right">
-                        <t t-set="total1" t-value="fac.get('total_price1')"/>
+                        <t t-set="total1" t-value="datos.get('total_price1')"/>
                         <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total1)"/>
                       </td>
                     </tr>
