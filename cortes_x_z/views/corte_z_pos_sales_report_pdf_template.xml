@@ -114,10 +114,11 @@
                     </tr>
                   </table>
                   --------------------------------------------------------
+                  <t t-set="fac" t-vaue="o.get_invoice_range_no_contr1(pos_ids)">
                   <table style="width:100%;margin-top:15px;">
                     <tr>
                       <td class="text-left">
-                        FACTURAS: <span t-esc="o.get_invoice_range_no_contr1(pos_ids)"/>
+                        FACTURAS: <span t-esc="fac.get('invran')"/>
                       </td>
                     </tr>
                     <tr>
@@ -125,7 +126,7 @@
                         TOTAL VENTAS GRAVADAS
                       </td>
                       <td class="text-right">
-                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_invoice_gravado_no_contr())"/>
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(fac.get('gravado'))"/>
                       </td>
                     </tr>
                     <tr>
@@ -133,7 +134,7 @@
                         TOTAL VENTAS EXENTAS
                       </td>
                       <td class="text-right">
-                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_invoice_exento_no_contr())"/>
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(fac.get('excento'))"/>
                       </td>
                     </tr>
                     <tr>
@@ -141,7 +142,7 @@
                         TOTAL VENTAS NO SUJETAS
                       </td>
                       <td class="text-right">
-                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_invoice_no_aplica_no_contr())"/>
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(fac.get('no_aplica'))"/>
                       </td>
                     </tr>
                     <tr>
@@ -154,7 +155,7 @@
                         TOTAL
                       </td>
                       <td class="text-right">
-                        <t t-set="total1" t-value="o.get_total_sales_invoice_gravado_no_contr() + o.get_total_sales_invoice_exento_no_contr() + o.get_total_sales_invoice_no_aplica_no_contr()"/>
+                        <t t-set="total1" t-value="fac.get('total_price1')"/>
                         <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total1)"/>
                       </td>
                     </tr>
