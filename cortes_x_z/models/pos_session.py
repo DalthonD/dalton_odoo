@@ -882,7 +882,7 @@ class pos_session(models.Model):
                 #sales_invoice = []
                 invoices = []
                 pos_invoice_obj = []
-                fiscal_position_ids =
+                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','No Aplica')])
                 pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
                 ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at)], order='reference asc')
                 #sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
