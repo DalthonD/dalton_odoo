@@ -54,8 +54,8 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem action="action_wizard_sales_details" id="menu_print_sales_details"
-                  name="Resumen de ventas" parent="menu_main_print_pos_sale_report" sequence='3'/>
+        <!--menuitem action="action_wizard_sales_details" id="menu_print_sales_details"
+                  name="Resumen de ventas" parent="menu_main_print_pos_sale_report" sequence='3'/-->
 
     </data>
 </odoo>

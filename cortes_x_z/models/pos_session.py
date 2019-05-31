@@ -558,52 +558,7 @@ class pos_session(models.Model):
             return {}
 
     #############FACTURA CORTE Z#############
-    @api.multi
-    def get_invoice_range_no_contr_z(self, pos_ids):
-        session_ids = []
-        invoices = set()
-        invran = '0-0'
-        today = date.today()
-        time = time(20,0,0)
-        stop_at = datetime(today.year,today.month,today.day,time.hour,time.minute,time.second)
-        if self:
-            for record in self:
-                pos_config_id = pos
-                pos_invoice_obj = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
-                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('stop_at','>=',stop_at)], order="id asc")
-                if pos_session_obj:
-                    for session in pos_session_obj:
-                        start_at = session.start_at
-                        stop_at = session.stop_at
-                        pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False),\
-                        ('date_invoice','>=',start_at),('date_invoice','<=',stop_at),('user_id','=',session.user_id.id)], order='reference asc')
-                        if len(fiscal_position_ids)>1 and pos_invoice_obj:
-                            for inv in pos_invoice_obj:
-                                if inv.fiscal_position_id in fiscal_position_ids:
-                                    invoices.add(inv)
-                        elif len(fiscal_position_ids)==1 and pos_invoice_obj:
-                            for inv in pos_invoice_obj:
-                                if inv.fiscal_position_id == fiscal_position_ids:
-                                    invoices.add(inv)
-                        else:
-                            continue
-                    invoices = list(invoices)
-                    if invoices:
-                        if len(invoices)>1:
-                            inv_in = invoices[0].reference
-                            inv_fin = invoices[-1].reference
-                        else: len(invoices)==1:
-                            inv_in = invoices[0].reference
-                            inv_fin = '(único)'
-                        invran = '{0}-{1}'.format(inv_in,inv_fin)
-                        return invran
-                    return invran
-                else:
-                    return invran
-        else:
-            return invran
-
+    
     @api.multi
     def get_invoice_range_no_contr1(self, pos_ids):
         session_ids = []
