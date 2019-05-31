@@ -576,10 +576,10 @@ class pos_session(models.Model):
                     pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
                     if pos_session_obj:
                         for session in pos_session_obj:
-                            start_at = session.start_at
-                            stop_at = session.stop_at
+                            start_at = session.start_at.date()
+                            stop_at = session.stop_at.date()
                             pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False),\
-                            ('date_invoice','>=',start_at),('date_invoice','<=',stop_at),('user_id','=',session.user_id.id)], order='reference asc')
+                            ('date_invoice','=',start_at),('user_id','=',session.user_id.id)], order='reference asc')
                             if len(fiscal_position_ids)>1 and pos_invoice_obj:
                                 for inv in pos_invoice_obj:
                                     if inv.fiscal_position_id in fiscal_position_ids:
