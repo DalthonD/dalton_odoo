@@ -18,14 +18,6 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 class wizard_pos_sale_report(models.TransientModel):
     _name = 'wizard.pos.sale.report'
 
-    session_ids = fields.Many2many('pos.session', 'pos_session_list', 'wizard_id', 'session_id', string="Session(es) Cerradas")
-    pos_ids = fields.Many2many('pos.config', 'pos_config_list', 'wizard_id', 'pos_id', string="Punto(s) de venta(s)")
-    fecha = fields.Date(string="Fecha de corte", default=date.today())
-    end_date = fields.Date(string="Fecha de Corte")
-    report_type = fields.Selection([('thermal', 'Thermal'),
-                                    ('pdf', 'PDF')], default='pdf', readonly=True, string="Report Type")
-    proxy_ip = fields.Char(string="Proxy IP", default=get_ip)
-
     @api.model
     def get_ip(self):
         proxy_ip = self.env['res.users'].browse([self._uid]).company_id.report_ip_address or''
@@ -38,6 +30,13 @@ class wizard_pos_sale_report(models.TransientModel):
                  'model': 'wizard.pos.sale.report'
                 }
         return self.env.ref('cortes_x_z.report_pos_sales_pdf').report_action(self, data=datas)
+
+    session_ids = fields.Many2many('pos.session', 'pos_session_list', 'wizard_id', 'session_id', string="Session(es) Cerradas")
+    pos_ids = fields.Many2many('pos.config', 'pos_config_list', 'wizard_id', 'pos_id', string="Punto(s) de venta(s)")
+    end_date = fields.Date(string="Fecha de Corte", default=date.today())
+    report_type = fields.Selection([('thermal', 'Thermal'),
+                                    ('pdf', 'PDF')], default='pdf', readonly=True, string="Report Type")
+    proxy_ip = fields.Char(string="Proxy IP", default=get_ip)
 
     @api.onchange('end_date')
     def onchange_date(self):
