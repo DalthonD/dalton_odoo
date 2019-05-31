@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-<!--X Report-->
-        <record id="wizard_pos_x_report_form_view" model="ir.ui.view">
-            <field name="name">wizard.pos.x.report.form.view</field>
-            <field name="model">wizard.pos.x.report</field>
+<!--Z Report-->
+        <record id="wizard_pos_sale_report_form_view" model="ir.ui.view">
+            <field name="name">wizard.pos.sale.report.form.view</field>
+            <field name="model">wizard.pos.sale.report</field>
             <field name="arch" type="xml">
                 <form>
                     <group>
                         <field name="session_ids" widget="many2many_tags" required="1"
-                            domain="[('state', 'in', ['opened','closed'])]"/>
+                            domain="[('state', 'in', ['closed'])]"/>
+                        <field name="pos_ids" widget="many2many_tags" required="1"
+                            domain="[('current_session_state','in',['closed'])]"/>
+                        <group>
+                          <field name="end_date" required="1"/>
+                        </group>
                     </group>
                     <group>
                         <field name="report_type" required="1"/>
@@ -20,7 +25,7 @@
                                attrs="{'required':[('report_type' ,'=','thermal')]}"/>
                     </group>
                     <footer>
-                        <button type="object" id="main_print_button" name="print_x_report"
+                        <button type="object" id="main_print_button" name="print_receipt"
                                 string="Imprimir" class="oe_highlight"/>
                         <button string="Cancel" class="oe_link" special="cancel"/>
                     </footer>
@@ -28,17 +33,20 @@
             </field>
         </record>
 
-        <record id="action_wizard_pos_x_report" model="ir.actions.act_window">
-            <field name="name">Reporte X</field>
+        <record id="action_wizard_pos_sale_report" model="ir.actions.act_window">
+            <field name="name">Reporte Z</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">wizard.pos.x.report</field>
+            <field name="res_model">wizard.pos.sale.report</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
 
-        <menuitem action="action_wizard_pos_x_report" id="menu_print_x_report"
-                  name="Reporte X" parent="menu_main_print_pos_sale_report" sequence='1'/>
+        <menuitem id="menu_main_print_pos_sale_report" name="Reportes (XZ)"
+                  parent="point_of_sale.menu_point_root" sequence='13'/>
+
+        <menuitem action="action_wizard_pos_sale_report" id="menu_print_pos_sale_report"
+                  name="Reporte Z" parent="menu_main_print_pos_sale_report" sequence='2'/>
 
     </data>
 </odoo>
