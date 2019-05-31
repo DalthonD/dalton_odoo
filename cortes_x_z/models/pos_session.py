@@ -650,6 +650,7 @@ class pos_session(models.Model):
                             else:
                                 continue
                         invoices = list(invoices)
+                        invoices.sort(key=lambda i: i.reference)
                         if invoices:
                             if len(invoices)>1:
                                 inv_in = invoices[0].reference
