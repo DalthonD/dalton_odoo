@@ -595,6 +595,7 @@ class pos_session(models.Model):
                                         invoices.add(inv)
                             else:
                                 continue
+                        invoices = list(invoices)
                         if len(invoices)>1:
                             inv_in = invoices[0].reference
                             inv_fin = invoices[-1].reference
