@@ -565,7 +565,8 @@ class pos_session(models.Model):
         invran = '0-0'
         today = date.today()
         hora = time(20,0,0)
-        stop_at = datetime(today.year,today.month,today.day,hora.hour,hora.minute,hora.second)
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for record in self:
                 for pos in pos_ids:
