@@ -630,7 +630,7 @@ class pos_session(models.Model):
                     fiscal_position_gravado_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Gravado')])
                     fiscal_position_excento_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Exento')])
                     fiscal_position_noaplica_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','No Aplica')])
-                    pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('stop_at','>=',stop_at)], order="id asc")
+                    pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('stop_at','<=',stop_at)], order="id asc")
                     if pos_session_obj:
                         for session in pos_session_obj:
                             start_at = session.start_at
