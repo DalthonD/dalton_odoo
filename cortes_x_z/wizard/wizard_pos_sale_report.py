@@ -9,12 +9,11 @@
 #
 #################################################################################
 
-from odoo import fields, models, api,
+from odoo import fields, models, api, SUPERUSER_ID, _
 from odoo.exceptions import Warning, RedirectWarning
 from datetime import datetime, date, time, timedelta
 from pytz import timezone
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from odoo import SUPERUSER_ID
 
 class wizard_pos_sale_report(models.TransientModel):
     _name = 'wizard.pos.sale.report'
