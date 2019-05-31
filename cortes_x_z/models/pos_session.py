@@ -559,6 +559,50 @@ class pos_session(models.Model):
 
     #############FACTURA CORTE Z#############
     @api.multi
+    def get_invoice_range_no_contr_z(self, pos_ids):
+        session_ids = []
+        invoices = set()
+        invran = '0-0'
+        stop_at = date.today()
+        if self:
+            for record in self:
+                pos_config_id = pos
+                pos_invoice_obj = []
+                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('stop_at','>=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        start_at = session.start_at
+                        stop_at = session.stop_at
+                        pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False),\
+                        ('date_invoice','>=',start_at),('date_invoice','<=',stop_at),('user_id','=',session.user_id.id)], order='reference asc')
+                        if len(fiscal_position_ids)>1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id in fiscal_position_ids:
+                                    invoices.add(inv)
+                        elif len(fiscal_position_ids)==1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id == fiscal_position_ids:
+                                    invoices.add(inv)
+                        else:
+                            continue
+                    invoices = list(invoices)
+                    if invoices:
+                        if len(invoices)>1:
+                            inv_in = invoices[0].reference
+                            inv_fin = invoices[-1].reference
+                        else: len(invoices)==1:
+                            inv_in = invoices[0].reference
+                            inv_fin = '(único)'
+                        invran = '{0}-{1}'.format(inv_in,inv_fin)
+                        return invran
+                    return invran
+                else:
+                    return invran
+        else:
+            return invran
+
+    @api.multi
     def get_invoice_range_no_contr1(self, pos_ids):
         session_ids = []
         invoices = set()
@@ -667,7 +711,7 @@ class pos_session(models.Model):
         return data
 
     @api.multi
-    def get_total_sales_invoice_gravado_no_contr1(self):
+    def get_total_sales_invoice_gravado_no_contr_z(self):
         total_price = 0.0
         if self:
             for record in self:
@@ -692,7 +736,7 @@ class pos_session(models.Model):
             return total_price
 
     @api.multi
-    def get_total_sales_invoice_exento_no_contr1(self):
+    def get_total_sales_invoice_exento_no_contr_z(self):
         total_price = 0.0
         if self:
             for record in self:
@@ -717,7 +761,7 @@ class pos_session(models.Model):
             return total_price
 
     @api.multi
-    def get_total_sales_invoice_no_aplica_no_contr1(self):
+    def get_total_sales_invoice_no_aplica_no_contr_z(self):
         total_price = 0.0
         if self:
             for record in self:
@@ -758,15 +802,6 @@ class pos_session(models.Model):
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
                 pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
                 ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at)], order='reference asc')
-                #pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id)], order='invoice_id asc')
-                #sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
-                #self._cr.execute(sql)
-                #pos_order_obj = self._cr.dictfetchall()
-                #for order in pos_order_obj:
-                #    for invoice in sales_invoice:
-                #        if order.get('invoice_id')==invoice.id:
-                #            pos_invoice_obj.append(invoice)
-                #pos_invoice_obj.sort(key=lambda i: i.reference)
                 if len(fiscal_position_ids)>1 and pos_invoice_obj:
                     for inv in pos_invoice_obj:
                         if inv.fiscal_position_id in fiscal_position_ids:
