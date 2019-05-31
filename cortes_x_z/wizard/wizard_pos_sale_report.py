@@ -41,7 +41,7 @@ class wizard_pos_sale_report(models.TransientModel):
     @api.onchange('end_date')
     def onchange_date(self):
         if self.end_date and self.end_date > date.today():
-            raise Warning(_('End date should be greater than start date.'))
+            raise Warning(_('La fecha no debe ser superior al día de hoy.'))
 
     @api.multi
     def get_current_date(self):
