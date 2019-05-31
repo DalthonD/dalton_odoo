@@ -558,7 +558,7 @@ class pos_session(models.Model):
             return {}
 
     #############FACTURA CORTE Z#############
-    
+
     @api.multi
     def get_invoice_range_no_contr1(self, pos_ids):
         session_ids = []
@@ -576,8 +576,8 @@ class pos_session(models.Model):
         total_price3 = 0.00
         data = {"invran":invran,"gravado":gravado,"excento":excento,"no_aplica":no_aplica,"total_price1":total_price1}
         today = date.today()
-        time = time(20,0,0)
-        stop_at = datetime(today.year,today.month,today.day,time.hour,time.minute,time.second)
+        hora = time(20,0,0)
+        stop_at = datetime(today.year,today.month,today.day,hora.hour,hora.minute,hora.second)
         if self:
             for record in self:
                 for pos in pos_ids:
