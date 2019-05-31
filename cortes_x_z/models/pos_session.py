@@ -542,8 +542,8 @@ class pos_session(models.Model):
             data = {}
             if inv_ids:
                 inv_ids = [inv.partner_id.id for inv in inv_ids]
-                account_payment_ids = account_payment_obj.search([('partner_id', 'in', inv_ids),('create_date', '>=', start_at),
-                                                ('create_date', '<=', stop_at),
+                account_payment_ids = account_payment_obj.search([('partner_id', 'in', inv_ids),('payment_date', '>=', start_at),
+                                                ('payment_date', '<=', stop_at),
                                                 ('create_uid', '=', self.user_id.id), ('company_id', '=', company_id)])
                 if account_payment_ids:
                     a_l = []
