@@ -31,7 +31,7 @@ class wizard_pos_sale_report(models.TransientModel):
 
     session_ids = fields.Many2many('pos.session', 'pos_session_list', 'wizard_id', 'session_id', string="Session(es) Cerradas")
     pos_ids = fields.Many2many('pos.config', 'pos_config_list', 'wizard_id', 'pos_id', string="Punto(s) de venta(s)")
-    end_date = fields.Date(string="Fecha de corte", default=date.today())
+    end_date = fields.Date(string="Fecha de corte")
     report_type = fields.Selection([('thermal', 'Thermal'),
                                     ('pdf', 'PDF')], default='pdf', readonly=True, string="Report Type")
     proxy_ip = fields.Char(string="Proxy IP", default=get_ip)
