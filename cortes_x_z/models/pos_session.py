@@ -14,7 +14,7 @@ from odoo import fields, models, api, SUPERUSER_ID, _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 import pytz
 from pytz import timezone
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, time
 from odoo.exceptions import UserError, ValidationError
 from odoo import exceptions
 _logger = logging.getLogger(__name__)
@@ -563,7 +563,9 @@ class pos_session(models.Model):
         session_ids = []
         invoices = set()
         invran = '0-0'
-        stop_at = date.today()
+        today = date.today()
+        time = time(20,0,0)
+        stop_at = datetime(today.year,today.month,today.day,time.hour,time.minute,time.second)
         if self:
             for record in self:
                 pos_config_id = pos
@@ -618,7 +620,9 @@ class pos_session(models.Model):
         ticketran = '0-0'
         total_price3 = 0.00
         data = {"invran":invran,"gravado":gravado,"excento":excento,"no_aplica":no_aplica,"total_price1":total_price1}
-        stop_at = date.today()
+        today = date.today()
+        time = time(20,0,0)
+        stop_at = datetime(today.year,today.month,today.day,time.hour,time.minute,time.second)
         if self:
             for record in self:
                 for pos in pos_ids:
