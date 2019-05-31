@@ -14,7 +14,9 @@
                             domain="[('current_session_state','in',['closed'])]"/>
                     </group>
                     <group>
-                        <field name="end_date" required="1"/>
+                      <field name="end_date" required="1"/>
+                    </gourp>
+                    <group>
                         <field name="report_type" required="1"/>
                     </group>
                     <group attrs="{'invisible':[('report_type' ,'!=','thermal')]}">
