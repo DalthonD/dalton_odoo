@@ -9,7 +9,7 @@
 #
 #################################################################################
 
-from odoo import fields, models, api, _
+from odoo import fields, models, api,
 from odoo.exceptions import Warning, RedirectWarning
 from datetime import datetime, date, time, timedelta
 from pytz import timezone

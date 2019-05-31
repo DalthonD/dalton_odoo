@@ -10,8 +10,8 @@
                     <group>
                         <field name="session_ids" widget="many2many_tags" required="1"
                             domain="[('state', 'in', ['closed'])]"/>
-                        <field name="pos_ids" widget="many2many_tags" required="1"
-                            domain="[('current_session_state','in',['closed'])]"/>
+                        <!--field name="pos_ids" widget="many2many_tags" required="1"
+                            domain="[('current_session_state','in',['closed'])]"/-->
                         <group>
                           <field name="fecha" required="1"/>
                         </group>
