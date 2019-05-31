@@ -573,7 +573,7 @@ class pos_session(models.Model):
         tiquetes = []
         ticketran = '0-0'
         total_price3 = 0.00
-        data = {}
+        data = {"invran":invran,"gravado":gravado,"excento":excento,"no_aplica":no_aplica,"total_price1":total_price1}
         stop_at = date.today()
         if self:
             for record in self:
@@ -602,64 +602,66 @@ class pos_session(models.Model):
                             else:
                                 continue
                         invoices = list(invoices)
-                        if len(invoices)>1:
-                            inv_in = invoices[0].reference
-                            inv_fin = invoices[-1].reference
-                        elif len(invoices)==1:
-                            inv_in = invoices[0].reference
-                            inv_fin = '(único)'
-                        else:
-                            inv_in = 0
-                            inv_fin = 0
-                        invran = '{0}-{1}'.format(inv_in,inv_fin)
-                        data["invran"]=invran #rango de facturas del POS
-                        pos_invoice_obj = invoices #Listado de todos las facturas hechas en las sessiones del POS
-                        invoices = []
-                        if len(fiscal_position_gravado_ids)>1 and pos_invoice_obj:
-                            for inv in pos_invoice_obj:
-                                if inv.fiscal_position_id in fiscal_position_gravado_ids:
-                                    invoices.append(inv)
-                        elif len(fiscal_position_gravado_ids)==1 and pos_invoice_obj:
-                            for inv in pos_invoice_obj:
-                                if inv.fiscal_position_id == fiscal_position_gravado_ids:
-                                    invoices.append(inv)
-                        else:
-                            gravado = 0.0 #En caso no haya facturas gravadas
                         if invoices:
-                            for inv in invoices:
-                                gravado += inv.amount_total
-                        data["gravado"] = gravado #Facturas gravadas
-                        invoices = []
-                        if len(fiscal_position_excento_ids)>1 and pos_invoice_obj:
-                            for inv in pos_invoice_obj:
-                                if inv.fiscal_position_id in fiscal_position_excento_ids:
-                                    invoices.append(inv)
-                        elif len(fiscal_position_excento_ids)==1 and pos_invoice_obj:
-                            for inv in pos_invoice_obj:
-                                if inv.fiscal_position_id == fiscal_position_excento_ids:
-                                    invoices.append(inv)
-                        else:
-                            excento = 0.0 #En caso no haya facturas gravadas
-                        if invoices:
-                            for inv in invoices:
-                                excento += inv.amount_total
-                        data["excento"] = excento
-                        invoices = []
-                        if len(fiscal_position_noaplica_ids)>1 and pos_invoice_obj:
-                            for inv in pos_invoice_obj:
-                                if inv.fiscal_position_id in fiscal_position_noaplica_ids:
-                                    invoices.append(inv)
-                        elif len(fiscal_position_noaplica_ids)==1 and pos_invoice_obj:
-                            for inv in pos_invoice_obj:
-                                if inv.fiscal_position_id == fiscal_position_noaplica_ids:
-                                    invoices.append(inv)
-                        else:
-                            no_aplica = 0.0 #En caso no haya facturas gravadas
-                        if invoices:
-                            for inv in invoices:
-                                no_aplica += inv.amount_total
-                        data["no_aplica"] = no_aplica
-                        data["total_price1"] = total_price1 + gravado + excento + no_aplica
+                            if len(invoices)>1:
+                                inv_in = invoices[0].reference
+                                inv_fin = invoices[-1].reference
+                            elif len(invoices)==1:
+                                inv_in = invoices[0].reference
+                                inv_fin = '(único)'
+                            else:
+                                inv_in = 0
+                                inv_fin = 0
+                            invran = '{0}-{1}'.format(inv_in,inv_fin)
+                            data["invran"]=invran #rango de facturas del POS
+                            pos_invoice_obj = invoices #Listado de todos las facturas hechas en las sessiones del POS
+                            invoices = []
+                            if len(fiscal_position_gravado_ids)>1 and pos_invoice_obj:
+                                for inv in pos_invoice_obj:
+                                    if inv.fiscal_position_id in fiscal_position_gravado_ids:
+                                        invoices.append(inv)
+                            elif len(fiscal_position_gravado_ids)==1 and pos_invoice_obj:
+                                for inv in pos_invoice_obj:
+                                    if inv.fiscal_position_id == fiscal_position_gravado_ids:
+                                        invoices.append(inv)
+                            else:
+                                gravado = 0.0 #En caso no haya facturas gravadas
+                            if invoices:
+                                for inv in invoices:
+                                    gravado += inv.amount_total
+                            data["gravado"] = gravado #Facturas gravadas
+                            invoices = []
+                            if len(fiscal_position_excento_ids)>1 and pos_invoice_obj:
+                                for inv in pos_invoice_obj:
+                                    if inv.fiscal_position_id in fiscal_position_excento_ids:
+                                        invoices.append(inv)
+                            elif len(fiscal_position_excento_ids)==1 and pos_invoice_obj:
+                                for inv in pos_invoice_obj:
+                                    if inv.fiscal_position_id == fiscal_position_excento_ids:
+                                        invoices.append(inv)
+                            else:
+                                excento = 0.0 #En caso no haya facturas gravadas
+                            if invoices:
+                                for inv in invoices:
+                                    excento += inv.amount_total
+                            data["excento"] = excento
+                            invoices = []
+                            if len(fiscal_position_noaplica_ids)>1 and pos_invoice_obj:
+                                for inv in pos_invoice_obj:
+                                    if inv.fiscal_position_id in fiscal_position_noaplica_ids:
+                                        invoices.append(inv)
+                            elif len(fiscal_position_noaplica_ids)==1 and pos_invoice_obj:
+                                for inv in pos_invoice_obj:
+                                    if inv.fiscal_position_id == fiscal_position_noaplica_ids:
+                                        invoices.append(inv)
+                            else:
+                                no_aplica = 0.0 #En caso no haya facturas gravadas
+                            if invoices:
+                                for inv in invoices:
+                                    no_aplica += inv.amount_total
+                            data["no_aplica"] = no_aplica
+                            data["total_price1"] = total_price1 + gravado + excento + no_aplica
+                            return data
                         return data
                     return data
         return data
