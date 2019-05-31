@@ -619,8 +619,8 @@ class pos_session(models.Model):
         total_price3 = 0.00
         data = {"invran":invran,"gravado":gravado,"excento":excento,"no_aplica":no_aplica,"total_price1":total_price1}
         today = date.today()
-        hora = time(20,0,0)
-        stop_at = datetime(today.year,today.month,today.day,hora.hour,hora.minute,hora.second)
+        stop_at = datetime(today.year,today.month,today.day,24,0,0)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for record in self:
                 for pos in pos_ids:
@@ -630,7 +630,7 @@ class pos_session(models.Model):
                     fiscal_position_gravado_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Gravado')])
                     fiscal_position_excento_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Exento')])
                     fiscal_position_noaplica_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','No Aplica')])
-                    pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('stop_at','<=',stop_at)], order="id asc")
+                    pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
                     if pos_session_obj:
                         for session in pos_session_obj:
                             start_at = session.start_at
