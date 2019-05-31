@@ -114,7 +114,7 @@
                     </tr>
                   </table>
                   --------------------------------------------------------
-                  <t t-set="fac" t-vaue="o.get_invoice_range_no_contr1(pos_ids)"/>
+                  <t t-set="fac" t-value="o.get_invoice_range_no_contr1(pos_ids)"/>
                   <table style="width:100%;margin-top:15px;">
                     <tr>
                       <td class="text-left">
