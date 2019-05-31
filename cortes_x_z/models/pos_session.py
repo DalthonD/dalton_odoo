@@ -619,7 +619,7 @@ class pos_session(models.Model):
         total_price3 = 0.00
         data = {"invran":invran,"gravado":gravado,"excento":excento,"no_aplica":no_aplica,"total_price1":total_price1}
         today = date.today()
-        stop_at = datetime(today.year,today.month,today.day,24,0,0)
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
         start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for record in self:
