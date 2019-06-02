@@ -40,6 +40,7 @@
                     </div>
                   </div>
                   <t t-set="pos_ids" t-value="data.get('form').get('pos_ids')"/>
+                  <t t-set="today" t-value="data.get('form').get('end_date')"/>
                   --------------------------------------------------------
                   <strong>REPORTE Z</strong><br/>
                   --------------------------------------------------------
@@ -114,7 +115,7 @@
                     </tr>
                   </table>
                   --------------------------------------------------------
-                  <t t-set="datos" t-value="o.get_invoice_range_no_contr1(pos_ids)"/>
+                  <t t-set="datos" t-value="o.get_invoice_range_no_contr1(pos_ids,today)"/>
                   <table style="width:100%;margin-top:15px;">
                     <tr>
                       <td class="text-left">
