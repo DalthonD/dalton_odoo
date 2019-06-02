@@ -1181,9 +1181,9 @@ class pos_session(models.Model):
                     if pos_session_obj:
                         for session in pos_session_obj:
                             start_at = session.start_at
-                            stop_at = session.stop_at
-                            pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False),\
-                            ('date_invoice','>=',start_at),('date_invoice','<=',stop_at),('user_id','=',session.user_id.id)], order='reference asc')
+                            stop_at = record.stop_at
+                            pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
+                            ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at)], order='reference asc')
                             if len(fiscal_position_ids)>1 and pos_invoice_obj:
                                 for inv in pos_invoice_obj:
                                     if inv.fiscal_position_id in fiscal_position_ids:
@@ -1196,14 +1196,6 @@ class pos_session(models.Model):
                                 continue
                         invoices = list(invoices)
                         invoices.sort(key=lambda i: i.reference)
-                        #if invoices:
-                        #    if len(invoices)>1:
-                        #        inv_in = invoices[0].reference
-                        #        inv_fin = invoices[-1].reference
-                        #    else:
-                        #        inv_in = invoices[0].reference
-                        #        inv_fin = '(único)'
-                        #    invran = '{0}-{1}'.format(inv_in,inv_fin)
                         if invoices:
                             if len(invoices)>1:
                                 inv_in = invoices[0].reference
@@ -1215,6 +1207,7 @@ class pos_session(models.Model):
                                 inv_in = 0
                                 inv_fin = 0
                             invran = '{0}-{1}'.format(inv_in,inv_fin)
+                            return invran
                         return invran
                     return invran
         return invran
