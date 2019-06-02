@@ -1196,13 +1196,24 @@ class pos_session(models.Model):
                                 continue
                         invoices = list(invoices)
                         invoices.sort(key=lambda i: i.reference)
+                        #if invoices:
+                        #    if len(invoices)>1:
+                        #        inv_in = invoices[0].reference
+                        #        inv_fin = invoices[-1].reference
+                        #    else:
+                        #        inv_in = invoices[0].reference
+                        #        inv_fin = '(único)'
+                        #    invran = '{0}-{1}'.format(inv_in,inv_fin)
                         if invoices:
                             if len(invoices)>1:
                                 inv_in = invoices[0].reference
                                 inv_fin = invoices[-1].reference
-                            else:
+                            elif len(invoices)==1:
                                 inv_in = invoices[0].reference
                                 inv_fin = '(único)'
+                            else:
+                                inv_in = 0
+                                inv_fin = 0
                             invran = '{0}-{1}'.format(inv_in,inv_fin)
                         return invran
                     return invran
