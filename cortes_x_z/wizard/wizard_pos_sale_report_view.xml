@@ -11,7 +11,7 @@
                         <field name="session_ids" widget="many2many_tags" required="1"
                             domain="[('state', 'in', ['closed'])]"/>
                         <field name="pos_ids" widget="many2many_tags" required="1"
-                            domain="[('current_session_state','in',['closed'])]"/>
+                            domain="[('pos_session_state','in',['closed','closing_control'])]"/>
                     </group>
                     <group>
                       <group>

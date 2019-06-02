@@ -79,14 +79,14 @@
                         <span t-esc="o.config_id.name"/>
                       </td>
                     </tr>
-                    <tr>
+                    <!--tr>
                       <td class="text-left">
                         ESTADO:
                       </td>
                       <td class="text-right">
                         <span t-esc="o.state"/>
                       </td>
-                    </tr>
+                    </tr-->
                     <tr>
                       <td class="text-left">
                         APERTURA:
@@ -115,11 +115,12 @@
                     </tr>
                   </table>
                   --------------------------------------------------------
-                  <t t-set="datos" t-value="o.get_invoice_range_no_contr1(pos_ids)"/>
+                  <t t-set="datos" t-value="o.get_invoice_info_z(pos_ids,today)"/>
                   <table style="width:100%;margin-top:15px;">
                     <tr>
                       <td class="text-left">
                         FACTURAS: <span t-esc="datos.get('invran')"/><span t-esc="o.get_invoice_range_no_contr_z(pos_ids,today)"/>
+                        <span t-esc="o.config_id.get_invoice_range_no_contr_z(today)"/>
                       </td>
                     </tr>
                     <tr>
@@ -161,11 +162,11 @@
                       </td>
                     </tr>
                   </table>
-
+                  <t t-set="ccf" t-value="o.get_ccf_info_z(pos_ids,today)"/>
                   <table style="width:100%;margin-top:15px;">
                     <tr>
                       <td class="text-left">
-                        CCF: <span t-esc="o.get_invoice_range_ccf()"/>
+                        CCF: <!--span t-esc="o.get_invoice_range_ccf()"/-->
                       </td>
                     </tr>
                     <tr>
