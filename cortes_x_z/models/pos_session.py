@@ -1558,7 +1558,7 @@ class pos_config(models.Model):
                     if pos_session_obj:
                         for session in pos_session_obj:
                             start_at = session.start_at
-                            stop_at = record.stop_at
+                            stop_at = session.stop_at
                             pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
                             ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at)], order='reference asc')
                             if len(fiscal_position_ids)>1 and pos_invoice_obj:
@@ -1748,6 +1748,10 @@ class pos_config(models.Model):
                     return data
         return data
 
+    @api.model
+    def get_uid(self):
+        current_user_name = self.env['res.users'].browse([self._uid]).name or ' '
+        return current_user_name
 
 class res_company(models.Model):
     _inherit = 'res.company'
