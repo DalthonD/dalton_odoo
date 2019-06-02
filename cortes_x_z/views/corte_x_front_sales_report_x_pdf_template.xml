@@ -105,10 +105,18 @@
                     </tr>
                     <tr>
                       <td class="text-left">
-                        USUARIO:
+                        CAJERO:
                       </td>
                       <td class="text-right">
                         <span t-esc="o.user_id.name"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        USUARIO:
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.config_id.get_uid()"/>
                       </td>
                     </tr>
                   </table>
