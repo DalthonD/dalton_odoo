@@ -115,11 +115,11 @@
                     </tr>
                   </table>
                   --------------------------------------------------------
-                  <t t-set="datos" t-value="o.get_invoice_range_no_contr1(pos_ids,today)"/>
+                  <t t-set="datos" t-value="o.get_invoice_range_no_contr1(pos_ids)"/>
                   <table style="width:100%;margin-top:15px;">
                     <tr>
                       <td class="text-left">
-                        FACTURAS: <span t-esc="datos.get('invran')"/><span t-esc="o.get_invoice_range_no_contr_z(pos_ids)"/>
+                        FACTURAS: <span t-esc="datos.get('invran')"/><span t-esc="o.get_invoice_range_no_contr_z(pos_ids,today)"/>
                       </td>
                     </tr>
                     <tr>
