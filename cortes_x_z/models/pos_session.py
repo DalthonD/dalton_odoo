@@ -1166,6 +1166,7 @@ class pos_session(models.Model):
         invran = '0-0'
         #today = date.today()
         today = today
+        raise Warning(_(today))
         hora = time(20,0,0)
         stop_at = datetime(today.year,today.month,today.day,23,59,59)
         start_at = datetime(today.year,today.month,today.day,0,0,1)
