@@ -47,14 +47,6 @@
                   <table style="width:100%;margin-top:15px;">
                     <tr>
                       <td class="text-left">
-                        FECHA:
-                      </td>
-                      <td class="text-right">
-                        <span t-esc="o.get_session_date(o.start_at)"/>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-left">
                         IMPRESION:
                       </td>
                       <td class="text-right">
@@ -67,6 +59,14 @@
                       </td>
                       <td class="text-right">
                         <span t-esc="o.get_current_time_x()"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        FECHA:
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.get_session_date(o.start_at)"/>
                       </td>
                     </tr>
                   </table>

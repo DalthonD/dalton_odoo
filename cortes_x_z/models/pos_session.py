@@ -1750,7 +1750,8 @@ class pos_config(models.Model):
 
     @api.model
     def get_uid(self):
-        current_user_name = self.env['res.users'].browse([self._uid]).name or ' '
+        #current_user_name = self.env['res.users'].browse([self._uid]).name or ' '
+        current_user_name = self._uid.name or ' '
         return current_user_name
 
 class res_company(models.Model):
