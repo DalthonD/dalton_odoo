@@ -110,7 +110,7 @@
                         USUARIO:
                       </td>
                       <td class="text-right">
-                        <span t-esc="o.config_id.get_uid"/>
+                        <span t-esc="o.config_id.get_uid()"/>
                       </td>
                     </tr>
                   </table>
