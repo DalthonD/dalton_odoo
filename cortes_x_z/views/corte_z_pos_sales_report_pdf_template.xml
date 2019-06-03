@@ -328,7 +328,7 @@
                     <tr>
                       <td class="text-left">FACTURA y CCF</td>
                     </tr>
-                    <tr t-foreach="o.get_payments_invoice_z()" t-as="l">
+                    <tr t-foreach="o.get_payments_invoice_z(today)" t-as="l">
                       <td class="text-left">
                         <span t-esc="l.get('name')"/>
                       </td>
