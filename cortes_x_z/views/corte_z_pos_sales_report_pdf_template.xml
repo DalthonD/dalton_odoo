@@ -118,7 +118,7 @@
                     </tr>
                   </table>
                   --------------------------------------------------------
-                  <t t-set="datos" t-value="o.get_invoice_info_z(pos_ids,today)"/>
+                  <t t-set="datos" t-value="o.get_invoice_info_z(today)"/>
                   <table style="width:100%;margin-top:15px;">
                     <tr>
                       <td class="text-left">
