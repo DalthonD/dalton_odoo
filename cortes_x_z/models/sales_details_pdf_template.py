@@ -48,11 +48,11 @@ class pos_sales_report_pdf_template(models.AbstractModel):
     def _get_report_values(self, docids, data=None):
         report = self.env['ir.actions.report'].\
             _get_report_from_name('cortes_x_z.pos_sales_report_pdf_template')
-        if data and data.get('form') and data.get('form').get('session_ids'):
-            docids = self.env['pos.session'].browse(data['form']['session_ids'])
+        if data and data.get('form') and data.get('form').get('pos_ids'):
+            docids = self.env['pos.config'].browse(data['form']['pos_ids'])
         return {'doc_ids': self.env['wizard.pos.sale.report'].browse(data['ids']),
                 'doc_model': report.model,
-                'docs': self.env['pos.session'].browse(data['form']['session_ids']),
+                'docs': self.env['pos.config'].browse(data['form']['pos_ids']),
                 'data': data,
                 }
 
