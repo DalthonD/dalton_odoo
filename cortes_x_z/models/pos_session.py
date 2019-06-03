@@ -1623,7 +1623,7 @@ class pos_config(models.Model):
 
     @api.multi
     def get_eval_date(self, fecha):
-        return datetime.strptime(fecha, '%Y-%m-%d')
+        return datetime.strptime(fecha, '%Y-%m-%d').date()
 
     @api.multi
     def get_open_close_time(self, today):
