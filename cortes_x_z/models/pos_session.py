@@ -716,125 +716,6 @@ class pos_session(models.Model):
             return total_price
     #############################
 
-    #############CCF CORTE Z#############
-    @api.multi
-    def get_invoice_range_ccf1(self):
-        invran = '0-0'
-        if self:
-            for record in self:
-                pos_order_obj = []
-                pos_invoice_obj = []
-                orders = []
-                invoices = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True)])
-                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False)], order='reference asc')
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_invoice_obj and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_invoice_obj and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return invran
-                for order in orders:
-                    for invoice in pos_invoice_obj:
-                        if order.invoice_id == invoice.id:
-                            invoices.append(invoice.reference)
-                if len(invoices)>1:
-                    inv_in = invoices[0]
-                    inv_fin = invoices[-1]
-                elif len(invoices)==1:
-                    inv_in = invoices[0]
-                    inv_fin = '(único)'
-                else:
-                    inv_in = 0
-                    inv_fin = 0
-                invran = '{0}-{1}'.format(inv_in,inv_fin)
-                return invran
-        else:
-            return invran
-
-    @api.multi
-    def get_total_sales_invoice_gravado_ccf1(self):
-        total_price = 0.0
-        if self:
-            for record in self:
-                pos_order_obj = []
-                orders = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','Gravado')])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id),('invoice_id.reference','!=',False)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return total_price
-                for order in orders:
-                    #total_price += sum([(line.qty * line.price_unit) for line in order.lines])
-                    total_price += order.amount_total
-                return total_price
-        else:
-            return total_price
-
-    @api.multi
-    def get_total_sales_invoice_exento_ccf1(self):
-        total_price = 0.0
-        if self:
-            for record in self:
-                pos_order_obj = []
-                orders = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','Exento')])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id),('invoice_id.reference','!=',False)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return total_price
-                for order in orders:
-                    #total_price += sum([(line.qty * line.price_unit) for line in order.lines])
-                    total_price += order.amount_total
-                return total_price
-        else:
-            return total_price
-
-    @api.multi
-    def get_total_sales_invoice_no_aplica_ccf1(self):
-        total_price = 0.0
-        if self:
-            for record in self:
-                pos_order_obj = []
-                orders = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','No Aplica')])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id),('invoice_id.reference','!=',False)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return total_price
-                for order in orders:
-                    #total_price += sum([(line.qty * line.price_unit) for line in order.lines])
-                    total_price += order.amount_total
-                return total_price
-        else:
-            return total_price
-
     ########CCF CORTE X##############
 
     @api.multi
@@ -1851,7 +1732,7 @@ class pos_config(models.Model):
             return total_price
 
     @api.multi
-    def get_total_returns_tickets_z(self):
+    def get_total_returns_tickets_z(self, today):
         session_ids = []
         total_return = 0.0
         today = datetime.strptime(today, '%Y-%m-%d')
@@ -1874,7 +1755,7 @@ class pos_config(models.Model):
 
     #############RECIBO WALLET CORTE Z#############
     @api.multi
-    def get_wallet_reciept_z(self):
+    def get_wallet_reciept_z(self, today):
         session_ids = []
         orders = set()
         recran = '0-0'
@@ -1909,7 +1790,7 @@ class pos_config(models.Model):
             return recran
 
     @api.multi
-    def get_total_wallet_recharges_z(self):
+    def get_total_wallet_recharges_z(self, today):
         session_ids = []
         total_price = 0.0
         today = datetime.strptime(today, '%Y-%m-%d')
@@ -1934,8 +1815,10 @@ class pos_config(models.Model):
 
     #############DETALLE DE PAGOS CORTE Z#############
     @api.multi
-    def get_payments_z(self):
+    def get_payments_z(self, today):
         session_ids = []
+        orders_ids = set()
+        data = {}
         total_price = 0.0
         today = datetime.strptime(today, '%Y-%m-%d')
         today = today.date()
@@ -1945,37 +1828,86 @@ class pos_config(models.Model):
             for pos in self:
                 pos_config_id = pos
                 pos_order_obj = []
+                company_id = self.env['res.users'].browse([self._uid]).company_id.id
                 pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
                 if pos_session_obj:
                     for session in pos_session_obj:
-
-                    return total_price
+                        pos_order_obj = self.env['pos.order'].search([('session_id', '=', self.id),
+                                                        ('state', 'in', ['paid', 'invoiced', 'done']),
+                                                        ('user_id', '=', self.user_id.id), ('company_id', '=', company_id)])
+                        for order in pos_order_obj:
+                            orders_ids.add(order.id)
+                    order_ids = list(order_ids)
+                    if order_ids:
+                        statement_line_obj = self.env["account.bank.statement.line"].search([('pos_statement_id', 'in', order_ids)])
+                        if statement_line_obj:
+                            a_l = []
+                            for r in statement_line_obj:
+                                a_l.append(r['id'])
+                            self._cr.execute("select aj.name,sum(amount) from account_bank_statement_line as absl,account_bank_statement as abs,account_journal as aj " \
+                                            "where absl.statement_id = abs.id and abs.journal_id = aj.id  and absl.id IN %s " \
+                                            "group by aj.name ", (tuple(a_l),))
+                            data = self._cr.dictfetchall()
+                            return data
+                        else:
+                            return data
+                    else:
+                        return data
                 else:
-                    return total_price
+                    return data
         else:
-            return total_price
+            return data
 
     @api.multi
-    def get_payments_invoice_z(self):
+    def get_payments_invoice_z(self, today):
         session_ids = []
-        total_price = 0.0
+        inv_ids =[]
+        a_l = set()
+        data = {}
         today = datetime.strptime(today, '%Y-%m-%d')
         today = today.date()
         stop_at = datetime(today.year,today.month,today.day,23,59,59)
         start_at = datetime(today.year,today.month,today.day,0,0,1)
+        company_id = self.env['res.users'].browse([self._uid]).company_id.id
         if self:
-            for pos in self:
-                pos_config_id = pos
-                pos_order_obj = []
-                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
-                if pos_session_obj:
-                    for session in pos_session_obj:
-                        
-                    return total_price
-                else:
-                    return total_price
+            for record in self:
+                for pos in pos_ids:
+                    pos_config_id = pos
+                    pos_invoice_obj = []
+                    pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                    if pos_session_obj:
+                        for session in pos_session_obj:
+                            start_at = session.start_at
+                            stop_at = session.stop_at
+                            invoice_obj = self.env["account.invoice"].search([('create_date', '>=', start_at),
+                                                            ('create_date', '<=', stop_at),
+                                                            ('state', '=', 'paid'),
+                                                            ('user_id', '=', session.user_id.id), ('company_id', '=', company_id)])
+                            if invoice_obj:
+                                for inv in invoice_obj:
+                                    inv_ids.append(inv.partner_id.id)
+                                if inv_ids:
+                                    account_payment_obj = self.env["account.payment"].search([('partner_id', 'in', inv_ids),('payment_date', '>=', start_at),
+                                                                ('payment_date', '<=', stop_at),('create_uid', '=', session.user_id.id),('company_id', '=', company_id)])
+                                    if account_payment_obj:
+                                        for r in account_payment_obj:
+                                            a_l.add(r['id'])
+                                    else:
+                                        continue
+                                else:
+                                    continue
+                            else:
+                                continue
+                        a_l = list(a_l)
+                        self._cr.execute("select aj.name, sum(ap.amount) from account_payment as ap, account_journal as aj " \
+                                            "where ap.journal_id = aj.id  and ap.id IN %s " \
+                                            "group by aj.name ", (tuple(a_l),))
+                        data = self._cr.dictfetchall()
+                        return data
+                    else:
+                        return data
         else:
-            return total_price
+            return data
 
     ############################
 
