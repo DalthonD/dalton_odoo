@@ -1625,14 +1625,14 @@ class pos_config(models.Model):
 
     @api.multi
     def get_eval_date(self, fecha):
-        return datetime.strptime(fecha, '%d/%m/%Y')
+        return datetime.strptime(fecha, '%Y-%m-%d')
 
     @api.multi
     def get_open_close_time(self, today):
         data = {}
         session_ids = []
         invran = '0-0'
-        today = datetime.strptime(today, '%d/%m/%Y')
+        today = datetime.strptime(today,'%Y-%m-%d')
         today = today.date()
         hora = time(20,0,0)
         stop_at = datetime(today.year,today.month,today.day,23,59,59)
