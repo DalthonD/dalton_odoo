@@ -1560,7 +1560,7 @@ class pos_config(models.Model):
                         stop_at = session.stop_at
                         invoice_obj = self.env["account.invoice"].search([('create_date', '>=', start_at),
                                                         ('create_date', '<=', stop_at),
-                                                        ('state', '=', 'paid'),
+                                                        ('state', '=', 'paid'),('fiscal_position_id','!=',False),
                                                         ('user_id', '=', session.user_id.id), ('company_id', '=', company_id)])
                         if invoice_obj:
                             for inv in invoice_obj:
