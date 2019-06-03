@@ -285,7 +285,7 @@
                         TOTAL RECARGAS
                       </td>
                       <td class="text-right">
-                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(get_total_wallet_recharges_z(today))"/>
+                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_wallet_recharges_z(today))"/>
                       </td>
                     </tr>
                     <tr>
@@ -358,7 +358,7 @@
                       <t t-esc="o.company_id.name"/><br/>
                     </t>
                     <t t-if="o.company_id.street">
-                      <t t-esc="o.get_company_data_x().street"/><br/>
+                      <t t-esc="o.company_id.street"/><br/>
                     </t>
                     <t t-if="o.company_id.street2">
                       <t t-esc="o.company_id.street2"/>
