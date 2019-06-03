@@ -93,7 +93,7 @@
                         APERTURA:
                       </td>
                       <td class="text-right">
-                        <span t-esc="o.get_eval_date(today)"/>
+                        <!--span t-esc="o.get_eval_date(today)"/-->
                         <span t-esc="var.get('open_time')"/>
                         <!--span t-esc="o.get_session_time(o.start_at)"/-->
                       </td>
@@ -103,7 +103,7 @@
                         CIERRE:
                       </td>
                       <td class="text-right">
-                        <span t-esc="o.get_eval_date(today)"/>
+                        <!--span t-esc="o.get_eval_date(today)"/-->
                         <span t-esc="var.get('close_time')"/>
                         <!--span t-esc="o.get_session_time(o.stop_at)"/-->
                       </td>
