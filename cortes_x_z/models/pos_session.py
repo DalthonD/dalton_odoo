@@ -1514,7 +1514,7 @@ class pos_config(models.Model):
                     for session in pos_session_obj:
                         pos_order_obj = self.env['pos.order'].search([('session_id', '=', self.id),
                                                         ('state', 'in', ['paid', 'invoiced', 'done']),
-                                                        ('user_id', '=', self.user_id.id), ('company_id', '=', company_id)])
+                                                        ('user_id', '=', session.user_id.id), ('company_id', '=', company_id)])
                         for order in pos_order_obj:
                             orders_ids.add(order.id)
                     order_ids = list(order_ids)
