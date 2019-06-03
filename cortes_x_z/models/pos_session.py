@@ -1321,7 +1321,7 @@ class pos_config(models.Model):
                 pos_config_id = pos.id
                 pos_order_obj = []
                 #fiscal_position_gravado_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Gravado')])
-                default_fiscal_position_id = pos_config_id.default_fiscal_position_id #No contribuyente gravado local
+                default_fiscal_position_id = pos.default_fiscal_position_id #No contribuyente gravado local
                 fiscal_position_excento_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Exento')])
                 fiscal_position_noaplica_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','No Aplica')])
                 pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
