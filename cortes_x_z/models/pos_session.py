@@ -1191,7 +1191,7 @@ class pos_config(models.Model):
                             for inv in invoices:
                                 no_aplica += inv.amount_total
                         data["no_aplica"] = no_aplica
-                        data["total_price1"] = total_price1 + gravado + excento + no_aplica
+                        data["total_price"] = total_price + gravado + excento + no_aplica
                         return data
                     return data
                 return data
@@ -1296,7 +1296,7 @@ class pos_config(models.Model):
                             for inv in invoices:
                                 no_aplica += inv.amount_total
                         data["no_aplica"] = no_aplica
-                        data["total_price1"] = total_price1 + gravado + excento + no_aplica
+                        data["total_price"] = total_price + gravado + excento + no_aplica
                         return data
                     return data
                 return data
