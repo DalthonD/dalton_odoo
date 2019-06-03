@@ -1108,7 +1108,7 @@ class pos_config(models.Model):
         start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for pos in self:
-                pos_config_id = pos
+                pos_config_id = pos.id
                 pos_invoice_obj = []
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
                 fiscal_position_gravado_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Gravado')])
@@ -1213,7 +1213,7 @@ class pos_config(models.Model):
         start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for pos in self:
-                pos_config_id = pos
+                pos_config_id = pos.id
                 pos_invoice_obj = []
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True)])
                 fiscal_position_gravado_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','Gravado')])
@@ -1318,7 +1318,7 @@ class pos_config(models.Model):
         start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for pos in self:
-                pos_config_id = pos
+                pos_config_id = pos.id
                 pos_order_obj = []
                 #fiscal_position_gravado_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Gravado')])
                 default_fiscal_position_id = pos_config_id.default_fiscal_position_id #No contribuyente gravado local
@@ -1399,7 +1399,7 @@ class pos_config(models.Model):
         start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for pos in self:
-                pos_config_id = pos
+                pos_config_id = pos.id
                 pos_order_obj = []
                 pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
                 if pos_session_obj:
@@ -1421,7 +1421,7 @@ class pos_config(models.Model):
         start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for pos in self:
-                pos_config_id = pos
+                pos_config_id = pos.id
                 pos_order_obj = []
                 pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
                 if pos_session_obj:
@@ -1445,7 +1445,7 @@ class pos_config(models.Model):
         start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for pos in self:
-                pos_config_id = pos
+                pos_config_id = pos.id
                 pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
                 if pos_session_obj:
                     for session in pos_session_obj:
@@ -1479,7 +1479,7 @@ class pos_config(models.Model):
         start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for pos in self:
-                pos_config_id = pos
+                pos_config_id = pos.id
                 pos_order_obj = []
                 pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
                 if pos_session_obj:
@@ -1506,7 +1506,7 @@ class pos_config(models.Model):
         start_at = datetime(today.year,today.month,today.day,0,0,1)
         if self:
             for pos in self:
-                pos_config_id = pos
+                pos_config_id = pos.id
                 pos_order_obj = []
                 company_id = self.env['res.users'].browse([self._uid]).company_id.id
                 pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
@@ -1550,42 +1550,41 @@ class pos_config(models.Model):
         start_at = datetime(today.year,today.month,today.day,0,0,1)
         company_id = self.env['res.users'].browse([self._uid]).company_id.id
         if self:
-            for record in self:
-                for pos in pos_ids:
-                    pos_config_id = pos
-                    pos_invoice_obj = []
-                    pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
-                    if pos_session_obj:
-                        for session in pos_session_obj:
-                            start_at = session.start_at
-                            stop_at = session.stop_at
-                            invoice_obj = self.env["account.invoice"].search([('create_date', '>=', start_at),
-                                                            ('create_date', '<=', stop_at),
-                                                            ('state', '=', 'paid'),
-                                                            ('user_id', '=', session.user_id.id), ('company_id', '=', company_id)])
-                            if invoice_obj:
-                                for inv in invoice_obj:
-                                    inv_ids.append(inv.partner_id.id)
-                                if inv_ids:
-                                    account_payment_obj = self.env["account.payment"].search([('partner_id', 'in', inv_ids),('payment_date', '>=', start_at),
-                                                                ('payment_date', '<=', stop_at),('create_uid', '=', session.user_id.id),('company_id', '=', company_id)])
-                                    if account_payment_obj:
-                                        for r in account_payment_obj:
-                                            a_l.add(r['id'])
-                                    else:
-                                        continue
+            for pos in self:
+                pos_config_id = pos.id
+                pos_invoice_obj = []
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        start_at = session.start_at
+                        stop_at = session.stop_at
+                        invoice_obj = self.env["account.invoice"].search([('create_date', '>=', start_at),
+                                                        ('create_date', '<=', stop_at),
+                                                        ('state', '=', 'paid'),
+                                                        ('user_id', '=', session.user_id.id), ('company_id', '=', company_id)])
+                        if invoice_obj:
+                            for inv in invoice_obj:
+                                inv_ids.append(inv.partner_id.id)
+                            if inv_ids:
+                                account_payment_obj = self.env["account.payment"].search([('partner_id', 'in', inv_ids),('payment_date', '>=', start_at),
+                                                            ('payment_date', '<=', stop_at),('create_uid', '=', session.user_id.id),('company_id', '=', company_id)])
+                                if account_payment_obj:
+                                    for r in account_payment_obj:
+                                        a_l.add(r['id'])
                                 else:
                                     continue
                             else:
                                 continue
-                        a_l = list(a_l)
-                        self._cr.execute("select aj.name, sum(ap.amount) from account_payment as ap, account_journal as aj " \
-                                            "where ap.journal_id = aj.id  and ap.id IN %s " \
-                                            "group by aj.name ", (tuple(a_l),))
-                        data = self._cr.dictfetchall()
-                        return data
-                    else:
-                        return data
+                        else:
+                            continue
+                    a_l = list(a_l)
+                    self._cr.execute("select aj.name, sum(ap.amount) from account_payment as ap, account_journal as aj " \
+                                        "where ap.journal_id = aj.id  and ap.id IN %s " \
+                                        "group by aj.name ", (tuple(a_l),))
+                    data = self._cr.dictfetchall()
+                    return data
+                else:
+                    return data
         else:
             return data
 
