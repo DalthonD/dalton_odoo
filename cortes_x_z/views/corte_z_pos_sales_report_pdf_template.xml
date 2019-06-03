@@ -87,7 +87,7 @@
                         <span t-esc="o.state"/>
                       </td>
                     </tr-->
-                    <t t-set="var" t-value="o.get_open_close_time(today)">
+                    <t t-set="var" t-value="o.get_open_close_time(today)"/>
                     <tr>
                       <td class="text-left">
                         APERTURA:
