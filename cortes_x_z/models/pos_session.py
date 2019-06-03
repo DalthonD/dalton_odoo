@@ -1517,7 +1517,7 @@ class pos_config(models.Model):
                                                         ('user_id', '=', session.user_id.id), ('company_id', '=', company_id)])
                         for order in pos_order_obj:
                             orders_ids.add(order.id)
-                    order_ids = list(order_ids)
+                    orders_ids = list(orders_ids)
                     if order_ids:
                         statement_line_obj = self.env["account.bank.statement.line"].search([('pos_statement_id', 'in', order_ids)])
                         if statement_line_obj:
