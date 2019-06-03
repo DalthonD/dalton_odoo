@@ -127,9 +127,9 @@ BEGIN
   END IF;
   --raise exception 'retorno %',lnFraccion;
   if lnFraccion<10 then
-        lcRetorno := RTRIM(lcRetorno::text) || '  0' || LTRIM(lnFraccion::text) || '/100 ';
+        lcRetorno := RTRIM(lcRetorno::text) || 'CON 0' || LTRIM(lnFraccion::text) || '/100 ';
   else
-        lcRetorno := RTRIM(lcRetorno::text) || '  ' || LTRIM(lnFraccion::text) || '/100 ';
+        lcRetorno := RTRIM(lcRetorno::text) || 'CON ' || LTRIM(lnFraccion::text) || '/100 ';
   end if;
 RETURN lcRetorno;
 END;
