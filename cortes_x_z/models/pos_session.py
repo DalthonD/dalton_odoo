@@ -1327,7 +1327,7 @@ class pos_config(models.Model):
                     for session in pos_session_obj:
                         pos_order_obj = self.env['pos.order'].search([('invoice_id','=',False),('session_id','=',session.id),('recibo_number','=',False),('ticket_number','!=',False)], order='ticket_number asc')
                         for order in pos_order_obj:
-                            orders.add(orders)
+                            orders.add(order)
                     orders = list(orders)
                     orders.sort(key=lambda o: o.ticket_number)
                     if orders:
