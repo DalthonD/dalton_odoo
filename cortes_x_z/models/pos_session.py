@@ -1510,7 +1510,7 @@ class pos_config(models.Model):
                 pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
                 if pos_session_obj:
                     for session in pos_session_obj:
-                        pos_order_obj = self.env['pos.order'].search([('session_id', '=', self.id),
+                        pos_order_obj = self.env['pos.order'].search([('session_id', '=', session.id),
                                                         ('state', 'in', ['paid', 'invoiced', 'done']),
                                                         ('user_id', '=', session.user_id.id), ('company_id', '=', company_id)])
                         for order in pos_order_obj:
