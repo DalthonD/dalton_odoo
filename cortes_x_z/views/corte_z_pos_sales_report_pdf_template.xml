@@ -270,7 +270,7 @@
                       <td class="text-right">
                         <!--t t-set="total3" t-value="o.get_total_sales_tickets()"/-->
                         <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(ticket.get('total_price'))"/>
-                        <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_tickets_z(today))"/>
+                        <!--span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(o.get_total_sales_tickets_z(today))"/-->
                       </td>
                     </tr>
                   </table>
@@ -313,7 +313,7 @@
                   <t t-set="total2" t-value="0"/>
                   <table style="width:100%;margin-top:15px;">
                     <tr>
-                      <td class="text-left">TIQUETE</td>
+                      <td class="text-left">TIQUETE y RECIBO</td>
                     </tr>
                     <tr t-foreach="o.get_payments_z(today)" t-as="l">
                       <td class="text-left">
