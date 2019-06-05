@@ -4,6 +4,7 @@
       <t t-call="web.html_container">
         <t t-call="web.basic_layout">
           <t t-foreach="docs" t-as="doc">
+            <t t-set="fp_sv_clase" t-value="doc.fiscal_position_id.sv_clase if doc.fiscal_position_id else 'Gravado'"/>
             <div class="page" style="position:absolute;top:64px;left:20px;width:530px;height:130px;">
               <div style="position:absolute;top:130px;left:0px;width:530px;">
                 <table class="table o_report_block_table small table-borderless" style="border-bottom:none;width:400px;margin-top:35px;margin-left:-30px;">
@@ -45,48 +46,49 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr t-foreach="doc.invoice_line_ids" t-as="table_line" style="font-size: 10pt">
+                      <tr>
+                        <td colspan="4" style="height:2px"> </td>
+                      </tr>
+                      <tr t-foreach="doc.invoice_line_ids" t-as="table_line">
                         <td>
-                          <span t-field="table_line.quantity"/>
-                        </td>
-                        <td style="width:300px">
-                          <span t-field="table_line.display_name" t-options-widget="&quot;&quot;" style="display:inline-block;width:245px"/>
-                        </td>
-                        <td>
-                          <t t-set="sin_iva" t-value="table_line.price_unit - table_line.price_tax"/>
-                          <span t-esc="'{0:.2f}'.format(sin_iva)"/>
-                        </td>
-                        <td style="color:#FFFFFF">
-                          <span t-field="table_line.quantity"/>
+                          <span t-esc="'{0:.2f}'.format(table_line.quantity)" style="position:absolute;left:-12px;font-size:10pt"/>
                         </td>
                         <td>
-                          <span t-field="table_line.price_subtotal" t-if="table_line.price_subtotal == table_line.sv_total_con_iva"/>
+                          <span t-field="table_line.display_name" t-options-widget="&quot;&quot;" style=" position:absolute;left:30px;font-size:10pt;display:inline-block;width:245px;"/>
                         </td>
                         <td>
-                          <span t-field="table_line.price_subtotal" t-if="table_line.price_subtotal != table_line.sv_total_con_iva" style="position:absolute;left:460px"/>
+                          <span t-esc="doc.currency_id.symbol" style="position:absolute; left:303px;"/><span t-esc="'{0:.2f}'.format(table_line.price_unit-table_line.price_tax) if fp_sv_clase == 'Gravado' else ''" style="position:absolute; left:310px;"/>
+                          <span t-esc="'{0:.2f}'.format(table_line.price_unit+table_line.price_tax) if fp_sv_clase == 'Exento' else ''" style="position:absolute; left:310px;"/>
+                        </td>
+                        <td>
+                          <span t-esc="doc.currency_id.symbol if fp_sv_clase == 'Gravado' else ''" style="position:absolute; left:473px;"/>
+                          <span t-esc="'{0:.2f}'.format(table_line.price_total-table_line.price_tax) if fp_sv_clase == 'Gravado' else ''" style="position:absolute; left:480px;"/>
+                          <span t-esc="doc.currency_id.symbol if fp_sv_clase == 'Exento' else ''" style="position:absolute; left:412px;"/>
+                          <span t-esc="'{0:.2f}'.format(table_line.price_total) if fp_sv_clase == 'Exento' else ''" style="position:absolute; left:419px;"/>
                         </td>
                       </tr>
                     </tbody>
                 </table>
               </div>
               <div style="position:absolute;top:630px;left:0px;width:530px;height:110px;"/>
-              <span t-field="doc.date_invoice" class="small" style="position:absolute;top:-1px;left:370px;width:70px;color:black;font-size:10pt"/>
-              <span t-field="doc.partner_id.name" class="small" style="position:absolute;top:27px;left:35px;width:280px;color:black;font-size:9pt"/>
-              <span t-field="doc.partner_id.street" class="small" style="position:absolute;top:58px;left:35px;width:120px;color:black;width:100%;font-size:9pt"/>
-              <span t-field="doc.partner_id.vat" class="small" style="position:absolute;top:90px;left:400px;width:120px;color:black;"/>
-              <span t-field="doc.partner_id.city" class="small" style="position:absolute;top:90px;left:215px;width:120px;color:black;"/>
-              <span t-field="doc.partner_id.x_nit" class="small" style="position:absolute;top:115px;left:350px;width:120px;color:black;"/>
-              <span t-field="doc.partner_id.x_giro" class="small" style="position:absolute;top:113px;left:35px;width:100%;color:black;font-size:9pt"/>
-              <span t-field="docs.payment_term_id.name" class="small" style="position:absolute;top:140px;left:53px;width:120px;color:black;"/>
-              <span t-field="doc.x_letras" class="small" style="position:absolute;top:553px;left:30px;width:60%;color:black;font-size: 10pt;"/>
-              <span t-field="doc.amount_untaxed" t-if="doc.amount_untaxed &gt; 0" class="small" style="position:absolute;top:553px;left:458px;width:50px;color:black;font-size: 10pt;"/>
-              <span t-field="doc.amount_tax" class="small" style="position:absolute;top:580px;left:458px;width:50px;color:black;font-size: 10pt;"/>
-              <span style="position:absolute;top:637px;left:480px;width:50px;color:black;font-size: 10pt;">0</span>
-              <span t-field="doc.amount_total" t-if="doc.amount_total &gt; 0" style="position:absolute;top:610px;left:458px;width:50px;color:black;font-size: 10pt;"/>
-              <span style="position:absolute;top:668px;left:480px;width:50px;color:black;font-size: 10pt;">0</span>
-              <span style="position:absolute;top:693px;left:480px;width:50px;color:black;font-size: 10pt;">0</span>
-              <span t-field="doc.amount_untaxed" t-if="amount_tax == 0" style="position:absolute;top:553px;left:458px;width:50px;color:black;font-size: 10pt;"/>
-              <span t-field="doc.amount_total" style="position:absolute;top:720px;left:458px;width:50px;color:black;font-size: 10pt;"/>
+              <span t-field="doc.date_invoice" class="small" style="position:absolute;top:-2px;left:370px;width:70px;color:black;font-size:10pt"/>
+              <span t-field="doc.partner_id.name" class="small" style="position:absolute;top:23px;left:35px;width:280px;color:black;font-size:10pt"/>
+              <span t-field="doc.partner_id.street" class="small" style="position:absolute;top:58px;left:37px;width:100%;color:black;width:100%;font-size:9pt"/>
+              <span t-field="doc.partner_id.vat" class="small" style="position:absolute;top:90px;left:405px;width:120px;color:black;"/>
+              <span t-field="doc.partner_id.city" class="small" style="font-size:6.5pt;position:absolute;top:90px;left:245px;width:120px;color:black;"/>
+              <span t-field="doc.partner_id.x_nit" class="small" style="position:absolute;top:115px;left:360px;width:120px;color:black;"/>
+              <span t-field="doc.partner_id.x_giro" class="small" style="position:absolute;top:115px;left:25px;width:100%;color:black;font-size:10pt"/>
+              <span t-field="docs.payment_term_id.name" class="small" style="position:absolute;top:145px;left:55px;width:120px;color:black;"/>
+              <span t-field="doc.x_letras" class="small" style="position:absolute;top:583px;left:-12px;width:60%;color:black;font-size:10pt;"/>
+
+              <span t-esc="doc.currency_id.symbol if fp_sv_clase == 'Gravado' else ''" style="position:absolute;top:570px;left:473px;width:50px;color:black;font-size:10pt;"/><span t-esc="doc.amount_untaxed if fp_sv_clase == 'Gravado' else ''" style="position:absolute;top:570px;left:480px;width:50px;color:black;font-size:10pt;"/>
+              <span t-esc="doc.currency_id.symbol if fp_sv_clase == 'Exento' else ''" style="position:absolute;top:570px;left:412px;font-size:10pt;"/><span t-esc="doc.amount_untaxed+doc.amount_tax if fp_sv_clase == 'Exento' else ''" class="small" style="position:absolute;top:570px;left:419px;width:50px;color:black;font-size:10pt;"/>
+              <span t-esc="doc.currency_id.symbol" style="position:absolute;top:600px;left:473px;width:50px;color:black;font-size:10pt;"/><span t-esc="doc.amount_tax if fp_sv_clase == 'Gravado' else '0.00'" class="small" style="position:absolute;top:600px;left:480px;width:50px;color:black;font-size:10pt;"/>
+              <span t-esc="doc.currency_id.symbol" style="position:absolute;top:630px;left:473px;width:50px;color:black;font-size:10pt;"/><span t-esc="doc.amount_total" style="position:absolute;top:630px;left:480px;width:50px;color:black;font-size: 10pt;"/>
+              <span style="position:absolute;top:655px;left:480px;width:50px;color:black;font-size: 10pt;">0.00</span>
+              <span style="position:absolute;top:685px;left:480px;width:50px;color:black;font-size: 10pt;">0.00</span>
+              <span t-esc="doc.currency_id.symbol" style="position:absolute;top:715px;left:473px;width:50px;color:black;font-size:10pt;"/><span t-esc="doc.amount_untaxed+doc.amount_tax if fp_sv_clase == 'Exento' else '0.00'" style="position:absolute;top:715px;left:480px;width:50px;color:black;font-size: 10pt;"/>
+              <span t-esc="doc.currency_id.symbol" style="position:absolute;top:745px;left:473px;width:50px;color:black;font-size:10pt;"/><span t-esc="doc.amount_total" style="position:absolute;top:745px;left:480px;width:50px;color:black;font-size: 10pt;"/>
             </div>
           </t>
         </t>
