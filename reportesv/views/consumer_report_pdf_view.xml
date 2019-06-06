@@ -46,7 +46,6 @@
                 line-height: 10pt
               }
               .center-middle-title{
-                padding:0px;
                 fotn-size: 20px;
                 text-transform: uppercase;
                 line-height: 10pt;
