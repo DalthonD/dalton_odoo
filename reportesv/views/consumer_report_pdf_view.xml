@@ -52,7 +52,7 @@
               }
               .center-middle{
                 text-align: center;
-                vertical-align: middle;
+                vertical-align: middle !important;
                 padding:0px !important;
                 width:100%;
               }
@@ -101,7 +101,7 @@
                 <t t-set="stock_id" t-value="int(data.get('form').get('stock_location_id')[0])"/>
                 <t t-set="contador" t-value="o.sv_aprueba_partida"/>
                 <t t-set="company" t-value="o"/>
-                <div style="text-align:center;margin-top:5pt;">
+                <div style="text-align:center;margin-top:10px !important;">
                   <h2 class="center-middle-title" style="font-size:25px;">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
                   <h2 class="center-middle-title">SUCURSAL: <span t-esc="o.get_stock_name(stock_id)"/></h2>
                   <h2 class="center-middle-title">LIBRO DE VENTAS A CONSUMIDORES Y EXPORTACIONES</h2>
@@ -116,7 +116,7 @@
               <table class="table table-bordered" style="border: 1px solid black;text-align: right;vertical-align: middle;height: auto;width: 100%;padding: 0px;border-collapse: collapse;">
                   <tr class="tr-color">
                     <th rowspan="3" class="center-middle" style="width:5%;">#</th>
-                    <th rowspan="3" class="center-middle" style="width:90%">Fecha</th>
+                    <th rowspan="3" class="center-middle">Fecha</th>
                     <th colspan="2" class="center-middle">Documentos Emitidos</th>
                     <th colspan="4" class="center-middle">Ventas</th>
                     <th rowspan="3" class="center-middle">Ventas Totales</th>
@@ -134,7 +134,7 @@
                   </tr>
                 <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 100%;padding: 0px;border-collapse:collapse;">
                   <td style="text-align: center;"><span t-esc="int(c_index) + 1"/></td>
-                  <td style="text-align: left;width:60% !important"><span t-esc="c.get('fecha')"/></td>
+                  <td style="text-align: left;width:50% !important"><span t-esc="c.get('fecha')"/></td>
                   <td style="text-align: left;"><span t-esc="c.get('delnum')"/></td>
                   <td style="text-align: left;"><span t-esc="c.get('alnum')"/></td>
                   <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
@@ -174,12 +174,12 @@
               <table style="text-align: right">
                 <tr style="width: 100%;">
                   <td style="text-align: right;">
-                    <table class="table table-bordered table-content" style="border: 1.5px solid black;">
+                    <table class="table table-bordered" style="border: 1.5px solid black;">
                       <tr>
                         <th style="width: 50%;vertical-align: middle;text-align: center;padding:0px">Resumen de Operaciones</th>
-                        <th style="width: 100%;vertical-align: middle;text-align: center;padding:0px">Valor Total</th>
-                        <th style="width: 100%;vertical-align: middle;text-align: center;padding:0px">Débito Fiscal</th>
-                        <th style="width: 100%;vertical-align: middle;text-align: center;padding:0px">Venta Neta</th>
+                        <th style="width:100% !important;vertical-align: middle;text-align: center;padding:0px">Valor Total</th>
+                        <th style="width:100% !important;vertical-align: middle;text-align: center;padding:0px">Débito Fiscal</th>
+                        <th style="width:100% !important;vertical-align: middle;text-align: center;padding:0px">Venta Neta</th>
                       </tr>
                       <tr>
                         <td style="width: 50%;vertical-align: middle;text-align: left;padding:0px">Ventas Internas Gravadas</td>
@@ -215,7 +215,7 @@
                   <td style="width: 10%"></td>
                   <td style="text-align: right; vertical-align: bottom">
                     <div style="text-align: center;">
-                        <p style="text-align:center">_________________________________________</p>
+                        <p style="text-align:center">___________________________</p>
                         <p class="spacing-line" style="vertical-align: top;text-align:center"><span t-esc="contador"/></p>
                         <p class="spacing-line" style="vertical-align: top;text-align:center">Contador</p>
                     </div>
