@@ -66,14 +66,6 @@
                 width: 100%;
                 padding: 0px;
                 border-collapse: collapse;
-
-                border: 1px solid black;
-                text-align: center;
-                vertical-align: middle;
-                height: auto;
-                width: 100%;
-                padding: 0px;
-                border-collapse: collapse;
               }
             </style>
 
@@ -120,7 +112,7 @@
             <!--Fin encabezado-->
             <!--Contenido de reporte-->
             <!--t t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c"-->
-              <table class="table table-bordered" class="table-content" style="border: 1px solid black;">
+              <table class="table table-bordered table-content" style="border: 1px solid black;">
                   <tr class="tr-color">
                     <th rowspan="3" class="center-middle" style="width:5%;">#</th>
                     <th rowspan="3" class="center-middle">Fecha</th>
@@ -181,7 +173,7 @@
               <table style="text-align: right">
                 <tr style="width: 100%;">
                   <td style="text-align: right;">
-                    <table class="table table-bordered" style="border: 1.5px solid black; border-collapse: collapse; padding: 0px;">
+                    <table class="table table-bordered table-content" style="border: 1.5px solid black;>
                       <tr>
                         <th style="width: 50%;vertical-align: middle;text-align: center;padding:0px">Resumen de Operaciones</th>
                         <th style="width: 100%;vertical-align: middle;text-align: center;padding:0px">Valor Total</th>
