@@ -48,12 +48,12 @@
               .center-middle-title{
                 font-size: 20px;
                 text-transform: uppercase;
-                line-height: 10pt;
+                line-height: 15pt;
               }
               .center-middle{
                 text-align: center;
                 vertical-align: middle !important;
-                padding:0px !important;
+                padding:0.40px !important;
                 width:100%;
               }
               .tr-color{
@@ -116,7 +116,7 @@
               <table class="table table-bordered" style="border: 1px solid black;text-align: right;vertical-align: middle;height: auto;width: 100%;padding: 0px;border-collapse: collapse;">
                   <tr class="tr-color">
                     <th rowspan="3" class="center-middle" style="width:5% !important;">#</th>
-                    <th rowspan="3" class="center-middle" style="40% !important">Fecha</th>
+                    <th rowspan="3" class="center-middle" style="20% !important">Fecha</th>
                     <th colspan="2" class="center-middle">Documentos Emitidos</th>
                     <th colspan="4" class="center-middle">Ventas</th>
                     <th rowspan="3" class="center-middle">Ventas Totales</th>
@@ -134,7 +134,7 @@
                   </tr>
                 <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 100%;padding: 0px;border-collapse:collapse;">
                   <td class="center-middle" style="width:5% !important;"><span t-esc="int(c_index) + 1"/></td>
-                  <td class="center-middle" style="text-align: left;width:40% !important"><span t-esc="c.get('fecha')"/></td>
+                  <td class="center-middle" style="width:20% !important"><span t-esc="c.get('fecha')"/></td>
                   <td class="center-middle" style="text-align: left;"><span t-esc="c.get('delnum')"/></td>
                   <td class="center-middle" style="text-align: left;"><span t-esc="c.get('alnum')"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
@@ -164,11 +164,11 @@
                   </td>
                   <td>
                   </td>
-                  <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
-                  <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasLocal)"/></td>
-                  <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasExp)"/></td>
-                  <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalRetenido)"/></td>
-                  <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(ventas)"/></td>
+                  <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
+                  <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasLocal)"/></td>
+                  <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasExp)"/></td>
+                  <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalRetenido)"/></td>
+                  <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(ventas)"/></td>
                 </tr>
               </table>
             <!--/t-->
