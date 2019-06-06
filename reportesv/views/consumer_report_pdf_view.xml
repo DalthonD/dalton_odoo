@@ -152,7 +152,7 @@
                   <t t-set="ventas" t-value="ventas + total"/>
                   <t t-set="totalIvaLocal" t-value="totalIvaLocal + c.get('ivalocal')"/>
                   <t t-set="totalIvaExp" t-value="totalIvaExp + c.get('ivaexportacion')"/>
-                  <t t-set="total" t-value="float(0.00)">
+                  <t t-set="total" t-value="float(0.00)"/>
                   <!--Fin ce calculos-->
                 </tr>
                 <tr style="text-aling:right;">
