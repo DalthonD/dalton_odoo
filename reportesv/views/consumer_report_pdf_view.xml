@@ -173,7 +173,7 @@
               <table style="text-align: right">
                 <tr style="width: 100%;">
                   <td style="text-align: right;">
-                    <table class="table table-bordered table-content" style="border: 1.5px solid black;>
+                    <table class="table table-bordered table-content" style="border: 1.5px solid black;">
                       <tr>
                         <th style="width: 50%;vertical-align: middle;text-align: center;padding:0px">Resumen de Operaciones</th>
                         <th style="width: 100%;vertical-align: middle;text-align: center;padding:0px">Valor Total</th>
