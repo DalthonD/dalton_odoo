@@ -101,7 +101,7 @@
                 <t t-set="stock_id" t-value="int(data.get('form').get('stock_location_id')[0])"/>
                 <t t-set="contador" t-value="o.sv_aprueba_partida"/>
                 <t t-set="company" t-value="o"/>
-                <div style="text-align:center;margin-top:10px !important;">
+                <div style="text-align:center;margin-top:70px !important;">
                   <h2 class="center-middle-title" style="font-size:25px;">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
                   <h2 class="center-middle-title">SUCURSAL: <span t-esc="o.get_stock_name(stock_id)"/></h2>
                   <h2 class="center-middle-title">LIBRO DE VENTAS A CONSUMIDORES Y EXPORTACIONES</h2>
@@ -134,15 +134,15 @@
                   </tr>
                 <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 100%;padding: 0px;border-collapse:collapse;">
                   <td style="text-align: center;"><span t-esc="int(c_index) + 1"/></td>
-                  <td style="text-align: left;width:50% !important"><span t-esc="c.get('fecha')"/></td>
-                  <td style="text-align: left;"><span t-esc="c.get('delnum')"/></td>
-                  <td style="text-align: left;"><span t-esc="c.get('alnum')"/></td>
-                  <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
-                  <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadolocal'))"/></td>
-                  <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadoexportacion'))"/></td>
-                  <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('retenido'))"/></td>
+                  <td style="text-align: left;width:40% !important"><span t-esc="c.get('fecha')"/></td>
+                  <td style="text-align: left;padding:0px"><span t-esc="c.get('delnum')"/></td>
+                  <td style="text-align: left;padding:0px"><span t-esc="c.get('alnum')"/></td>
+                  <td style="text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
+                  <td style="text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadolocal'))"/></td>
+                  <td style="text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadoexportacion'))"/></td>
+                  <td style="text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('retenido'))"/></td>
                   <t t-set="total" t-value="total + c.get('exento') + c.get('retenido') + c.get('gravadolocal') + c.get('gravadoexportacion')"/>
-                  <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total)"/></td>
+                  <td style="text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total)"/></td>
 
                   <!--Calculo de totales-->
                   <t t-set="totalExentas" t-value="totalExentas + c.get('exento')"/>
@@ -175,7 +175,7 @@
               <table style="text-align: right">
                 <tr style="width: 100%;">
                   <td style="text-align: right;">
-                    <table class="table table-bordered" style="border: 1.5px solid black;">
+                    <table class="table table-bordered" style="border: 1.5px solid black;width:auto">
                       <tr>
                         <th style="width: 50% !important;vertical-align: middle;text-align: center;padding:0px">Resumen de Operaciones</th>
                         <th style="width:100% !important;vertical-align: middle;text-align: center;padding:0px">Valor Total</th>
