@@ -53,8 +53,8 @@
               .center-middle{
                 text-align: center;
                 vertical-align: middle !important;
-                padding:0.40px !important;
-                width:100%;
+                padding:0.8px !important;
+                width:auto;
               }
               .tr-color{
                 background-color:lightgray;
@@ -177,7 +177,7 @@
                   <td style="text-align: right;">
                     <table class="table table-bordered" style="border: 1.5px solid black;width:auto">
                       <tr>
-                        <th class="center-middle" style="width:70% !important">Resumen de Operaciones</th>
+                        <th class="center-middle" style="width:50% !important">Resumen de Operaciones</th>
                         <th class="center-middle" style="width:100% !important">Valor Total</th>
                         <th class="center-middle" style="width:100% !important">Débito Fiscal</th>
                         <th class="center-middle" style="width:100% !important">Venta Neta</th>
