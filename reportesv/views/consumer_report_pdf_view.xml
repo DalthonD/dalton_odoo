@@ -53,7 +53,7 @@
               .center-middle{
                 text-align: center;
                 vertical-align: middle;
-                padding:0px important!;
+                padding:0px !important;
                 width:100%;
               }
               .tr-color{
@@ -134,7 +134,7 @@
                   </tr>
                 <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 100%;padding: 0px;border-collapse:collapse;">
                   <td style="text-align: center;"><span t-esc="int(c_index) + 1"/></td>
-                  <td style="text-align: left;"><span t-esc="c.get('fecha')"/></td>
+                  <td style="text-align: left;width:60% !important"><span t-esc="c.get('fecha')"/></td>
                   <td style="text-align: left;"><span t-esc="c.get('delnum')"/></td>
                   <td style="text-align: left;"><span t-esc="c.get('alnum')"/></td>
                   <td style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
@@ -182,19 +182,19 @@
                         <th style="width: 100%;vertical-align: middle;text-align: center;padding:0px">Venta Neta</th>
                       </tr>
                       <tr>
-                        <td style="width: 100%;vertical-align: middle;text-align: left;padding:0px">Ventas Internas Gravadas</td>
+                        <td style="width: 50%;vertical-align: middle;text-align: left;padding:0px">Ventas Internas Gravadas</td>
                         <td style="width: 100%;vertical-align: middle;text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasLocal)"/></td>
                         <td style="width: 100%;vertical-align: middle;text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIvaLocal)"/></td>
                         <td style="width: 100%;vertical-align: middle;text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasLocal + totalIvaLocal)"/></td>
                       </tr>
                       <tr>
-                        <td style="width: 100%;vertical-align: middle;text-align: left;padding:0px">Ventas Internas Exentas</td>
+                        <td style="width: 50%;vertical-align: middle;text-align: left;padding:0px">Ventas Internas Exentas</td>
                         <td style="width: 100%;vertical-align: middle;text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
                         <td style="width: 100%;vertical-align: middle;text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(0.00)"/></td>
                         <td style="width: 100%;vertical-align: middle;text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
                       </tr>
                       <tr>
-                        <td style="width: 100%;vertical-align: middle;text-align: left;padding:0px">Ventas Gravada a Sujeto Tasa Cero (0%)</td>
+                        <td style="width: 50%;vertical-align: middle;text-align: left;padding:0px">Ventas Gravada a Sujeto Tasa Cero (0%)</td>
                         <td style="width: 100%;vertical-align: middle;text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasExp)"/></td>
                         <td style="width: 100%;vertical-align: middle;text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIvaExp)"/></td>
                         <td style="width: 100%;vertical-align: middle;text-align: right;padding:0px"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIvaExp + totalGravadasExp)"/></td>
@@ -215,9 +215,9 @@
                   <td style="width: 10%"></td>
                   <td style="text-align: right; vertical-align: bottom">
                     <div style="text-align: center;">
-                        <p align="center">_________________________________________</p>
-                        <p align="center" style="vertical-align: top"><span t-esc="contador"/></p>
-                        <p align="center" style="vertical-align: top">Contador</p>
+                        <p style="text-align:center">_________________________________________</p>
+                        <p class="spacing-line" style="vertical-align: top;text-align:center"><span t-esc="contador"/></p>
+                        <p class="spacing-line" style="vertical-align: top;text-align:center">Contador</p>
                     </div>
                   </td>
                 </tr>
