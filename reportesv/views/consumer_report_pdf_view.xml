@@ -37,7 +37,7 @@
               }
               @page {
                 size: A4;
-                margin: 1mm 1mm 1mm 1mm;
+                margin: 10mm 1mm 1mm 1mm;
                 @bottom-left{
                   content: "Pag. " counter(page) " de " counter(pages);
                 }
@@ -54,6 +54,26 @@
                 text-align: center;
                 vertical-align: middle;
                 padding:0px;
+              }
+              .tr-color{
+                background-color:lightgray;
+                width:100%;
+              }
+              .table-content{
+                text-align: right;
+                vertical-align: middle;
+                height: auto;
+                width: 100%;
+                padding: 0px;
+                border-collapse: collapse;
+
+                border: 1px solid black;
+                text-align: center;
+                vertical-align: middle;
+                height: auto;
+                width: 100%;
+                padding: 0px;
+                border-collapse: collapse;
               }
             </style>
 
@@ -90,36 +110,36 @@
                 <t t-set="company" t-value="o"/>
                 <div style="text-align: center;">
                   <h2 class="center-middle-title" style="font-size:25px">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
-                  <h2 class="spacing-line" style="font-size: 20px; text-transform: uppercase">SUCURSAL: <span t-esc="o.get_stock_name(stock_id)"/></h2>
-                  <h2 class="spacing-line" style="font-size: 20px; text-transform: uppercase">LIBRO DE VENTAS A CONSUMIDORES Y EXPORTACIONES</h2>
-                  <h2 class="spacing-line" style="font-size: 20px; text-transform: uppercase">NIT: <span t-field="o.sv_nit"/> NRC: <span t-field="o.sv_nrc"/></h2>
-                  <h2 class="spacing-line" style="font-size: 20px; text-transform: uppercase">MES: <span t-esc="o.get_month_str(month)"/> DE <span t-esc="year"/></h2>
-                  <h2 class="spacing-line" style="font-size: 20px; text-transform: uppercase">VALORES EXPRESADOS EN DOLARES DE LOS ESTADOS UNIDOS</h2>
+                  <h2 class="center-middle-title">SUCURSAL: <span t-esc="o.get_stock_name(stock_id)"/></h2>
+                  <h2 class="center-middle-title">LIBRO DE VENTAS A CONSUMIDORES Y EXPORTACIONES</h2>
+                  <h2 class="center-middle-title">NIT: <span t-field="o.sv_nit"/> NRC: <span t-field="o.sv_nrc"/></h2>
+                  <h2 class="center-middle-title">MES: <span t-esc="o.get_month_str(month)"/> DE <span t-esc="year"/></h2>
+                  <h2 class="center-middle-title">VALORES EXPRESADOS EN DOLARES DE LOS ESTADOS UNIDOS</h2>
                 </div>
               </t>
             <!--Fin encabezado-->
             <!--Contenido de reporte-->
             <!--t t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c"-->
-              <table class="table table-bordered" style="border: 1px solid black; text-align: center; vertical-align: middle; height: auto; width: 100%; padding: 0px; border-collapse: collapse;">
-                  <tr style="background-color: lightgray;width: 100%;">
-                    <th rowspan="3" style="text-align: center; vertical-align: middle;width: 5%; padding: 0px">#</th>
-                    <th rowspan="3" style="text-align: center; vertical-align: middle; padding: 0px">Fecha</th>
-                    <th colspan="2" style="text-align: center; vertical-align: middle; padding: 0px">Documentos Emitidos</th>
-                    <th colspan="4" style="text-align: center; vertical-align: middle; padding: 0px">Ventas</th>
-                    <th rowspan="3" style="text-align: center; vertical-align: middle; padding: 0px">Ventas Totales</th>
+              <table class="table table-bordered" class="table-content" style="border: 1px solid black;">
+                  <tr class="tr-color">
+                    <th rowspan="3" class="center-middle" style="width:5%;">#</th>
+                    <th rowspan="3" class="center-middle">Fecha</th>
+                    <th colspan="2" class="center-middle">Documentos Emitidos</th>
+                    <th colspan="4" class="center-middle">Ventas</th>
+                    <th rowspan="3" class="center-middle">Ventas Totales</th>
                   </tr>
-                  <tr style="background-color: lightgray;width: 100%;">
-                    <th rowspan="2" style="text-align: center; vertical-align: middle; padding: 0px">Del No.</th>
-                    <th rowspan="2" style="text-align: center; vertical-align: middle; padding: 0px">Al No.</th>
-                    <th rowspan="2" style="text-align: center; vertical-align: middle; padding: 0px">Exentas</th>
-                    <th colspan="2" style="text-align: center; vertical-align: middle; padding: 0px">Gravadas</th>
-                    <th rowspan="2" style="text-align: center; vertical-align: middle; padding: 0px">Retención</th>
+                  <tr class="tr-color">
+                    <th rowspan="2" class="center-middle">Del No.</th>
+                    <th rowspan="2" class="center-middle">Al No.</th>
+                    <th rowspan="2" class="center-middle">Exentas</th>
+                    <th colspan="2" class="center-middle">Gravadas</th>
+                    <th rowspan="2" class="center-middle">Retención</th>
                   </tr>
-                  <tr style="background-color: lightgray;width: 100%;">
-                    <th style="text-align: center; vertical-align: middle; padding: 0px">Locales</th>
-                    <th style="text-align: center; vertical-align: middle; padding: 0px">Exportación</th>
+                  <tr class="tr-color">
+                    <th class="center-middle">Locales</th>
+                    <th class="center-middle">Exportación</th>
                   </tr>
-                <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" style="text-align: right; vertical-align: middle; height: auto; width: 100%; padding: 0px; border-collapse: collapse;">
+                <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="table-content">
                   <td style="text-align: center;"><span t-esc="int(c_index) + 1"/></td>
                   <td style="text-align: left;"><span t-esc="c.get('fecha')"/></td>
                   <td style="text-align: left;"><span t-esc="c.get('delnum')"/></td>
@@ -141,7 +161,7 @@
                   <t t-set="totalIvaExp" t-value="totalIvaExp + c.get('ivaexportacion')"/>
                   <!--Fin ce calculos-->
                 </tr>
-                <tr align="right">
+                <tr style="text-aling:right;">
                   <td>
                   </td>
                   <td>
@@ -158,7 +178,7 @@
                 </tr>
               </table>
             <!--/t-->
-              <table align="right">
+              <table style="text-align: right">
                 <tr style="width: 100%;">
                   <td style="text-align: right;">
                     <table class="table table-bordered" style="border: 1.5px solid black; border-collapse: collapse; padding: 0px;">
