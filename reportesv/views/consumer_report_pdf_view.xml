@@ -101,7 +101,7 @@
                 <t t-set="stock_id" t-value="int(data.get('form').get('stock_location_id')[0])"/>
                 <t t-set="contador" t-value="o.sv_aprueba_partida"/>
                 <t t-set="company" t-value="o"/>
-                <div style="text-align:center;margin-top:70px !important;">
+                <div style="text-align:center;">
                   <h2 class="center-middle-title" style="font-size:25px;">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
                   <h2 class="center-middle-title">SUCURSAL: <span t-esc="o.get_stock_name(stock_id)"/></h2>
                   <h2 class="center-middle-title">LIBRO DE VENTAS A CONSUMIDORES Y EXPORTACIONES</h2>
@@ -116,7 +116,7 @@
               <table class="table table-bordered" style="border: 1px solid black;text-align: right;vertical-align: middle;height: auto;width: 100%;padding: 0px;border-collapse: collapse;">
                   <tr class="tr-color">
                     <th rowspan="3" class="center-middle" style="width:5% !important;">#</th>
-                    <th rowspan="3" class="center-middle" style="20% !important">Fecha</th>
+                    <th rowspan="3" class="center-middle" style="width:20% !important">Fecha</th>
                     <th colspan="2" class="center-middle">Documentos Emitidos</th>
                     <th colspan="4" class="center-middle">Ventas</th>
                     <th rowspan="3" class="center-middle">Ventas Totales</th>
@@ -177,10 +177,10 @@
                   <td style="text-align: right;">
                     <table class="table table-bordered" style="border: 1.5px solid black;width:auto">
                       <tr>
-                        <th class="center-middle">Resumen de Operaciones</th>
-                        <th class="center-middle">Valor Total</th>
-                        <th class="center-middle">Débito Fiscal</th>
-                        <th class="center-middle">Venta Neta</th>
+                        <th class="center-middle" style="width:70% !important">Resumen de Operaciones</th>
+                        <th class="center-middle" style="width:100% !important">Valor Total</th>
+                        <th class="center-middle" style="width:100% !important">Débito Fiscal</th>
+                        <th class="center-middle" style="width:100% !important">Venta Neta</th>
                       </tr>
                       <tr>
                         <td class="center-middle" style="text-align:left">Ventas Internas Gravadas</td>
