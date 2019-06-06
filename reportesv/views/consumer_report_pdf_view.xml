@@ -46,7 +46,7 @@
                 line-height: 10pt
               }
               .center-middle-title{
-                fotn-size: 20px;
+                font-size: 20px;
                 text-transform: uppercase;
                 line-height: 10pt;
               }
@@ -89,7 +89,7 @@
                 <t t-set="contador" t-value="o.sv_aprueba_partida"/>
                 <t t-set="company" t-value="o"/>
                 <div style="text-align: center;">
-                  <h2 class="center-middle-title">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
+                  <h2 class="center-middle-title" style="font-size:25px">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
                   <h2 class="spacing-line" style="font-size: 20px; text-transform: uppercase">SUCURSAL: <span t-esc="o.get_stock_name(stock_id)"/></h2>
                   <h2 class="spacing-line" style="font-size: 20px; text-transform: uppercase">LIBRO DE VENTAS A CONSUMIDORES Y EXPORTACIONES</h2>
                   <h2 class="spacing-line" style="font-size: 20px; text-transform: uppercase">NIT: <span t-field="o.sv_nit"/> NRC: <span t-field="o.sv_nrc"/></h2>
