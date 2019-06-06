@@ -112,7 +112,7 @@
             <!--Fin encabezado-->
             <!--Contenido de reporte-->
             <!--t t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c"-->
-              <table class="table table-bordered table-content" style="border: 1px solid black;">
+              <table class="table-content table table-bordered" style="border: 1px solid black;">
                   <tr class="tr-color">
                     <th rowspan="3" class="center-middle" style="width:5%;">#</th>
                     <th rowspan="3" class="center-middle">Fecha</th>
@@ -131,7 +131,7 @@
                     <th class="center-middle">Locales</th>
                     <th class="center-middle">Exportación</th>
                   </tr>
-                <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="table-content">
+                <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 100%;padding: 0px;border-collapse:collapse;">
                   <td style="text-align: center;"><span t-esc="int(c_index) + 1"/></td>
                   <td style="text-align: left;"><span t-esc="c.get('fecha')"/></td>
                   <td style="text-align: left;"><span t-esc="c.get('delnum')"/></td>
