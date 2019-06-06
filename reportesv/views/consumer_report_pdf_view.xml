@@ -37,7 +37,7 @@
               }
               @page {
                 size: A4;
-                margin: 10mm 1mm 1mm 1mm;
+                margin: 10mm 10mm 10mm 10mm;
                 @bottom-left{
                   content: "Pag. " counter(page) " de " counter(pages);
                 }
@@ -102,7 +102,7 @@
                 <t t-set="contador" t-value="o.sv_aprueba_partida"/>
                 <t t-set="company" t-value="o"/>
                 <div style="text-align: center;">
-                  <h2 class="center-middle-title" style="font-size:25px">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
+                  <h2 class="center-middle-title" style="font-size:25px; margin-top:5pt">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
                   <h2 class="center-middle-title">SUCURSAL: <span t-esc="o.get_stock_name(stock_id)"/></h2>
                   <h2 class="center-middle-title">LIBRO DE VENTAS A CONSUMIDORES Y EXPORTACIONES</h2>
                   <h2 class="center-middle-title">NIT: <span t-field="o.sv_nit"/> NRC: <span t-field="o.sv_nrc"/></h2>
@@ -113,10 +113,10 @@
             <!--Fin encabezado-->
             <!--Contenido de reporte-->
             <!--t t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c"-->
-              <table class="table-content table table-bordered" style="border: 1px solid black;">
+              <table class="table table-bordered" style="border: 1px solid black;text-align: right;vertical-align: middle;height: auto;width: 100%;padding: 0px;border-collapse: collapse;">
                   <tr class="tr-color">
                     <th rowspan="3" class="center-middle" style="width:5%;">#</th>
-                    <th rowspan="3" class="center-middle">Fecha</th>
+                    <th rowspan="3" class="center-middle" style="width:50%">Fecha</th>
                     <th colspan="2" class="center-middle">Documentos Emitidos</th>
                     <th colspan="4" class="center-middle">Ventas</th>
                     <th rowspan="3" class="center-middle">Ventas Totales</th>
