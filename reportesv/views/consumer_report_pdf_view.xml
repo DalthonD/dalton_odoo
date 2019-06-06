@@ -54,7 +54,7 @@
                 text-align: center;
                 vertical-align: middle !important;
                 padding:0.8px !important;
-                width:auto;
+                width:90%;
               }
               .tr-color{
                 background-color:lightgray;
@@ -178,9 +178,9 @@
                     <table class="table table-bordered" style="border: 1.5px solid black;width:auto">
                       <tr>
                         <th class="center-middle" style="width:60% !important">Resumen de Operaciones</th>
-                        <th class="center-middle" style="width:60% !important">Valor Total</th>
-                        <th class="center-middle" style="width:60% !important">Débito Fiscal</th>
-                        <th class="center-middle" style="width:60% !important">Venta Neta</th>
+                        <th class="center-middle" style="width:40% !important">Valor Total</th>
+                        <th class="center-middle" style="width:40% !important">Débito Fiscal</th>
+                        <th class="center-middle" style="width:40% !important">Venta Neta</th>
                       </tr>
                       <tr>
                         <td class="center-middle" style="text-align:left">Ventas Internas Gravadas</td>
