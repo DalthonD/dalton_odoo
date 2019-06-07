@@ -119,7 +119,7 @@
                     <th rowspan="2" class="center-middle" style="width:5% !important;">#</th>
                     <th rowspan="2" class="center-middle" style="width:20% !important">FECHA</th>
                     <th rowspan="2" class="center-middle" style="width:40%; font-size: 10px">No. Corr. Por Tipo De Documento</th>
-                    <th rowspan="2" class="center-middle" style="width:110% !important;">CLIENTE</th>
+                    <th rowspan="2" class="center-middle" style="width:90% !important;">CLIENTE</th>
                     <th rowspan="2" class="center-middle">N.R.C.</th>
                     <th colspan="4" class="center-middle">VENTAS PROPIAS</th>
                     <th rowspan="2" class="center-middle">RETENCION</th>
@@ -185,7 +185,7 @@
                   <td align="left">
                     <table class="table table-bordered" style="border: 1.5px solid black; border-collapse: collapse;">
                       <tr class="tr-color" style="width: 100%;">
-                        <th>Resumen de Operaciones</th>
+                        <th style="padding:0px">Resumen de Operaciones</th>
                         <th>Valor Exenta</th>
                         <th>Gravado</th>
                         <th>Débito Fiscal</th>
@@ -194,20 +194,20 @@
                         <th>Total</th>
                       </tr>
                       <tr>
-                        <td align="center">Totales</td>
-                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
-                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadas)"/></td>
-                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIva)"/></td>
-                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalRetenido)"/></td>
-                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalPercibido)"/></td>
-                        <td align="center"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalventas)"/></td>
+                        <td  class="center-middle">Totales</td>
+                        <td  class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
+                        <td  class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadas)"/></td>
+                        <td  class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIva)"/></td>
+                        <td  class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalRetenido)"/></td>
+                        <td  class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalPercibido)"/></td>
+                        <td  class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalventas)"/></td>
                       </tr>
                     </table>
                   </td>
-                  <td style="width: 5%"></td>
+                  <td style="width: 10%"></td>
                   <td style="text-align: right; vertical-align: bottom">
                     <div style="text-align: center;">
-                        <p align="center">_________________________________________</p>
+                        <p align="center">________________________________</p>
                         <p class="spacing-line" style="text-align:center;vertical-align: top"><span t-esc="contador"/></p>
                         <p class="spacing-line" style="text-align:center;vertical-align: top">Contador</p>
                     </div>
