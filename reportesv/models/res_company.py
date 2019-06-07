@@ -336,7 +336,9 @@ class res_company(models.Model):
         var_grupo :=0;
         FOR var_r IN (select ROW_NUMBER () OVER (ORDER BY f.date_invoice,coalesce(F.reference,F.number))  as Registro
         ,left(coalesce(F.reference,F.number),p_series_lenght) as Serie
-        ,cast(right(coalesce(F.reference,F.number),(length(coalesce(F.reference,F.number))-p_series_lenght)) as Integer) as correlativo
+        ,CASE WHEN textregexeq(right(coalesce(F.reference,F.number),length(coalesce(F.reference,F.number))-p_series_lenght),'^[[:digit:]]+(\.[[:digit:]]+)?$') = TRUE THEN
+			cast(right(coalesce(F.reference,F.number),(length(coalesce(F.reference,F.number))-p_series_lenght)) as Integer)
+		ELSE F.ID *1000 end as correlativo
         ,F.date_invoice as fecha
         ,case
         when F.state='cancel' then 'ANULADA'
@@ -349,7 +351,7 @@ class res_company(models.Model):
         and F.state<>'draft' and F.company_id=p_company_id
         and F.type in ('out_invoice')
         and ((F.sv_no_tax is null ) or (F.sv_no_tax=false))
-        and afp.sv_contribuyente=False
+        --and afp.sv_contribuyente=False
         order by fecha,factura )
         LOOP
         invoice_id := var_r.id;
@@ -456,7 +458,7 @@ class res_company(models.Model):
         and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  {2}
         and ai.type='out_invoice'
         and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
-        and afp.sv_contribuyente=False
+        --and afp.sv_contribuyente=False
         and ai.state in ('open','paid')
 
         union
@@ -480,9 +482,9 @@ class res_company(models.Model):
         and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))= {2}
         and ai.type='out_invoice'
         and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
-        and afp.sv_contribuyente=False
+        --and afp.sv_contribuyente=False
         and ai.state in ('cancel')
-        )S )SS group by SS.fecha, SS.x_sucursal_id,SS.Grupo,SS.estado order by SS.fecha,SS.x_sucursal_id,SS.Grupo))""".format(company_id,date_year,date_month,sv_invoice_serie_size)
+        )S )SS group by SS.fecha, SS.sucursal,SS.Grupo,SS.estado order by SS.fecha,SS.sucursal,SS.Grupo)""".format(company_id,date_year,date_month,sv_invoice_serie_size)
         tools.drop_view_if_exists(self._cr, 'strategiksv_reportesv_consumer_report')
         self._cr.execute(func) #Create the function used on view creation
         self._cr.execute(sql) #Query for view
@@ -510,7 +512,7 @@ class res_company(models.Model):
     def get_stock_name(self, stock_location_id):
         sucursal= " "
         if self and stock_location_id:
-            sucursal = self.env['stock_location'].search([('id','=',stock_location_id)],limit=1).name
+            sucursal = self.env['stock.location'].search([('id','=',stock_location_id)],limit=1).name
             return sucursal
         else:
             return sucursal
