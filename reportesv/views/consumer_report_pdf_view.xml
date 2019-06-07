@@ -59,7 +59,6 @@
               .center-middle-o{
                 text-align: center;
                 vertical-align: middle !important;
-                padding: 0.5px !important;
                 white-space: nowrap !important;
               }
               .tr-color{
@@ -136,18 +135,18 @@
                     <th rowspan="3" class="center-middle" style="width:20% !important">Fecha</th>
                     <th colspan="2" class="center-middle">Documentos Emitidos</th>
                     <th colspan="4" class="center-middle">Ventas</th>
-                    <th rowspan="3" class="center-middle" style="width:90% !important">Ventas Totales</th>
+                    <th rowspan="3" class="center-middle-o" style="width:90% !important">Ventas Totales</th>
                   </tr>
                   <tr class="tr-color">
                     <th rowspan="2" class="center-middle-o" style="white-space: nowrap;">Del No.</th>
                     <th rowspan="2" class="center-middle-o" style="white-space: nowrap;">Al No.</th>
-                    <th rowspan="2" class="center-middle" style="white-space: nowrap;">Exentas</th>
+                    <th rowspan="2" class="center-middle-o">Exentas</th>
                     <th colspan="2" class="center-middle">Gravadas</th>
-                    <th rowspan="2" class="center-middle">Retención</th>
+                    <th rowspan="2" class="center-middle-o">Retención</th>
                   </tr>
                   <tr class="tr-color">
-                    <th class="center-middle" style="border-spacing: 0.5px">Locales</th>
-                    <th class="center-middle" style="border-spacing: 0.5px">Exportación</th>
+                    <th class="center-middle-o" style="border-spacing: 0.5px">Locales</th>
+                    <th class="center-middle-o" style="border-spacing: 0.5px">Exportación</th>
                   </tr>
                 <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 70%;padding: 0px;border-collapse:collapse;">
                   <td class="center-middle" style="width:5% !important;"><span t-esc="int(c_index) + 1"/></td>

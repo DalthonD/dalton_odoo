@@ -22,7 +22,6 @@
               .center-middle-o{
                 text-align: center;
                 vertical-align: middle !important;
-                padding: 0.5px !important;
                 white-space: nowrap !important;
               }
               .tr-color{
@@ -129,7 +128,7 @@
                     <th class="center-middle" style="width:5% !important">Fecha de emisión</th>
                     <th class="center-middle" style="width:40% !important;">Número de documento</th>
                     <th class="center-middle" style="width:100% !important;">Nombre del proveedor</th>
-                    <th class="center-middle">N.R.C.</th>
+                    <th class="center-middle-o">N.R.C.</th>
                     <th class="center-middle">Internas</th>
                     <th class="center-middle">Importaciones e Internacionales</th>
                     <th class="center-middle">Internas</th>
@@ -231,49 +230,49 @@
                 <tr style="width: 100%;">
                   <td style="width: 30%"></td>
                   <td align="center">
-                    <table class="table table-bordered" style="left: 200px;border: 1px solid black; border-collapse: collapse; border-spacing: 0.5px; paddingÑ 0.1px">
+                    <table class="table table-bordered" style="border: 1px solid black; border-collapse: collapse; border-spacing: 0.5px; paddingÑ 0.1px">
                       <tr class="tr-color">
                         <td colspan="2" class="center-middle">RESUMEN DE COMPRAS</td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;padding:0.2px;">Compras Exentas:</td>
-                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
+                        <td style="text-align:left;padding:0.2px;">Compras Exentas:</td>
+                        <td style="text-align:right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
                                           <span t-esc="'{0:.2f}'.format(intEx)"/>
                         </td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;padding:0.2px;">Importaciones Exentas:</td>
-                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
+                        <td style="text-align:left;padding:0.2px;">Importaciones Exentas:</td>
+                        <td style="text-align:right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
                                           <span t-esc="'{0:.2f}'.format(impEx)"/>
                         </td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;padding:0.2px;">Compras Gravadas:</td>
-                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
+                        <td style="text-align:left;padding:0.2px;">Compras Gravadas:</td>
+                        <td style="text-align:right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
                                           <span t-esc="'{0:.2f}'.format(intGra)"/>
                         </td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;padding:0.2px;">Importaciones Gravadas:</td>
-                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
+                        <td style="text-align:left;padding:0.2px;">Importaciones Gravadas:</td>
+                        <td style="text-align:right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
                                           <span t-esc="'{0:.2f}'.format(impGra)"/>
                         </td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;padding:0.2px;">Crédito Fiscal:</td>
-                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIva)"/></td>
+                        <td style="text-align:left;padding:0.2px;">Crédito Fiscal:</td>
+                        <td style="text-align:right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIva)"/></td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;padding:0.2px;">IVA Percibido:</td>
-                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalPercibido)"/></td>
+                        <td style="text-align:left;padding:0.2px;">IVA Percibido:</td>
+                        <td style="text-align:right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalPercibido)"/></td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;padding:0.2px;">IVA Retenido:</td>
-                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalRetenido)"/></td>
+                        <td style="text-align:left;padding:0.2px;">IVA Retenido:</td>
+                        <td style="text-align:right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalRetenido)"/></td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;padding:0.2px;">TOTAL:</td>
-                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalCompras)"/></td>
+                        <td style="text-align:left;padding:0.2px;">TOTAL:</td>
+                        <td style="text-align:right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalCompras)"/></td>
                       </tr>
                     </table>
                   </td>
