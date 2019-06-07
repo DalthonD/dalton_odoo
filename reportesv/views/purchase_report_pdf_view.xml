@@ -5,57 +5,48 @@
         <t t-call="web.basic_layout">
           <div class="page" style="font-size: 8pt">
             <style type="text/css">
-              table, th, tr, tbody {
-                border-color: black;
-                height: 100%;
+              .spacing-line{
+                line-height: 10pt
+              }
+              .center-middle-title{
+                font-size: 15px;
+                text-transform: uppercase;
+                line-height: 10pt;
+              }
+              .center-middle{
+                text-align: center;
+                vertical-align: middle !important;
+                padding:0.5px !important;
+                width:100%;
+              }
+              .center-middle-o{
+                text-align: center;
+                vertical-align: middle !important;
+                padding: 0.5px !important;
+                white-space: nowrap !important;
+              }
+              .tr-color{
+                background-color:lightgray;
+                width:100%;
+              }
+              .table-content{
+                text-align: right;
+                vertical-align: middle;
+                height: auto;
                 width: 100%;
-                border-collapse: collapse;
-                text-align: center;
-                vertical-align: middle;
-                border-spacing: 0px;
-                padding: 0;
-              }
-              th {
-                text-align: center;
-                vertical-align: middle;
-                border-collapse: collapse;
                 padding: 0px;
-                border-spacing: 0px;
-              }
-              td {
-                text-align: left;
-                vertical-align: middle;
                 border-collapse: collapse;
-                padding: 0px;
-                border-spacing: 0px;
               }
-              .pagenumber:before {
-                content: counter(page);
+              table{
+                width:100%;
               }
-              .pagecount:before {
-                content: counter(pages);
+              table td{
+                padding:0.5px;
+                white-space: nowrap;
               }
-              @page {
-                size: A4;
-                margin: 1mm 1mm 1mm 1mm;
-                @bottom-left{
-                  content: "Pag. " counter(page) " de " counter(pages);
-                }
-              }
-              @media print {
-                .page {
-                  page-break-before: always;
-                }
-
-                footer {
-                  position: fixed;
-                  bottom: 0;
-                }
-
-                html {
-                  width: 216mm;
-                  height: 279mm;
-                }
+              table td:last-child{
+                padding: 0.5px;
+                width:100%;
               }
             </style>
             <!--Declaracion de variables-->
@@ -125,29 +116,29 @@
                     <th colspan="5"></th>
                   </tr>
                   <tr style="width: 100%;">
-                    <th style="text-align: center; vertical-align: middle;width: 5%; padding: 0px">#</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px;width:10%">Fecha de emisión</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px;width: 40%;">Número de documento</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px;width: 100%;">Nombre del proveedor</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">N.R.C.</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">Internas</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">Importaciones e Internacionales</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">Internas</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">Importaciones e Internacionales</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">Crédito fiscal</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">Anticipo a Cuenta de IVA Retenido</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">Anticipo a Cuenta de IVA Percibido</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">Total compras</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">Compras a Sujetos Excluidos</th>
-                    <th style="text-align: center; vertical-align: middle;padding: 0px">Retención a Terceros</th>
+                    <th class="center-middle" style="width:5% !important;">#</th>
+                    <th class="center-middle" style="width:5% !important">Fecha de emisión</th>
+                    <th class="center-middle" style="width:40% !important;">Número de documento</th>
+                    <th class="center-middle" style="width:100% !important;">Nombre del proveedor</th>
+                    <th class="center-middle">N.R.C.</th>
+                    <th class="center-middle">Internas</th>
+                    <th class="center-middle">Importaciones e Internacionales</th>
+                    <th class="center-middle">Internas</th>
+                    <th class="center-middle">Importaciones e Internacionales</th>
+                    <th class="center-middle">Crédito fiscal</th>
+                    <th class="center-middle">Anticipo a Cuenta de IVA Retenido</th>
+                    <th class="center-middle">Anticipo a Cuenta de IVA Percibido</th>
+                    <th class="center-middle">Total compras</th>
+                    <th class="center-middle">Compras a Sujetos Excluidos</th>
+                    <th class="center-middle">Retención a Terceros</th>
                   </tr>
                   <tr t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c" style="vertical-align: middle; text-align: left; height: auto; width: 100%; padding: 0px; border-spacing: 0.05px; border-collapse: collapse;">
-                    <td style="padding: 0px;text-align: center;vertical-align: middle;width:5%"><span t-esc="int(c_index) + 1"/></td>
-                    <td style="padding: 0px;vertical-align: middle;width:30%"><span t-esc="c[0]"/></td>
-                    <td style="padding: 0px;vertical-align: middle;width:100%;"><span t-esc="c[1]"/></td>
-                    <td style="padding: 0px;vertical-align: middle;width:100%;font-size: 6.5pt"><span t-esc="c[2]"/></td>
-                    <td style="padding: 0px;vertical-align: middle"><span t-esc="c[3]"/></td>
-                    <td style="padding: 0px;text-align: right;vertical-align: middle"><span t-esc="company.currency_id.symbol"/>
+                    <td class="center-middle" style="width:5%"><span t-esc="int(c_index) + 1"/></td>
+                    <td class="center-middle" style="width:30%"><span t-esc="c[0]"/></td>
+                    <td class="center-middle" style="width:100%;"><span t-esc="c[1]"/></td>
+                    <td class="center-middle" style="width:100%;font-size:6.5pt"><span t-esc="c[2]"/></td>
+                    <td class="center-middle"><span t-esc="c[3]"/></td>
+                    <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/>
                         <t t-if="c[4] != true"  t-set="intEX" t-value="intEx+c[6]"/>
                         <span  t-if="c[4] != true" t-esc="'{0:.2f}'.format(c[6])"/>
                         <span  t-else="" t-esc="zero"/>
@@ -276,10 +267,10 @@
                       </tr>
                     </table>
                   </td>
-                  <td style="width: 30%"></td>
+                  <td style="width: 10%"></td>
                   <td style="text-align: center; vertical-align: middle">
                     <div style="text-align: center;">
-                        <p align="center">_________________________________________</p>
+                        <p align="center">________________________________</p>
                         <p t-if="contador" align="center" style="vertical-align: top"><span t-esc="contador"/></p>
                         <p align="center" style="vertical-align: top">Contador</p>
                     </div>
