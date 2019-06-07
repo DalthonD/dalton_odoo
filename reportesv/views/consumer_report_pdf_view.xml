@@ -46,14 +46,14 @@
                 line-height: 10pt
               }
               .center-middle-title{
-                font-size: 20px;
+                font-size: 15px;
                 text-transform: uppercase;
                 line-height: 15pt;
               }
               .center-middle{
                 text-align: center;
                 vertical-align: middle !important;
-                padding:1px !important;
+                padding:2px !important;
                 width:100%;
               }
               .tr-color{
@@ -111,7 +111,7 @@
                 <t t-set="contador" t-value="o.sv_aprueba_partida"/>
                 <t t-set="company" t-value="o"/>
                 <div style="text-align:center;">
-                  <h2 class="center-middle-title" style="font-size:25px;">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
+                  <h2 class="center-middle-title" style="font-size:20px;">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
                   <h2 class="center-middle-title">SUCURSAL: <span t-esc="o.get_stock_name(stock_id)"/></h2>
                   <h2 class="center-middle-title">LIBRO DE VENTAS A CONSUMIDORES Y EXPORTACIONES</h2>
                   <h2 class="center-middle-title">NIT: <span t-field="o.sv_nit"/> NRC: <span t-field="o.sv_nrc"/></h2>
@@ -144,8 +144,8 @@
                 <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 100%;padding: 0px;border-collapse:collapse;">
                   <td class="center-middle" style="width:5% !important;"><span t-esc="int(c_index) + 1"/></td>
                   <td class="center-middle" style="width:25% !important"><span t-esc="c.get('fecha')"/></td>
-                  <td class="center-middle" style="width:auto"><span t-esc="c.get('delnum')"/></td>
-                  <td class="center-middle" style="width:auto"><span t-esc="c.get('alnum')"/></td>
+                  <td style="text-align:center;vertical-align:middle"><span t-esc="c.get('delnum')"/></td>
+                  <td><span t-esc="c.get('alnum')"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadolocal'))"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadoexportacion'))"/></td>
@@ -185,7 +185,7 @@
                 <tr style="width: 100%;">
                   <td style="text-align: right;">
                     <table class="table table-bordered" style="border: 1.5px solid black;width:auto">
-                      <tr style="width:60% !important;">
+                      <tr style="width:70% !important;">
                         <th class="center-middle" style="width:60% !important">Resumen de Operaciones</th>
                         <th class="center-middle" style="width:30% !important">Valor Total</th>
                         <th class="center-middle" style="width:30% !important">Débito Fiscal</th>
