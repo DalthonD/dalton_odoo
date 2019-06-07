@@ -138,15 +138,15 @@
                   <td class="center-middle" style="width:30% !important;"><span t-esc="c.get('factura')"/></td>
                   <td class="center-middle" style="text-align:left;"><span t-esc="c.get('cliente')"/></td>
                   <td class="center-middle"><span t-esc="c.get('nrc')"/></td>
-                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
-                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravado'))"/></td>
-                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('iva'))"/></td>
+                  <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
+                  <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravado'))"/></td>
+                  <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('iva'))"/></td>
                   <t t-set="venta" t-value="venta + c.get('exento') + c.get('gravado') + c.get('iva')"/>
-                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(venta)"/></td>
-                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('retenido'))"/></td>
-                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('percibido'))"/></td>
+                  <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(venta)"/></td>
+                  <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('retenido'))"/></td>
+                  <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('percibido'))"/></td>
                   <t t-set="total" t-value="total + venta + c.get('percibido') + c.get('retenido')"/>
-                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total)"/></td>
+                  <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total)"/></td>
                   <!--Calculo de totales-->
                   <t t-set="totalExentas" t-value="totalExentas + c.get('exento')"/>
                   <t t-set="totalGravadas" t-value="totalGravadas + c.get('gravado')"/>
