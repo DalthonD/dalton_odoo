@@ -288,9 +288,9 @@
                 </tr>
               </table>
               <!--Pie de pagina-->
-              <div style="background-color:gray;position:relative;bottom:1;width:100%;border-width:55%;">
+              <!--div style="background-color:gray;position:relative;bottom:1;width:100%;border-width:55%;">
                 <span class="pagenumber">.</span>
-              </div>
+              </div-->
               <!-- Fin Pie de pagina-->
           </div>
         </t>
