@@ -38,18 +38,17 @@
               .center-middle-title{
                 font-size: 15px;
                 text-transform: uppercase;
-                line-height: 12pt;
+                line-height: 9pt;
               }
               .center-middle{
                 text-align: center;
                 vertical-align: middle !important;
-                padding:0.7px !important;
+                padding:0.9px !important;
                 width:100%;
               }
               .center-middle-o{
                 text-align: center;
                 vertical-align: middle !important;
-                padding: 0.5px !important;
                 white-space: nowrap !important;
               }
               .tr-color{
@@ -104,7 +103,7 @@
                 <t t-set="contador" t-value="o.sv_aprueba_partida"/>
                 <t t-set="company" t-value="o"/>
                 <div style="text-align: center; background-color: ligthgray">
-                  <h2 class="center-middle-title" style="font-size: 40px; text-transform: uppercase"><span t-field="o.name"/></h2>
+                  <h2 class="center-middle-title" style="line-height: 15pt;font-size: 30px;text-transform:uppercase"><span t-field="o.name"/></h2>
                   <h2 class="center-middle-title">LIBRO DE VENTAS A CONTRIBUYENTES</h2>
                   <h2 class="center-middle-title">NIT: <span t-field="o.sv_nit"/> NRC: <span t-field="o.sv_nrc"/></h2>
                   <h2 class="center-middle-title"><span t-esc="o.get_month_str(month)"/> <span t-esc="year"/></h2>
@@ -118,7 +117,7 @@
                   <tr class="tr-color" style="width: 100%;">
                     <th rowspan="2" class="center-middle" style="width:5% !important;">#</th>
                     <th rowspan="2" class="center-middle" style="width:20% !important">FECHA</th>
-                    <th rowspan="2" class="center-middle" style="width:40%; font-size: 10px">No. Corr. Por Tipo De Documento</th>
+                    <th rowspan="2" class="center-middle" style="width:30%; font-size: 10px">No. Corr. Por Tipo De Documento</th>
                     <th rowspan="2" class="center-middle" style="width:90% !important;">CLIENTE</th>
                     <th rowspan="2" class="center-middle">N.R.C.</th>
                     <th colspan="4" class="center-middle">VENTAS PROPIAS</th>
@@ -127,26 +126,26 @@
                     <th rowspan="2" class="center-middle">TOTAL</th>
                   </tr>
                   <tr class="tr-color">
-                    <th class="center-middle">EXENTAS</th>
-                    <th class="center-middle">GRAVADAS</th>
-                    <th class="center-middle">DEBITO</th>
-                    <th class="center-middle">T. VENTA</th>
+                    <th class="center-middle-o">EXENTAS</th>
+                    <th class="center-middle-o">GRAVADAS</th>
+                    <th class="center-middle-o">DEBITO</th>
+                    <th class="center-middle-o">T. VENTA</th>
                   </tr>
                 <tr t-foreach="company.get_taxpayer_details(company_id, year, month)" t-as="c" style="text-align: left; vertical-align: middle; height: auto; width: 100%; padding: 0px; border-collapse: collapse;">
-                  <td><span t-esc="int(c_index) + 1"/></td>
-                  <td><span t-esc="c.get('fecha')"/></td>
-                  <td><span t-esc="c.get('factura')"/></td>
-                  <td><span t-esc="c.get('cliente')"/></td>
-                  <td><span t-esc="c.get('nrc')"/></td>
-                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
-                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravado'))"/></td>
-                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('iva'))"/></td>
+                  <td class="center-middle"><span t-esc="int(c_index) + 1"/></td>
+                  <td class="center-middle"><span t-esc="c.get('fecha')"/></td>
+                  <td class="center-middle"><span t-esc="c.get('factura')"/></td>
+                  <td class="center-middle"><span t-esc="c.get('cliente')"/></td>
+                  <td class="center-middle"><span t-esc="c.get('nrc')"/></td>
+                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
+                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravado'))"/></td>
+                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('iva'))"/></td>
                   <t t-set="venta" t-value="venta + c.get('exento') + c.get('gravado') + c.get('iva')"/>
-                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(venta)"/></td>
-                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('retenido'))"/></td>
-                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('percibido'))"/></td>
+                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(venta)"/></td>
+                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('retenido'))"/></td>
+                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('percibido'))"/></td>
                   <t t-set="total" t-value="total + venta + c.get('percibido') + c.get('retenido')"/>
-                  <td><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total)"/></td>
+                  <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(total)"/></td>
                   <!--Calculo de totales-->
                   <t t-set="totalExentas" t-value="totalExentas + c.get('exento')"/>
                   <t t-set="totalGravadas" t-value="totalGravadas + c.get('gravado')"/>
@@ -185,13 +184,13 @@
                   <td align="left">
                     <table class="table table-bordered" style="border: 1.5px solid black; border-collapse: collapse;">
                       <tr class="tr-color" style="width: 100%;">
-                        <th style="padding:0px">Resumen de Operaciones</th>
-                        <th style="padding:0px">Valor Exenta</th>
-                        <th style="padding:0px">Gravado</th>
-                        <th style="padding:0px">Débito Fiscal</th>
-                        <th style="padding:0px">Retención</th>
-                        <th style="padding:0px">Percepción</th>
-                        <th style="padding:0px">Total</th>
+                        <th style="padding:1px">Resumen de Operaciones</th>
+                        <th style="padding:1px">Valor Exenta</th>
+                        <th style="padding:1px">Gravado</th>
+                        <th style="padding:1px">Débito Fiscal</th>
+                        <th style="padding:1px">Retención</th>
+                        <th style="padding:1px">Percepción</th>
+                        <th style="padding:1px">Total</th>
                       </tr>
                       <tr>
                         <td  class="center-middle">Totales</td>
