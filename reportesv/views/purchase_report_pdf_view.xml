@@ -288,8 +288,8 @@
                 </tr>
               </table>
               <!--Pie de pagina-->
-              <div class="row" style="position:absolute;bottom:1">
-                <span class="pagenumber"/>
+              <div style="background-color:gray;position:absolute;bottom:1;width:100%;border-width:55%;">
+                <span class="pagenumber">.</span>
               </div>
               <!-- Fin Pie de pagina-->
           </div>
