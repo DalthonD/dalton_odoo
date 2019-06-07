@@ -134,7 +134,7 @@
                     <th rowspan="3" class="center-middle" style="width:25% !important">Fecha</th>
                     <th colspan="2" class="center-middle">Documentos Emitidos</th>
                     <th colspan="4" class="center-middle">Ventas</th>
-                    <th rowspan="3" class="center-middle">Ventas Totales</th>
+                    <th rowspan="3" class="center-middle" style="width:90% !important">Ventas Totales</th>
                   </tr>
                   <tr class="tr-color">
                     <th rowspan="2" class="center-middle-o" style="white-space: nowrap;">Del No.</th>
@@ -150,8 +150,8 @@
                 <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 70%;padding: 0px;border-collapse:collapse;">
                   <td class="center-middle" style="width:5% !important;"><span t-esc="int(c_index) + 1"/></td>
                   <td class="center-middle" style="width:25% !important"><span t-esc="c.get('fecha')"/></td>
-                  <td class="center-middle-o" style="white-space: nowrap;"><span t-esc="c.get('delnum')"/></td>
-                  <td class="center-middle-o"><span t-esc="c.get('alnum')"/></td>
+                  <td class="center-middle-o" style="white-space: nowrap;padding:0px; width:60% !important"><span t-esc="c.get('delnum')"/></td>
+                  <td class="center-middle-o" style="white-space: nowrap;padding:0px;"><span t-esc="c.get('alnum')"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadolocal'))"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadoexportacion'))"/></td>
