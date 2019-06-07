@@ -48,13 +48,17 @@
               .center-middle-title{
                 font-size: 15px;
                 text-transform: uppercase;
-                line-height: 15pt;
+                line-height: 10pt;
               }
               .center-middle{
                 text-align: center;
                 vertical-align: middle !important;
-                padding:2px !important;
+                padding:0.5px !important;
                 width:100%;
+              }
+              .center-middle-o{
+                text-align: center;
+                vertical-align: middle !important;
               }
               .tr-color{
                 background-color:lightgray;
@@ -72,10 +76,11 @@
                 width:100%;
               }
               table td{
+                padding:0.5px;
                 white-space: nowrap;
               }
               table td:last-child{
-                padding: 1px;
+                padding: 0.5px;
                 width:100%;
               }
             </style>
@@ -132,8 +137,8 @@
                     <th rowspan="3" class="center-middle">Ventas Totales</th>
                   </tr>
                   <tr class="tr-color">
-                    <th rowspan="2" class="center-middle">Del No.</th>
-                    <th rowspan="2" class="center-middle">Al No.</th>
+                    <th rowspan="2" class="center-middle-o">Del No.</th>
+                    <th rowspan="2" class="center-middle-o">Al No.</th>
                     <th rowspan="2" class="center-middle">Exentas</th>
                     <th colspan="2" class="center-middle">Gravadas</th>
                     <th rowspan="2" class="center-middle">Retención</th>
