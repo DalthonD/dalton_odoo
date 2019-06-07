@@ -146,8 +146,8 @@
                     <th rowspan="2" class="center-middle">Retención</th>
                   </tr>
                   <tr class="tr-color">
-                    <th class="center-middle">Locales</th>
-                    <th class="center-middle">Exportación</th>
+                    <th class="center-middle" style="border-spacing: 0.5px">Locales</th>
+                    <th class="center-middle" style="border-spacing: 0.5px">Exportación</th>
                   </tr>
                 <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 70%;padding: 0px;border-collapse:collapse;">
                   <td class="center-middle" style="width:5% !important;"><span t-esc="int(c_index) + 1"/></td>
@@ -194,10 +194,10 @@
                   <td style="text-align: right;">
                     <table class="table table-bordered" style="border: 1.5px solid black;width:auto">
                       <tr class="tr-color" style="width:80% !important;">
-                        <th class="center-middle" style="width:65% !important">Resumen de Operaciones</th>
-                        <th class="center-middle" style="width:35% !important">Valor Total</th>
-                        <th class="center-middle" style="width:35% !important">Débito Fiscal</th>
-                        <th class="center-middle" style="width:35% !important">Venta Neta</th>
+                        <th class="center-middle" style="width:65% !important;">Resumen de Operaciones</th>
+                        <th class="center-middle" style="width:35% !important;border-spacing: 0.3px">Valor Total</th>
+                        <th class="center-middle" style="width:35% !important;border-spacing: 0.3px">Débito Fiscal</th>
+                        <th class="center-middle" style="width:35% !important;border-spacing: 0.3px">Venta Neta</th>
                       </tr>
                       <tr>
                         <td class="center-middle" style="text-align:left">Ventas Internas Gravadas</td>
@@ -212,7 +212,7 @@
                         <td class="center-middle" style="text-align:right"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalExentas)"/></td>
                       </tr>
                       <tr>
-                        <td class="center-middle" style="text-align:left">Ventas Gravada a Sujeto Tasa Cero (0%)</td>
+                        <td class="center-middle" style="text-align:left;border-spacing: 0.3px">Ventas Gravada a Sujeto Tasa Cero (0%)</td>
                         <td class="center-middle" style="text-align:right"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalGravadasExp)"/></td>
                         <td class="center-middle" style="text-align:right"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIvaExp)"/></td>
                         <td class="center-middle" style="text-align:right"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIvaExp + totalGravadasExp)"/></td>
