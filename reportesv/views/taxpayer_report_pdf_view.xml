@@ -50,6 +50,7 @@
                 text-align: center;
                 vertical-align: middle !important;
                 white-space: nowrap !important;
+                padding: 1px;
               }
               .tr-color{
                 background-color:lightgray;
@@ -121,9 +122,9 @@
                     <th rowspan="2" class="center-middle" style="width:90% !important;">CLIENTE</th>
                     <th rowspan="2" class="center-middle">N.R.C.</th>
                     <th colspan="4" class="center-middle">VENTAS PROPIAS</th>
-                    <th rowspan="2" class="center-middle">RETENCION</th>
-                    <th rowspan="2" class="center-middle">PERCEPCION</th>
-                    <th rowspan="2" class="center-middle">TOTAL</th>
+                    <th rowspan="2" class="center-middle-o">RETENCION</th>
+                    <th rowspan="2" class="center-middle-o">PERCEPCION</th>
+                    <th rowspan="2" class="center-middle-o">TOTAL</th>
                   </tr>
                   <tr class="tr-color">
                     <th class="center-middle-o">EXENTAS</th>
@@ -132,9 +133,9 @@
                     <th class="center-middle-o">T. VENTA</th>
                   </tr>
                 <tr t-foreach="company.get_taxpayer_details(company_id, year, month)" t-as="c" style="text-align: left; vertical-align: middle; height: auto; width: 100%; padding: 0px; border-collapse: collapse;">
-                  <td class="center-middle"><span t-esc="int(c_index) + 1"/></td>
-                  <td class="center-middle"><span t-esc="c.get('fecha')"/></td>
-                  <td class="center-middle"><span t-esc="c.get('factura')"/></td>
+                  <td class="center-middle" style="width:5% !important;"><span t-esc="int(c_index) + 1"/></td>
+                  <td class="center-middle" style="width:20% !important;"><span t-esc="c.get('fecha')"/></td>
+                  <td class="center-middle" style="width:30% !important;"><span t-esc="c.get('factura')"/></td>
                   <td class="center-middle"><span t-esc="c.get('cliente')"/></td>
                   <td class="center-middle"><span t-esc="c.get('nrc')"/></td>
                   <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
