@@ -48,6 +48,15 @@
                 padding: 0.5px;
                 width:100%;
               }
+              .pagenumber:before {
+                position: absolute;
+                border-width: 55%;
+                bottom: 1;
+                width: 100%;
+                font-size: 7pt;
+                background-color:gray;
+                content: "Pág. " conunter(page) " de " counter(pages);
+              }
             </style>
             <!--Declaracion de variables-->
             <t t-set="month" t-value="int(0)"/>
@@ -279,8 +288,9 @@
                 </tr>
               </table>
               <!--Pie de pagina-->
-
-
+              <div class="row" style="position:absolute;bottom:1">
+                <span class="pagenumber"/>
+              </div>
               <!-- Fin Pie de pagina-->
           </div>
         </t>
