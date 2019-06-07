@@ -144,7 +144,7 @@
                 <tr t-foreach="company.get_consumer_details(company_id, year, month, company.sv_invoice_serie_size)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 100%;padding: 0px;border-collapse:collapse;">
                   <td class="center-middle" style="width:5% !important;"><span t-esc="int(c_index) + 1"/></td>
                   <td class="center-middle" style="width:25% !important"><span t-esc="c.get('fecha')"/></td>
-                  <td style="text-align:center;vertical-align:middle"><span t-esc="c.get('delnum')"/></td>
+                  <td><span t-esc="c.get('delnum')"/></td>
                   <td><span t-esc="c.get('alnum')"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadolocal'))"/></td>
@@ -185,7 +185,7 @@
                 <tr style="width: 100%;">
                   <td style="text-align: right;">
                     <table class="table table-bordered" style="border: 1.5px solid black;width:auto">
-                      <tr style="width:70% !important;">
+                      <tr style="width:80% !important;">
                         <th class="center-middle" style="width:60% !important">Resumen de Operaciones</th>
                         <th class="center-middle" style="width:30% !important">Valor Total</th>
                         <th class="center-middle" style="width:30% !important">Débito Fiscal</th>
@@ -225,7 +225,7 @@
                   <td style="width: 5%"></td>
                   <td style="text-align: right; vertical-align: bottom">
                     <div style="text-align: center;">
-                        <p style="text-align:center">______________________________</p>
+                        <p style="text-align:center">____________________________</p>
                         <p class="spacing-line" style="vertical-align: top;text-align:center"><span t-esc="contador"/></p>
                         <p class="spacing-line" style="vertical-align: top;text-align:center">Contador</p>
                     </div>
