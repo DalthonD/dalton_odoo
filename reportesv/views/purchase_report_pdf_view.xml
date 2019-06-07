@@ -49,7 +49,7 @@
                 width:100%;
               }
               .pagenumber:before {
-                position: absolute;
+                position: relative;
                 border-width: 55%;
                 bottom: 1;
                 width: 100%;
@@ -288,9 +288,8 @@
                 </tr>
               </table>
               <!--Pie de pagina-->
-              <div style="background-color:gray;position:absolute;bottom:1;width:100%;border-width:55%;">
+              <div style="background-color:gray;position:relative;bottom:1;width:100%;border-width:55%;">
                 <span class="pagenumber">.</span>
-                <p class="pagenumber">.</p>
               </div>
               <!-- Fin Pie de pagina-->
           </div>
