@@ -153,7 +153,7 @@
                   <td class="center-middle" style="width:25% !important"><span t-esc="c.get('fecha')"/></td>
                   <td class="center-middle-o" style="white-space: nowrap;padding:0.5px !important; width:25% !important"><span t-esc="c.get('delnum')"/></td>
                   <td class="center-middle-o" style="white-space: nowrap;padding:0.5px !important; width:25% !important"><span t-esc="c.get('alnum')"/></td>
-                  <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
+                  <td class="center-middle" style="text-align: right; width:25% !important"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('exento'))"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadolocal'))"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('gravadoexportacion'))"/></td>
                   <td class="center-middle" style="text-align: right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c.get('retenido'))"/></td>
