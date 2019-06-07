@@ -6,7 +6,7 @@
           <div class="page" style="font-size: 8pt">
             <style type="text/css">
               .spacing-line{
-                line-height: 10pt
+                line-height: 5pt
               }
               .center-middle-title{
                 font-size: 15px;
@@ -227,48 +227,48 @@
                         <td colspan="2" class="center-middle">RESUMEN DE COMPRAS</td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;border-spacing: 0.5px;">Compras Exentas:</td>
-                        <td style="text-align: right;border-spacing: 0.5px;"><span t-esc="company.currency_id.symbol"/>
+                        <td style="text-align: left;padding:0.2px;">Compras Exentas:</td>
+                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
                                           <span t-esc="'{0:.2f}'.format(intEx)"/>
                         </td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;border-spacing: 0.5px;">Importaciones Exentas:</td>
-                        <td style="text-align: right;border-spacing: 0.5px;"><span t-esc="company.currency_id.symbol"/>
+                        <td style="text-align: left;padding:0.2px;">Importaciones Exentas:</td>
+                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
                                           <span t-esc="'{0:.2f}'.format(impEx)"/>
                         </td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;border-spacing: 0.5px;">Compras Gravadas:</td>
-                        <td style="text-align: right;border-spacing: 0.5px;"><span t-esc="company.currency_id.symbol"/>
+                        <td style="text-align: left;padding:0.2px;">Compras Gravadas:</td>
+                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
                                           <span t-esc="'{0:.2f}'.format(intGra)"/>
                         </td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;border-spacing: 0.5px;">Importaciones Gravadas:</td>
-                        <td style="text-align: right;border-spacing: 0.5px;"><span t-esc="company.currency_id.symbol"/>
+                        <td style="text-align: left;padding:0.2px;">Importaciones Gravadas:</td>
+                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/>
                                           <span t-esc="'{0:.2f}'.format(impGra)"/>
                         </td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;border-spacing: 0.5px;">Crédito Fiscal:</td>
-                        <td style="text-align: right;border-spacing: 0.5px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIva)"/></td>
+                        <td style="text-align: left;padding:0.2px;">Crédito Fiscal:</td>
+                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalIva)"/></td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;border-spacing: 0.5px;">IVA Percibido:</td>
-                        <td style="text-align: right;border-spacing: 0.5px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalPercibido)"/></td>
+                        <td style="text-align: left;padding:0.2px;">IVA Percibido:</td>
+                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalPercibido)"/></td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;border-spacing: 0.5px;">IVA Retenido:</td>
-                        <td style="text-align: right;border-spacing: 0.5px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalRetenido)"/></td>
+                        <td style="text-align: left;padding:0.2px;">IVA Retenido:</td>
+                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalRetenido)"/></td>
                       </tr>
                       <tr>
-                        <td style="text-align: left;border-spacing: 0.5px;">TOTAL:</td>
-                        <td style="text-align: right;border-spacing: 0.5px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalCompras)"/></td>
+                        <td style="text-align: left;padding:0.2px;">TOTAL:</td>
+                        <td style="text-align: right;padding:0.2px;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalCompras)"/></td>
                       </tr>
                     </table>
                   </td>
-                  <td style="width: 5%"></td>
+                  <!--td style="width: 5%"></td-->
                   <td style="text-align: center; vertical-align: middle">
                     <div style="text-align: center;">
                         <p align="center">________________________________</p>
