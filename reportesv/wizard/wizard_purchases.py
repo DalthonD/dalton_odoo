@@ -20,10 +20,3 @@ class wizard_sv_purchase_report(models.TransientModel):
                  'form': self.read()[0],
                  'model': 'wizard.sv.purchase.report'}
         return self.env.ref('reportesv.report_purchase_pdf').report_action(self, data=datas)
-
-    @api.multi
-    def print_taxpayer_sales_report(self):
-        datas = {'ids': self._ids,
-                 'form': self.read()[0],
-                 'model': 'wizard.sv.purchase.report'}
-        return self.env.ref('reportesv.report_taxpayer_sales_pdf').report_action(self, data=datas)

@@ -32,6 +32,16 @@
             menu="False"
         />
 
+        <report
+            id="report_ticket_sales_pdf"
+            string="Libro de ventas con tickets"
+            model="res.company"
+            report_type="qweb-pdf"
+            file="reportesv.company_strategiksv_ticket_report_pdf"
+            name="reportesv.company_strategiksv_ticket_report_pdf"
+            menu="False"
+        />
+
         <!--report
             id="report_x_pos_sales_pdf_front"
             string="X Report(pdf)"
@@ -84,7 +94,8 @@
             <field name="header_line" eval="False" />
             <field name="header_spacing">0</field>
             <field name="dpi">90</field>
-            <field name="report_ids" eval="[(6,0,[ref('reportesv.report_consumer_sales_pdf'),])]"/>
+            <field name="report_ids" eval="[(6,0,[ref('reportesv.report_consumer_sales_pdf'),
+                                                  ref('reportesv.report_ticket_sales_pdf'),])]"/>
         </record>
 
     </data>

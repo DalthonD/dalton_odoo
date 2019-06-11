@@ -316,10 +316,10 @@ class res_company(models.Model):
         return data
 
     @api.multi
-    def get_consumer_details(self, company_id, date_year, date_month, sv_invoice_serie_size):
+    def get_consumer_details(self, company_id, date_year, date_month, sv_invoice_serie_size, stock_id):
         data = {}
-        if sv_invoice_serie_size == None or sv_invoice_serie_size < 8:
-            sv_invoice_serie_size = 8
+        #if sv_invoice_serie_size == None or sv_invoice_serie_size < 8:
+            #sv_invoice_serie_size = 14
         func = """CREATE OR REPLACE FUNCTION public.facturasagrupadas(p_company_id integer, month_number integer, year_number integer, p_series_lenght integer)
         RETURNS TABLE(invoice_id integer, factura_number character varying, factura_status character varying, grupo integer)
         LANGUAGE plpgsql
@@ -408,7 +408,7 @@ class res_company(models.Model):
         ,S.Retenido
         from(
         select ai.date_invoice as fecha
-        ,ai.x_sucursal_id as sucursal
+        ,ai.sucursal_id as sucursal
         ,coalesce(ai.reference,ai.number) as factura
         ,'valid' as estado
         ,FG.grupo
@@ -464,7 +464,7 @@ class res_company(models.Model):
         union
 
         select ai.date_invoice as fecha
-        ,ai.x_sucursal_id
+        ,ai.sucursal_id as sucursal
         ,coalesce(ai.reference,ai.number) as factura
         ,ai.state as estado
         ,FG.grupo
@@ -487,8 +487,65 @@ class res_company(models.Model):
         )S )SS group by SS.fecha, SS.sucursal,SS.Grupo,SS.estado order by SS.fecha,SS.sucursal,SS.Grupo)""".format(company_id,date_year,date_month,sv_invoice_serie_size)
         tools.drop_view_if_exists(self._cr, 'strategiksv_reportesv_consumer_report')
         self._cr.execute(func) #Create the function used on view creation
-        self._cr.execute(sql) #Query for view
-        self._cr.execute("SELECT * FROM public.strategiksv_reportesv_consumer_report")
+        self._cr.execute(sql) #Query for view"
+        if stock_id:
+            data = "SELECT * FROM public.strategiksv_reportesv_consumer_report where sucursal = {0}".format(stock_id) #Query que extrae la data de la sucursal solicitada
+            self._cr.execute(data)
+        else:
+            self._cr.execute("SELECT * FROM public.strategiksv_reportesv_consumer_report")
+        if self._cr.description: #Verify whether or not the query generated any tuple before fetching in order to avoid PogrammingError: No results when fetching
+            data = self._cr.dictfetchall()
+        return data
+
+    @api.multi
+    def get_ticket_details(self, company_id, date_year, date_month, stock_id):
+        data = {}
+        sql = """CREATE OR REPLACE VIEW strategiksv_reportesv_ticket_report AS (Select
+        SS.Fecha
+        ,SS.sucursal
+        ,min(SS.factura) as DELNum
+        ,max(SS.factura) as ALNum
+        ,sum(0.00) as Exento
+        ,sum(SS.GravadoLocal) as GravadoLocal
+        ,sum(0.00) as GravadoExportacion
+        ,Sum(SS.ivaLocal) as IvaLocal
+        ,Sum(0.00) as IvaExportacion
+        ,Sum(0.00) as Retenido
+        FROM(select S.fecha
+        ,S.sucursal
+        ,S.factura
+        ,S.exento
+        ,S.Gravado as GravadoLocal
+        ,0.00 as GravadoExportacion
+        ,S.Iva as IvaLocal
+        ,0.00 as IvaExportacion
+        ,S.Retenido
+        from(
+        select date(po.date_order) as fecha
+        ,po.location_id as sucursal
+        ,coalesce(po.ticket_number,po.id) as factura
+        ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
+        (po.amount_total) as Gravado,
+        /*Calculando el excento que no tiene iva*/
+        (0.00) as Exento
+        ,/*Calculando el iva*/
+        (po.amount_tax) as Iva
+        ,/*Calculando el retenido*/
+        (0.00) as Retenido
+        from pos_order po
+        where po.company_id= {0}
+        and date_part('year',COALESCE(po.create_date,po.date_order))= {1}
+        and date_part('month',COALESCE(po.create_date,po.date_order))=  {2}
+        and po.invoice_id is null
+        and po.state in ('done','paid')
+        )S)SS group by SS.fecha, SS.sucursal order by SS.fecha,SS.sucursal)""".format(company_id,date_year,date_month)
+        tools.drop_view_if_exists(self._cr, 'strategiksv_reportesv_ticket_report')
+        self._cr.execute(sql) #Query for view"
+        if stock_id:
+            data = "SELECT * FROM public.strategiksv_reportesv_ticket_report where sucursal = {0}".format(stock_id) #Query que extrae la data de la sucursal solicitada
+            self._cr.execute(data)
+        else:
+            self._cr.execute("SELECT * FROM public.strategiksv_reportesv_ticket_report")
         if self._cr.description: #Verify whether or not the query generated any tuple before fetching in order to avoid PogrammingError: No results when fetching
             data = self._cr.dictfetchall()
         return data
@@ -512,7 +569,7 @@ class res_company(models.Model):
     def get_stock_name(self, stock_location_id):
         sucursal= " "
         if self and stock_location_id:
-            sucursal = self.env['stock.location'].search([('id','=',stock_location_id)],limit=1).name
+            sucursal = self.env['stock.warehouse'].search([('lot_stock_id','=',stock_location_id)],limit=1).name
             return sucursal
         else:
             return sucursal
