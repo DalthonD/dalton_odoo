@@ -589,6 +589,10 @@ class res_company(models.Model):
         else:
             return sucursal
 
-class UserSucursal(models.Model):
-    _inherit = 'res.users'
-    sucursal_id=fields.Many2one(comodel_name='stock.location', string='Sucursal de venta')
+#class UserSucursal(models.Model):
+#    _inherit = 'res.users'
+#    sucursal_id=fields.Many2one(comodel_name='stock.location', string='Sucursal de venta', help='Sucursal a la que está asociada el usuario')
+
+#class FacturaSV(models.Model):
+#    _inherit = 'account.invoice'
+#    sucursal_id=fields.Many2one(comodel_name='stock.location', string='Sucursal de venta',default=lambda self: self.env.user.sucursal_id.id)
