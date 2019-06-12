@@ -512,7 +512,7 @@ class res_company(models.Model):
         ,SS.sucursal
         ,min(SS.factura) as DELNum
         ,max(SS.factura) as ALNum
-        ,sum(0.00) as Exento
+        ,sum(SS.exento) as Exento
         ,sum(SS.GravadoLocal) as GravadoLocal
         ,sum(0.00) as GravadoExportacion
         ,Sum(SS.ivaLocal) as IvaLocal
@@ -530,16 +530,24 @@ class res_company(models.Model):
         from(
         select date(po.date_order) as fecha
         ,po.location_id as sucursal
-        ,coalesce(po.ticket_number,po.id) as factura
+        ,coalesce(po.ticket_number,cast(right(po.pos_reference,4) as Integer)) as factura
         ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
-        (po.amount_total) as Gravado,
-        /*Calculando el excento que no tiene iva*/
-        (0.00) as Exento
+        case when afp.sv_clase='Gravado' then
+	       (case when ((po.amount_tax < 0) or (po.amount_total < 0)) = TRUE then
+	        po.amount_total
+            else po.amount_total - po.amount_tax end)
+	    else 0.00 end as Gravado
+        ,/*Calculando el excento que no tiene iva*/
+        case when afp.sv_clase='Exento' then
+	       po.amount_total
+	    else 0.00 end as Exento
         ,/*Calculando el iva*/
-        (po.amount_tax) as Iva
+        case when afp.sv_clase='Gravado' then
+        po.amount_tax
+        else 0.00 end as Iva
         ,/*Calculando el retenido*/
         (0.00) as Retenido
-        from pos_order po
+        from pos_order po inner join account_fiscal_position afp on po.fiscal_position_id=afp.id
         where po.company_id= {0}
         and date_part('year',COALESCE(po.create_date,po.date_order))= {1}
         and date_part('month',COALESCE(po.create_date,po.date_order))=  {2}
@@ -580,3 +588,7 @@ class res_company(models.Model):
             return sucursal
         else:
             return sucursal
+
+class UserSucursal(models.Model):
+    _inherit = 'res.users'
+    sucursal_id=fields.Many2one(comodel_name='stock.location', string='Sucursal de venta')

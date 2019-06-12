@@ -1,0 +1,38 @@
+<odoo>
+  <data>
+    <record id="report_taxpayer_wizard_view" model="ir.ui.view" >
+      <field name="name">wizard.sv.taxpayer.report.form.view</field>
+      <field name="model">wizard.sv.taxpayer.report</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <field name="company_id"/>
+            <field name="stock_location_id"/>
+          </group>
+          <group col="4">
+            <field name="date_month"/>
+            <field name="date_year"/>
+          </group>
+          <footer>
+            <button name="print_taxpayer_sales_report" string="Imprimir" type="object" default_focus="1" class="oe_highlight"/>
+            or
+            <button string="Cancelar" class="oe_link" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+  <record id="action_taxpayer_report_wizard" model="ir.actions.act_window">
+		<field name="name">Libro de Ventas Contribuyentes</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">wizard.sv.taxpayer.report</field>
+    <field name="view_type">form</field>
+		<field name="view_mode">form</field>
+    <field name="target">new</field>
+	</record>
+
+      <menuitem id="taxpayer_report" name="Libro de Ventas a Contribuyentes(PDF)" action="action_taxpayer_report_wizard" parent="legal_report" sequence="12"/>
+      <!--menuitem id="taxpayer_report" name="Taxpayer_Sales_Report" action="" parent="pdf_reports" sequence="11"/>
+      <menuitem id="consumer_report" name="Consumer_Sales_Report" action="" parent="pdf_reports" sequence="12"/-->
+  </data>
+</odoo>
