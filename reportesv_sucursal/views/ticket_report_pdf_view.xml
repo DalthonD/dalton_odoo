@@ -1,6 +1,6 @@
 <odoo>
   <data>
-    <template id ='company_strategiksv_consumer_report_pdf'>
+    <template id ='company_strategiksv_ticket_report_pdf'>
       <t t-call="web.html_container">
         <t t-call="web.basic_layout">
           <div class="page">
@@ -92,7 +92,7 @@
             <t t-set="company_id" t-value="int(0)"/>
             <t t-set="contador" t-value="null"/>
             <t t-set="company" t-value="null"/>
-            <t t-set="stock_id" t-value="null"/>
+              <t t-set="stock_id" t-value="null"/>
             <t t-set="importacion" t-value="False"/>
 
             <t t-set="total" t-value="float(0.00)"/>
@@ -149,7 +149,7 @@
                     <th class="center-middle-o" style="border-spacing: 0.5px">Locales</th>
                     <th class="center-middle-o" style="border-spacing: 0.5px">Exportación</th>
                   </tr>
-                <tr t-foreach="company.get_consumer_details(company_id,year,month,company.sv_invoice_serie_size,stock_id)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 70%;padding: 0px;border-collapse:collapse;">
+                <tr t-foreach="company.get_ticket_details(company_id, year, month, stock_id)" t-as="c" class="text-align:right;vertical-align:middle;height: auto;width: 70%;padding: 0px;border-collapse:collapse;">
                   <td class="center-middle" style="width:5% !important;"><span t-esc="int(c_index) + 1"/></td>
                   <td class="center-middle" style="width:25% !important"><span t-esc="c.get('fecha')"/></td>
                   <td class="center-middle-o" style="white-space: nowrap;padding:0.5px !important; width:25% !important"><span t-esc="c.get('delnum')"/></td>
@@ -230,7 +230,7 @@
                       </tr>
                     </table>
                   </td>
-                  <td style="width: 15%"> </td>
+                  <td style="width: 15%"></td>
                   <td style="text-align: right; vertical-align: bottom">
                     <div style="text-align: center;">
                         <p style="text-align:center">_______________________</p>
