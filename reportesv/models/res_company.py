@@ -222,7 +222,7 @@ class res_company(models.Model):
         return data
 
     @api.multi
-    def get_taxpayer_details(self, company_id, date_year, date_month, stock_id):
+    def get_taxpayer_details(self, company_id, date_year, date_month):
         data = {}
         sql = """CREATE OR REPLACE VIEW strategiksv_reportesv_taxpayer_report AS (select * from(
         select ai.date_invoice as fecha
@@ -312,18 +312,13 @@ class res_company(models.Model):
         )S order by s.fecha, s.factura)""".format(company_id,date_year,date_month)
         tools.drop_view_if_exists(self._cr, 'strategiksv_reportesv_taxpayer_report')
         self._cr.execute(sql)
-        if stock_id:
-            data = "SELECT * FROM public.strategiksv_reportesv_taxpayer_report where sucursal = {0}".format(stock_id)
-            self._cr.execute(data)
-        else:
-            self._cr.execute("SELECT * FROM public.strategiksv_reportesv_taxpayer_report")
         self._cr.execute("SELECT * FROM public.strategiksv_reportesv_taxpayer_report")
         if self._cr.description: #Verify whether or not the query generated any tuple before fetching in order to avoid PogrammingError: No results when fetching
             data = self._cr.dictfetchall()
         return data
 
     @api.multi
-    def get_consumer_details(self, company_id, date_year, date_month, sv_invoice_serie_size, stock_id):
+    def get_consumer_details(self, company_id, date_year, date_month, sv_invoice_serie_size):
         data = {}
         #if sv_invoice_serie_size == None or sv_invoice_serie_size < 8:
             #sv_invoice_serie_size = 14
@@ -495,11 +490,7 @@ class res_company(models.Model):
         tools.drop_view_if_exists(self._cr, 'strategiksv_reportesv_consumer_report')
         self._cr.execute(func) #Create the function used on view creation
         self._cr.execute(sql) #Query for view"
-        if stock_id:
-            data = "SELECT * FROM public.strategiksv_reportesv_consumer_report where sucursal = {0}".format(stock_id) #Query que extrae la data de la sucursal solicitada
-            self._cr.execute(data)
-        else:
-            self._cr.execute("SELECT * FROM public.strategiksv_reportesv_consumer_report")
+        self._cr.execute("SELECT * FROM public.strategiksv_reportesv_consumer_report")
         if self._cr.description: #Verify whether or not the query generated any tuple before fetching in order to avoid PogrammingError: No results when fetching
             data = self._cr.dictfetchall()
         return data

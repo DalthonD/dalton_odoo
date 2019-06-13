@@ -16,7 +16,7 @@
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account','strategiksv','purchase','account_accountant'],
+    'depends': ['base','account','strategiksv','purchase','account_accountant','stock_landed_costs'],
 
     # always loaded
     'data': [
