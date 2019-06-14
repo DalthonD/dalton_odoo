@@ -19,7 +19,7 @@ class stock_landed_cost(models.Model):
         invoices = set()
         if self:
             for p in self.picking_ids:
-                purchase_order_obj = self.env['purchase.order'].search([('id','=',p.purchase_id)])
+                purchase_order_obj = self.env['purchase.order'].search([('id','in',p.purchase_id)])
                 raise ValidationError("Contenido devuelto: %s" % purchase_order_obj)
         else:
             return data
