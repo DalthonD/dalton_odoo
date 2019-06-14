@@ -83,7 +83,7 @@
               <t t-foreach="docs" t-as="o">
                 <t t-set="company_id" t-value="int(data.get('form').get('company_id')[0])"/>
                 <div class="col-3 mb4" style="text-align:left">
-                  <img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" t-field-options='{"widget": "image"}' style="max-height: 45px;"/>
+                  <img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="max-height: 45px;"/>
                 </div>
                 <div style="text-align:right">
                   <b><span style="font-size:20pt,color:blue;">RETACEO</span></b>
