@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
-                      <field name="company_id">
+                      <field name="company_id"/>
                     </group>
                     <group>
                         <field name="stock_landed_cost_ids" widget="many2many_tags" required="1"
