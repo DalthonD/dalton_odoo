@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-<!--RETACEOt-->
+<!--RETACEO-->
         <record id="wizard_landed_cost_report_form_view" model="ir.ui.view">
             <field name="name">wizard.sv.stock.landed.cost.report.form.view</field>
             <field name="model">wizard.sv.stock.landed.cost.report</field>
