@@ -86,6 +86,10 @@
                   <img t-if="o.company_id.logo" t-att-src="image_date_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo"/>
                   <b><span style="font-size:20pt,color:blue;text-align:right">RETACEO</span></b>
                 </div>
+
+                <div t-if="report_type == 'pdf'" class="text-muted">
+                    Pág.: <span class="page"/> de <span class="topage"/>
+                </div>
               </t>
           </div>
         </t>
