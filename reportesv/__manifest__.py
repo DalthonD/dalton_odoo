@@ -16,7 +16,7 @@
     'version': '1.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account','strategiksv','purchase','account_accountant','stock_landed_costs'],
+    'depends': ['base','strategiksv','stock_landed_costs'],
 
     # always loaded
     'data': [
@@ -25,11 +25,11 @@
         'views/purchase_report_pdf_view.xml',
         'views/taxpayer_report_pdf_view.xml',
         'views/consumer_report_pdf_view.xml',
-        #'views/ticket_report_pdf_view.xml',
         'wizard/wizard_purchases_report.xml',
         'wizard/wizard_taxpayer_sales_report.xml',
         'wizard/wizard_consumer_report.xml',
         'wizard/wizard_landed_cost_report.xml',
+        #'views/ticket_report_pdf_view.xml',
         #'wizard/wizard_ticket_report.xml',
     ],
     # only loaded in demonstration mode
