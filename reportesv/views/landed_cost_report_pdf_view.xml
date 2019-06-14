@@ -58,14 +58,11 @@
               }
             </style>
             <!--Declaracion de variables-->
-            <t t-set="month" t-value="int(0)"/>
-            <t t-set="year" t-value="int(0)"/>
             <t t-set="company_id" t-value="int(0)"/>
             <t t-set="contador" t-value="null"/>
             <t t-set="company" t-value="null"/>
 
             <t t-set="compra" t-value="float(0.00)"/>
-            <!--t t-set="zero" t-value="'{0:.2f}'.format(float(0.00))"/-->
             <t t-set="zero" t-value="float(0.00)"/>
             <t t-set="totalExentas" t-value="float(0.00)"/>
             <t t-set="totalGravadas" t-value="float(0.00)"/>
@@ -84,26 +81,14 @@
 
             <!--Encabezado-->
               <t t-foreach="docs" t-as="o">
-                <t t-set="month" t-value="int(data.get('form').get('date_month'))"/>
-                <t t-set="year" t-value="int(data.get('form').get('date_year'))"/>
                 <t t-set="company_id" t-value="int(data.get('form').get('company_id')[0])"/>
-                <t t-set="contador" t-value="o.sv_aprueba_partida"/>
-                <t t-set="company" t-value="o"/>
-                <!-->
-                fecha [0]
-                feactura [1]
-                proveedor [2]
-                nrc [3]
-                importacion [4]
-                gravado [5]
-                exento [6]
-                iva [7]
-                retenido [8]
-                percibido [9]
-                excluido [10]
-                retencion3 [11]
-                <-->
-                <div style="text-align: center">
+                <div style="text-align:left">
+                  <t t-esc="o.company_id.logo_web">
+                </div>
+                <div style="text-align:right">
+                  <span style="font-size:20pt,color:dark-blue">RETACEO</span>
+                </div>
+                <!--div style="text-align: center">
                   <h2 class="center-middle-title" style="font-size:20px;">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
                   <h2 class="center-middle-title">LIBRO DE COMPRAS CON OPERACIONES DE RETENCIÓN</h2>
                   <h2 class="center-middle-title">NIT: <span t-field="o.sv_nit"/> NRC: <span t-field="o.sv_nrc"/></h2>
@@ -111,7 +96,7 @@
                   <h2 class="center-middle-title">VALORES EXPRESADOS EN DOLARES DE LOS ESTADOS UNIDOS</h2>
                 </div>
               </t>
-            <!--Fin encabezado-->
+            <Fin encabezado-->
             <!--Contenido de reporte-->
             <!--t t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c"-->
               <!--table class="table table-bordered" style="border-color: black; height: 100%; width: 100%; border-collapse: collapse; border: 1px solid black"-->
@@ -140,7 +125,7 @@
                     <th class="center-middle">Compras a Sujetos Excluidos</th>
                     <th class="center-middle">Retención a Terceros</th>
                   </tr>
-                  <tr t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c" style="vertical-align: middle; text-align: left; height: auto; width: 100%; padding: 0px; border-spacing: 0.05px; border-collapse: collapse;">
+                  <!--tr t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c" style="vertical-align: middle; text-align: left; height: auto; width: 100%; padding: 0px; border-spacing: 0.05px; border-collapse: collapse;">
                     <td class="center-middle" style="width:5%"><span t-esc="int(c_index) + 1"/></td>
                     <td class="center-middle" style="width:30%"><span t-esc="c[0]"/></td>
                     <td class="center-middle" style="width:40%;"><span t-esc="c[1]"/></td>
@@ -173,15 +158,15 @@
                     <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(compra)"/></td>
                     <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c[10])"/></td>
                     <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(c[11])"/></td>
-                    <!--Calculo de totales-->
+                    <Calculo de totales>
                     <t t-set="totalIva" t-value="totalIva + c[7]"/>
                     <t t-set="totalRetenido" t-value="totalRetenido + c[8]"/>
                     <t t-set="totalPercibido" t-value="totalPercibido + c[9]"/>
                     <t t-set="totalCompras" t-value="totalCompras + compra"/>
                     <t t-set="totalExcluidos" t-value="totalExcluidos + c[10]"/>
                     <t t-set="totalRetenido3" t-value="totalRetenido3 + c[11]"/>
-                    <!--Fin ce calculos-->
-                  </tr>
+                    <Fin ce calculos>
+                  </tr-->
                   <tr class="tr-color">
                     <td>
                     </td>
@@ -228,7 +213,6 @@
             <!--/t-->
               <table>
                 <tr style="width: 100%;">
-                  <td style="width: 30%"></td>
                   <td align="center">
                     <table class="table table-bordered" style="border: 1px solid black; border-collapse: collapse;width:auto;">
                       <tr class="tr-color">
@@ -275,14 +259,6 @@
                         <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalCompras)"/></td>
                       </tr>
                     </table>
-                  </td>
-                  <!--td style="width: 5%"></td-->
-                  <td style="text-align: center; vertical-align: middle">
-                    <div style="text-align: center;">
-                        <p align="center">________________________________</p>
-                        <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
-                        <p class="spacing-line" style="text-aling:center;vertical-align:top">Contador</p>
-                    </div>
                   </td>
                 </tr>
               </table>
