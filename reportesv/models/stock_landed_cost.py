@@ -11,6 +11,4 @@ _logger = logging.getLogger(__name__)
 
 class stock_landed_cost(models.Model):
     _name = "stock_landed_cost"
-    _inherit = "stock_landed_cost"
-
-    
+    _inherit = "stock.landed.cost"
