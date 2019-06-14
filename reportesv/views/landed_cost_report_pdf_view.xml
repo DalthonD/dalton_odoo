@@ -86,7 +86,7 @@
                   <t t-esc="o.company_id.logo_web"/>
                 </div>
                 <div style="text-align:right">
-                  <span style="font-size:20pt,color:dark-blue">RETACEO</span>
+                  <b><span style="font-size:20pt,color:dark-blue">RETACEO</span></b>
                 </div>
                 <!--div style="text-align: center">
                   <h2 class="center-middle-title" style="font-size:20px;">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
