@@ -3,7 +3,7 @@
     <template id ='company_strategiksv_landed_cost_report_pdf'>
       <t t-call="web.html_container">
         <t t-call="web.basic_layout">
-          <div class="page" style="font-size: 8pt">
+          <div class="page" style="font-size: 9pt">
             <style type="text/css">
               .spacing-line{
                 line-height: 5pt
@@ -56,6 +56,9 @@
                 background-color:gray;
                 content: "Pág. " conunter(page) " de " counter(pages);
               }
+              .page:after{
+                content: counter(page)
+              }
             </style>
             <!--Declaracion de variables-->
             <t t-set="company_id" t-value="int(0)"/>
@@ -82,12 +85,54 @@
             <!--Encabezado-->
               <t t-foreach="docs" t-as="o">
                 <t t-set="company_id" t-value="int(data.get('form').get('company_id')[0])"/>
-                <div class="col-3 mb4" style="text-align:left">
-                  <img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="max-height: 45px;"/>
+                <div class="row">
+                  <div class="col-3 mb4" style="text-align:left">
+                    <img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="max-height: 45px;"/>
+                  </div>
+                  <div style="text-align:right">
+                    <b><span style="font-size:20pt,color:blue;">RETACEO</span></b>
+                  </div>
                 </div>
-                <div style="text-align:right">
-                  <b><span style="font-size:20pt,color:blue;">RETACEO</span></b>
-                </div>
+                <table>
+                  <tr>
+                    <td>
+                      <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
+                        <tr class="tr-color">
+                          <th class="center-middle-o">Factura</th>
+                          <th class="center-middle-o">Fecha</th>
+                          <th class="center-middle-o">Referencia</th>
+                        </tr>
+                        <tr>
+                        </tr>
+                      </table>
+                    </td>
+                    <td style="width:50%">
+                    </td>
+                    <td>
+                      <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
+                        <tr class="tr-color">
+                          <th rowspan="2" class="center-middle-o">Datos de la importación</th>
+                        </tr>
+                        <tr>
+                          <td class="center-middle">DECLARACION No</td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="o.sv_declaracion"></td>
+                        </tr>
+                        <tr>
+                          <td class="center-middle">FECHA DE IMPORT.</td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="o.date"></td>
+                        </tr>
+                        <tr>
+                          <td class="center-middle">GUIA/BL</td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="o.sv_guia"></td>
+                        </tr>
+                        <tr>
+                          <td class="center-middle">SHIP VIA</td>
+                          <td class="center-middle" style="text-align:right"></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
 
                 <div t-if="report_type == 'pdf'" class="text-muted">
                     Pág.: <span class="page"/> de <span class="topage"/>
