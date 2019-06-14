@@ -15,8 +15,8 @@
                             domain="[('state', 'in', ['done'])]"/>
                     </group>
                     <footer>
-                        <button type="object" id="main_print_button" name="print_landed_cost_report"
-                                string="Imprimir" class="oe_highlight"/>
+                        <button type="object" id="main_print_button" name="print_landed_cost_report" string="Imprimir" class="oe_highlight"/>
+                        or
                         <button string="Cancel" class="oe_link" special="cancel"/>
                     </footer>
                 </form>
@@ -32,8 +32,7 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem action="action_wizard_stock_landed_cost_report" id="menu_print_stock_landed_cost_report"
-                  name="Retaceo" parent="legal_report" sequence='15'/>
+        <menuitem action="action_wizard_stock_landed_cost_report" id="menu_print_stock_landed_cost_report" name="Retaceo" parent="legal_report" sequence='15'/>
 
     </data>
 </odoo>
