@@ -82,11 +82,9 @@
             <!--Encabezado-->
               <t t-foreach="docs" t-as="o">
                 <t t-set="company_id" t-value="int(data.get('form').get('company_id')[0])"/>
-                <div style="text-align:left">
-                  <t t-esc="o.company_id.logo"/>
-                </div>
-                <div style="text-align:right">
-                  <b><span style="font-size:20pt,color:blue">RETACEO</span></b>
+                <div class="col-3 mb4" style="text-align:left">
+                  <img t-if="o.company_id.logo" t-att-src="image_date_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo"/>
+                  <b><span style="font-size:20pt,color:blue;text-align:right">RETACEO</span></b>
                 </div>
               </t>
           </div>
