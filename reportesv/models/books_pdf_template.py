@@ -79,3 +79,19 @@ class strategiksv_ticket_report_pdf(models.AbstractModel):
                 'docs': self.env['res.company'].browse(data['form']['company_id'][0]),
                 'data': data,
                 }
+
+class strategiksv_landed_cost_report_pdf(models.AbstractModel):
+    _name = 'report.reportesv.company_strategiksv_landed_cost_report_pdf'
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        report = self.env['ir.actions.report'].\
+            _get_report_from_name('reportesv.company_strategiksv_landed_cost_report_pdf')
+        if data and data.get('form') and data.get('form').get('stock_landed_cost_ids')\
+            and data.get('form').get('company_id'):
+            docids = self.env['wizard.sv.stock.landed.cost.report'].browse(data['form']['stock_landed_cost_ids'])
+        return {'doc_ids': self.env['wizard.sv.stock.landed.cost.report'].browse(data.get('ids')),
+                'doc_model': report.model,
+                'docs': self.env['wizard.sv.stock.landed.cost.report'].browse(data['form']['stock_landed_cost_ids']),
+                'data': data,
+                }

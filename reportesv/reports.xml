@@ -47,8 +47,8 @@
             string="Retaceo"
             model="stock.landed.cost"
             report_type="qweb-pdf"
-            file="reportesv.company_strategiksv_ticket_report_pdf"
-            name="reportesv.company_strategiksv_ticket_report_pdf"
+            file="reportesv.company_strategiksv_landed_cost_report_pdf"
+            name="reportesv.company_strategiksv_landed_cost_report_pdf"
             menu="False"
         />
 
