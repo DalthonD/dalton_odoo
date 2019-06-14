@@ -101,7 +101,7 @@
                           <th class="center-middle">Fecha</th>
                           <!--th class="center-middle">Referencia</th-->
                         </tr>
-                        <tr t-foreach="o.get_invoices_inf(o.picking_ids)" t-as="t">
+                        <tr t-foreach="o.get_invoices_inf()" t-as="t">
                           <td class="center-middle" style="text-align:left"><span t-esc="t.get('reference')"/></td>
                           <td class="center-middle"><span t-esc=""/><span t-esc="t.get('date_invoice')"/></td>
                           <!--td class="center-middle" style="text-align:right"><span t-esc=""/></td-->
