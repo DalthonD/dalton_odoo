@@ -83,7 +83,7 @@
               <t t-foreach="docs" t-as="o">
                 <t t-set="company_id" t-value="int(data.get('form').get('company_id')[0])"/>
                 <div style="text-align:left">
-                  <t t-esc="o.company_id.logo_web">
+                  <t t-esc="o.company_id.logo_web"/>
                 </div>
                 <div style="text-align:right">
                   <span style="font-size:20pt,color:dark-blue">RETACEO</span>
