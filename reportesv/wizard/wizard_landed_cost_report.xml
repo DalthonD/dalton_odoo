@@ -11,8 +11,7 @@
                       <field name="company_id"/>
                     </group>
                     <group>
-                        <field name="stock_landed_cost_ids" widget="many2many_tags" required="1"
-                            domain="[('state', 'in', ['done'])]"/>
+                        <field name="stock_landed_cost_ids" widget="many2many_tags" required="1" domain="[('state', 'in', ['done'])]"/>
                     </group>
                     <footer>
                         <button type="object" id="main_print_button" name="print_landed_cost_report" string="Imprimir" class="oe_highlight"/>
