@@ -92,6 +92,6 @@ class strategiksv_landed_cost_report_pdf(models.AbstractModel):
             docids = self.env['wizard.sv.stock.landed.cost.report'].browse(data['form']['stock_landed_cost_ids'])
         return {'doc_ids': self.env['wizard.sv.stock.landed.cost.report'].browse(data.get('ids')),
                 'doc_model': report.model,
-                'docs': self.env['wizard.sv.stock.landed.cost.report'].browse(data['form']['stock_landed_cost_ids']),
+                'docs': self.env['stock.stock_landed_cost'].browse(data['form']['stock_landed_cost_ids']),
                 'data': data,
                 }
