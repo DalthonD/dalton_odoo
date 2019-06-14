@@ -115,15 +115,15 @@
                         </tr>
                         <tr>
                           <td class="center-middle">DECLARACION No</td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="o.sv_declaracion"></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="o.sv_declaracion"/></td>
                         </tr>
                         <tr>
                           <td class="center-middle">FECHA DE IMPORT.</td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="o.date"></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="o.date"/></td>
                         </tr>
                         <tr>
                           <td class="center-middle">GUIA/BL</td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="o.sv_guia"></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="o.sv_guia"/></td>
                         </tr>
                         <tr>
                           <td class="center-middle">SHIP VIA</td>
