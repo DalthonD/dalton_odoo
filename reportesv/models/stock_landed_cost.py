@@ -12,3 +12,14 @@ _logger = logging.getLogger(__name__)
 class stock_landed_cost(models.Model):
     _name = "stock.landed.cost"
     _inherit = "stock.landed.cost"
+
+    def get_invoices_inf(self, picking_ids):
+        data={}
+        purchases = set()
+        invoices = set()
+        if self and picking_ids:
+            for p in picking_ids:
+                purchase_order_obj = self.env['purchase.order'].search([('id','=',p.purchase_id)])
+                raise ValidationError("Contenido devuelto: %s" % purchase_order_obj)
+        else:
+            return data

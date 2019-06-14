@@ -27,6 +27,7 @@
               .tr-color{
                 background-color:blue;
                 width:100%;
+                color:white;
               }
               .table-content{
                 text-align: right;
@@ -89,9 +90,7 @@
                   <div class="col-3 mb4" style="text-align:left">
                     <img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="max-height: 45px;"/>
                   </div>
-                  <div style="text-align:right">
-                    <b><span style="font-size:20pt,color:blue;">RETACEO</span></b>
-                  </div>
+                    <b><span style="font-size:20pt,color:blue;text-align:right">RETACEO</span></b>
                 </div>
                 <table style="margin-top:8pt">
                   <tr>
@@ -100,13 +99,16 @@
                         <tr class="tr-color">
                           <th class="center-middle">Factura</th>
                           <th class="center-middle">Fecha</th>
-                          <th class="center-middle">Referencia</th>
+                          <!--th class="center-middle">Referencia</th-->
                         </tr>
-                        <tr>
+                        <tr t-foreach="get_invoices_inf(o.picking_ids)" as "t">
+                          <td class="center-middle" style="text-align:left"><span t-esc="t.get('reference')"/></td>
+                          <td class="center-middle"><span t-esc=""/><span t-esc="t.get('date_invoice')"/></td>
+                          <!--td class="center-middle" style="text-align:right"><span t-esc=""/></td-->
                         </tr>
                       </table>
                     </td>
-                    <td style="width:50%">
+                    <td style="width:20%">
                     </td>
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
@@ -114,27 +116,27 @@
                           <th colspan="2" class="center-middle" style="color:white">Datos de la importación</th>
                         </tr>
                         <tr>
-                          <td class="center-middle">DECLARACION No</td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="o.sv_declaracion"/></td>
+                          <td class="center-middle" style="width:40%">DECLARACION No</td>
+                          <td class="center-middle" style="text-align:right;width:100%"><span t-esc="o.sv_declaracion"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle">FECHA DE IMPORT.</td>
-                          <td class="center-middle" style="text-align:right;color:white"><span t-esc="o.date"/></td>
+                          <td class="center-middle" style="width:40%">FECHA DE IMPORT.</td>
+                          <td class="center-middle" style="text-align:right;width:100%"><span t-esc="o.date"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle">GUIA/BL</td>
-                          <td class="center-middle" style="text-align:right;color:white"><span t-esc="o.sv_guia"/></td>
+                          <td class="center-middle" style="width:40%">GUIA/BL</td>
+                          <td class="center-middle" style="text-align:right;width:100%"><span t-esc="o.sv_guia"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle">SHIP VIA</td>
-                          <td class="center-middle" style="text-align:right;color:white"></td>
+                          <td class="center-middle" style="width:40%">SHIP VIA</td>
+                          <td class="center-middle" style="text-align:right;width:100%"></td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                 </table>
 
-                <div t-if="report_type == 'pdf'" class="text-muted" style="position:absolute;bottom:0pt;text-align:left">
+                <div t-if="report_type == 'pdf'" class="text-muted" style="position:absolute;bottom:5pt;text-align:left">
                     Pág.: <span class="page"/> de <span class="topage"/>
                 </div>
               </t>
