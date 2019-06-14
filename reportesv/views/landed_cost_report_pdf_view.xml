@@ -85,7 +85,7 @@
             <!--Encabezado-->
               <t t-foreach="docs" t-as="o">
                 <t t-set="company_id" t-value="int(data.get('form').get('company_id')[0])"/>
-                <div class="row">
+                <div class="row" style="width:100%">
                   <div class="col-3 mb4" style="text-align:left">
                     <img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="max-height: 45px;"/>
                   </div>
@@ -93,14 +93,14 @@
                     <b><span style="font-size:20pt,color:blue;">RETACEO</span></b>
                   </div>
                 </div>
-                <table>
+                <table style="margin-top:8pt">
                   <tr>
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
-                          <th class="center-middle-o">Factura</th>
-                          <th class="center-middle-o">Fecha</th>
-                          <th class="center-middle-o">Referencia</th>
+                          <th class="center-middle">Factura</th>
+                          <th class="center-middle">Fecha</th>
+                          <th class="center-middle">Referencia</th>
                         </tr>
                         <tr>
                         </tr>
@@ -111,7 +111,7 @@
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
-                          <th rowspan="2" class="center-middle-o">Datos de la importación</th>
+                          <th colspan="2" class="center-middle" style="color:white">Datos de la importación</th>
                         </tr>
                         <tr>
                           <td class="center-middle">DECLARACION No</td>
@@ -119,22 +119,22 @@
                         </tr>
                         <tr>
                           <td class="center-middle">FECHA DE IMPORT.</td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="o.date"/></td>
+                          <td class="center-middle" style="text-align:right;color:white"><span t-esc="o.date"/></td>
                         </tr>
                         <tr>
                           <td class="center-middle">GUIA/BL</td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="o.sv_guia"/></td>
+                          <td class="center-middle" style="text-align:right;color:white"><span t-esc="o.sv_guia"/></td>
                         </tr>
                         <tr>
                           <td class="center-middle">SHIP VIA</td>
-                          <td class="center-middle" style="text-align:right"></td>
+                          <td class="center-middle" style="text-align:right;color:white"></td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                 </table>
 
-                <div t-if="report_type == 'pdf'" class="text-muted">
+                <div t-if="report_type == 'pdf'" class="text-muted" style="position:absolute;bottom:0pt;text-align:left">
                     Pág.: <span class="page"/> de <span class="topage"/>
                 </div>
               </t>
