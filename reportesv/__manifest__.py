@@ -30,6 +30,7 @@
         'wizard/wizard_taxpayer_sales_report.xml',
         'wizard/wizard_consumer_report.xml',
         #'wizard/wizard_ticket_report.xml',
+        'wizard/wizard_landed_cost_report.xml',
     ],
     # only loaded in demonstration mode
     'qweb': [],
