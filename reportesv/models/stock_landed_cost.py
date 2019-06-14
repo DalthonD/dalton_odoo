@@ -10,5 +10,5 @@ from odoo import exceptions
 _logger = logging.getLogger(__name__)
 
 class stock_landed_cost(models.Model):
-    _name = "stock_landed_cost"
+    _name = "stock.landed.cost"
     _inherit = "stock.landed.cost"
