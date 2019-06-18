@@ -22,7 +22,7 @@ class stock_landed_cost(models.Model):
             inner join stock_landed_cost_stock_picking_rel sp on s.id=sp.stock_landed_cost_id inner join stock_picking p on p.id=sp.stock_picking_id
             inner join purchase_order_stock_picking_rel pp on p.id=pp.stock_picking_id inner join purchase_order po on  po.id=pp.purchase_order_id
             inner join account_invoice_purchase_order_rel ip on po.id=ip.purchase_order_id inner join account_invoice f on f.id=ip.account_invoice_id
-            where s.sv_declaracion={0} order by f.date_invoice desc;""".format(str(self.sv_declaracion))
+            where s.sv_declaracion=cast({0} as varchar) order by f.date_invoice desc;""".format(self.sv_declaracion)
             self._cr.execute(invoices)
             if self._cr.description: #Verify whether or not the query generated any tuple before fetching in order to avoid PogrammingError: No results when fetching
                 data = self._cr.dictfetchall()
