@@ -29,7 +29,7 @@
                 text-align: center;
                 vertical-align: middle !important;
                 white-space: nowrap !important;
-                padding:0.5px !important;
+                padding:1px !important;
                 width70%;
                 color:white
               }
