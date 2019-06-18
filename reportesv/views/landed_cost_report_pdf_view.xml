@@ -17,13 +17,21 @@
                 text-align: center;
                 vertical-align: middle !important;
                 padding:0.5px !important;
-                width:100%;
+                width70%;
               }
               .center-middle-o{
                 text-align: center;
                 vertical-align: middle !important;
                 white-space: nowrap !important;
                 line-height: 5pt;
+              }
+              .center-middle-c{
+                text-align: center;
+                vertical-align: middle !important;
+                white-space: nowrap !important;
+                padding:0.5px !important;
+                width70%;
+                color:white
               }
               .tr-color{
                 background-color:blue;
@@ -95,7 +103,7 @@
                             <img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="max-height: 45px;"/>
                           </div>
                       </td>
-                      <td class="center-middle">
+                      <td class="center-middle" style="text-align:right">
                           <b><span style="font-size:20pt,color:blue;text-align:right">RETACEO</span></b>
                       </td>
                     </tr>
@@ -106,13 +114,13 @@
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
-                          <th class="center-middle-o">Factura</th>
-                          <th class="center-middle-o">Fecha</th>
+                          <th class="center-middle">Factura</th>
+                          <th class="center-middle">Fecha</th>
                           <!--th class="center-middle">Referencia</th-->
                         </tr>
                         <tr t-foreach="o.get_invoices_inf()" t-as="t">
-                          <td class="center-middle" style="text-align:left;width:30%"><span t-esc="t.get('referencia')"/></td>
-                          <td class="center-middle" style="text-align:right;width:35%"><span t-esc="t.get('fecha')"/></td>
+                          <td class="center-middle-o" style="text-align:left;width:50%"><span t-esc="t.get('referencia')"/></td>
+                          <td class="center-middle-o" style="width:50%"><span t-esc="t.get('fecha')"/></td>
                           <!--td class="center-middle" style="text-align:right"><span t-esc=""/></td-->
                         </tr>
                       </table>
@@ -122,32 +130,63 @@
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
-                          <th colspan="2" class="center-middle" style="color:white;width:50%">Datos de la importación</th>
+                          <th colspan="2" class="center-middle" style="color:white;width:30%">Datos de la importación</th>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:40%">DECLARACION No</td>
-                          <td class="center-middle" style="text-align:right;width:50%"><span t-esc="o.sv_declaracion"/></td>
+                          <td class="center-middle" style="text-align:left;width:30%">DECLARACION No</td>
+                          <td class="center-middle" style="text-align:left;width:25%"><span t-esc="o.sv_declaracion"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:40%">FECHA DE IMPORT.</td>
-                          <td class="center-middle" style="text-align:right;width:50%"><span t-esc="o.date"/></td>
+                          <td class="center-middle" style="text-align:left;width:30%">FECHA DE IMPORT.</td>
+                          <td class="center-middle" style="text-align:left;width:25%"><span t-esc="o.date"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:40%">GUIA/BL</td>
-                          <td class="center-middle" style="text-align:right;width:50%"><span t-esc="o.sv_guia"/></td>
+                          <td class="center-middle" style="text-align:left;width:30%">GUIA/BL</td>
+                          <td class="center-middle" style="text-align:left;width:25%"><span t-esc="o.sv_guia"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:40%">SHIP VIA</td>
-                          <td class="center-middle" style="text-align:right;width:50%"></td>
+                          <td class="center-middle" style="text-align:left;width:30%">SHIP VIA</td>
+                          <td class="center-middle" style="text-align:left;width:25%"></td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                 </table>
+                <table>
+                  <tr>
+                    <td>
+                      <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
+                        <tr class="tr-color">
+                          <th class="center-middle-c">PRODUCTO#</th>
+                          <th class="center-middle-c">DESCRIPCIÓN DEL PRODUCTO</th>
+                          <th class="center-middle-c">DESCRIPCIÓN ADUANA</th>
+                          <th class="center-middle-c">POSICIÓN ARANCELARIA</th>
+                          <th class="center-middle-c">CANTIDAD</th>
+                          <th class="center-middle-c">PRECIO UNITARIO</th>
+                          <th class="center-middle-c">VALOR $ FOB</th>
+                          <th class="center-middle-c">SEGURO FLETE</th>
+                          <th class="center-middle-c">VALOR $ CIF</th>
+                          <th class="center-middle-c">IMPUESTOS</th>
+                          <th class="center-middle-c">OTROS GASTOS</th>
+                          <th class="center-middle-c">TOTAL COSTO</th>
+                          <th class="center-middle-c">COSTO UNITARIO</th>
+                        </tr>
+                        <tr>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td>
+                    </td>
+                  </tr>
+                </table>
 
-                <div t-if="report_type == 'pdf'" class="text-muted" style="position:absolute;bottom:5pt;text-align:left">
+                <!--div t-if="report_type == 'pdf'" class="text-muted" style="position:absolute;bottom:5pt;text-align:left">
                     Pág.: <span class="page"/> de <span class="topage"/>
-                </div>
+                </div-->
               </t>
           </div>
         </t>
