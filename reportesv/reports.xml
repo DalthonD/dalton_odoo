@@ -86,7 +86,7 @@
             <field name="dpi">90</field>
             <field name="report_ids" eval="[(6,0,[ref('reportesv.report_purchase_pdf'),
                                                   ref('reportesv.report_taxpayer_sales_pdf'),
-                                                  ref('reportesv.report_stock_landed_cost_pdf'),])]"/>
+                                                  ])]"/>
         </record>
 
         <record id="paperformat_book_consumer_report_pdf" model="report.paperformat">
@@ -104,6 +104,20 @@
             <field name="report_ids" eval="[(6,0,[ref('reportesv.report_consumer_sales_pdf'),
                                                   ref('reportesv.report_ticket_sales_pdf'),])]"/>
         </record>
+
+        <record id="paperformat_book_report_pdf" model="report.paperformat">
+            <field name="name">Reporte Retaceo</field>
+            <field name="default" eval="True" />
+            <field name="format">Legal</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">6</field>
+            <field name="margin_right">6</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+            <field name="report_ids" eval="[(6,0,[ref('reportesv.report_stock_landed_cost_pdf'),])]"/>
 
     </data>
 </odoo>
