@@ -1,0 +1,20 @@
+QUERIES:\
+
+Verificar que las pos.invoice y account.invoice coinciden
+select po.id,po.session_id, po.invoice_id, ai.id, po.amount_total, po.fiscal_position_id, ai.fiscal_position_id, ai.reference from pos_order po inner join account_invoice ai on po.invoice_id=ai.id order by po.date_order desc;
+
+
+extraccion de pos order invoices
+select id, invoice_id, amount_total, partner_id, session_id from pos_order where invoice_id IS NOT NULL and session_id=74 order by invoice_id asc;
+
+
+Ver inforamcion de PoS pos_config
+select id, name, pos_session_username, pos_session_duration, last_,session_closing_date from pos_config group by name order by last_session_closing_date desc;
+
+
+
+select ap.id, payment_date,ap.name, ap.state, ap.payment_type, ap.payment_reference,ap.destination_journal_id, aj.id, aj.name, ap.amount 
+from account_payment ap inner join account_journal aj on aj.id= ap.destination_journal_id order by payment_date desc;
+
+select ap.id, payment_date,ap.name, ap.state, ap.payment_type, aj.id, aj.name, ap.amount
+from account_journal aj, account_payment ap inner join account_invoice ai on ai.partner_id=ap.partner_id  where aj.name in ('Efectivo','Credit Card', 'Wallet') order by payment_date desc;

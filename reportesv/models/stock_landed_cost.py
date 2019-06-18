@@ -16,10 +16,18 @@ class stock_landed_cost(models.Model):
     def get_invoices_inf(self):
         data={}
         purchases = set()
-        invoices = set()
+        invoices = """select f.date_invoice as fecha, f.reference as referencia
+        --,f.amount_total,s.name,s.sv_declaracion,s.date,p.name,po.name,p.origin,f.origin
+        from stock_landed_cost s
+        inner join stock_landed_cost_stock_picking_rel sp on s.id=sp.stock_landed_cost_id inner join stock_picking p on p.id=sp.stock_picking_id
+        inner join purchase_order_stock_picking_rel pp on p.id=pp.stock_picking_id inner join purchase_order po on  po.id=pp.purchase_order_id
+        inner join account_invoice_purchase_order_rel ip on po.id=ip.purchase_order_id inner join account_invoice f on f.id=ip.account_invoice_id
+        where s.sv_declaracion={0} order by f.date_invoice desc;"""
         if self:
-            for p in self.picking_ids:
-                purchase_order_obj = self.env['purchase.order'].search([('id','in',p.purchase_id)])
-                raise ValidationError("Contenido devuelto: %s" % purchase_order_obj)
+            invoices.format(self.sv_declaracion)
+            self._cr.execute(invoices)
+            if self._cr.description: #Verify whether or not the query generated any tuple before fetching in order to avoid PogrammingError: No results when fetching
+                data = self._cr.dictfetchall()
+            return data
         else:
             return data
