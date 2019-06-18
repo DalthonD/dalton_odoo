@@ -15,7 +15,6 @@ class stock_landed_cost(models.Model):
 
     def get_invoices_inf(self):
         data={}
-        purchases = set()
         invoices = """select f.date_invoice as fecha, f.reference as referencia
         --,f.amount_total,s.name,s.sv_declaracion,s.date,p.name,po.name,p.origin,f.origin
         from stock_landed_cost s
