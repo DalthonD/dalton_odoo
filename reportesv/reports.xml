@@ -119,5 +119,7 @@
             <field name="dpi">90</field>
             <field name="report_ids" eval="[(6,0,[ref('reportesv.report_stock_landed_cost_pdf'),])]"/>
 
+        </record>
+
     </data>
 </odoo>
