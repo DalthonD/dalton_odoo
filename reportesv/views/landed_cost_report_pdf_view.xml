@@ -113,8 +113,8 @@
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
-                          <th class="center-middle-c" style="padding:5px;">Factura</th>
-                          <th class="center-middle-c" style="padding:5px;">Fecha</th>
+                          <th class="center-middle" style="width:150%">Factura</th>
+                          <th class="center-middle" style="width:150%;">Fecha</th>
                           <!--th class="center-middle">Referencia</th-->
                         </tr>
                         <tr t-foreach="o.get_invoices_inf()" t-as="t">
