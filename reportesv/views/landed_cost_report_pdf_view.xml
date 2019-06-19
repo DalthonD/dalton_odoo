@@ -171,7 +171,7 @@
                           <th class="center-middle-c">TOTAL COSTO</th>
                           <th class="center-middle-c">COSTO UNITARIO</th>
                         </tr>
-                        <tr>
+                        <tr t-foreach="o.get_product_details()" t-as="a">
                           <td class="center-middle"></td>
                           <td class="center-middle"></td>
                           <td class="center-middle" style="text-align:left"></td>

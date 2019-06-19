@@ -29,3 +29,10 @@ class stock_landed_cost(models.Model):
             return data
         else:
             return data
+
+    def get_product_details(self):
+        data = {}
+        if self:
+            adjustment = """{0}""".format(self.sv_declaracion)
+            return data
+        return data
