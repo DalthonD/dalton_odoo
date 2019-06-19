@@ -113,13 +113,13 @@
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
-                          <th colspan="2" class="center-middle">Factura</th>
-                          <th colspan="2" class="center-middle">Fecha</th>
+                          <th class="center-middle" style="padding:5px;">Factura</th>
+                          <th class="center-middle" style="padding:5px;">Fecha</th>
                           <!--th class="center-middle">Referencia</th-->
                         </tr>
                         <tr t-foreach="o.get_invoices_inf()" t-as="t">
-                          <td class="center-middle" style="text-align:left;width:50%"><span t-esc="t.get('referencia')"/></td>
-                          <td class="center-middle" style="width:90%"><span t-esc="t.get('fecha')"/></td>
+                          <td class="center-middle" style="text-align:left;"><span t-esc="t.get('referencia')"/></td>
+                          <td class="center-middle" style="width:100%"><span t-esc="t.get('fecha')"/></td>
                           <!--td class="center-middle" style="text-align:right"><span t-esc=""/></td-->
                         </tr>
                       </table>
