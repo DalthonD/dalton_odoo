@@ -29,9 +29,10 @@
                 text-align: center;
                 vertical-align: middle !important;
                 white-space: nowrap !important;
-                padding:1px !important;
+                padding:5px !important;
                 width70%;
                 color:white
+                colspan:2;
               }
               .tr-color{
                 background-color:blue;
@@ -74,22 +75,19 @@
             <t t-set="company_id" t-value="int(0)"/>
             <t t-set="contador" t-value="null"/>
             <t t-set="company" t-value="null"/>
+            <t t-set="currency_symbol" t-value="null"/>
 
-            <t t-set="compra" t-value="float(0.00)"/>
-            <t t-set="zero" t-value="float(0.00)"/>
-            <t t-set="totalExentas" t-value="float(0.00)"/>
-            <t t-set="totalGravadas" t-value="float(0.00)"/>
-            <t t-set="totalIva" t-value="float(0.00)"/>
-            <t t-set="totalRetenido" t-value="float(0.00)"/>
-            <t t-set="totalPercibido" t-value="float(0.00)"/>
-            <t t-set="totalCompras" t-value="float(0.00)"/>
-            <t t-set="totalExcluidos" t-value="float(0.00)"/>
-            <t t-set="totalRetenido3" t-value="float(0.00)"/>
-            <t t-set="importacion" t-value="false"/>
-            <t t-set="intEx" t-value="float(0.00)"/>
-            <t t-set="impEx" t-value="float(0.00)"/>
-            <t t-set="intGra" t-value="float(0.00)"/>
-            <t t-set="impGra" t-value="float(0.00)"/>
+            <t t-set="total_quantity" t-value="0"/>
+            <t t-set="total_FOB" t-value="float(0.00)"/>
+            <t t-set="total_flete" t-value="float(0.00)"/>
+            <t t-set="total_CIF" t-value="float(0.00)"/>
+            <t t-set="total_impuesto" t-value="float(0.00)"/>
+            <t t-set="total_otros" t-value="float(0.00)"/>
+            <t t-set="total_costo" t-value="float(0.00)"/>
+            <t t-set="fob" t-value="float(0.00)"/>
+            <t t-set="cif" t-value="float(0.00)"/>
+            <t t-set="costo" t-value="float(0.00)"/>
+            <t t-set="unit_price" t-value="float(0.00)"/>
             <!--Fin de declaraciones-->
 
             <!--Encabezado-->
@@ -101,6 +99,7 @@
                       <td style="text-align:left">
                           <div class="col-3 mb4" style="text-align:left">
                             <img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="max-height: 45px;"/>
+                            <t t-set="currency_symbol" t-value="o.company_id.currency_id.symbol">
                           </div>
                       </td>
                       <td class="center-middle" style="text-align:right">
@@ -120,7 +119,7 @@
                         </tr>
                         <tr t-foreach="o.get_invoices_inf()" t-as="t">
                           <td class="center-middle-o" style="text-align:left;width:50%"><span t-esc="t.get('referencia')"/></td>
-                          <td class="center-middle-o" style="width:70%"><span t-esc="t.get('fecha')"/></td>
+                          <td class="center-middle-o" style="width:90%"><span t-esc="t.get('fecha')"/></td>
                           <!--td class="center-middle" style="text-align:right"><span t-esc=""/></td-->
                         </tr>
                       </table>
@@ -130,31 +129,32 @@
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
-                          <th colspan="2" class="center-middle" style="color:white;width:15%">Datos de la importación</th>
+                          <th colspan="2" class="center-middle" style="color:white;width:5%">Datos de la importación</th>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:30%">DECLARACION No</td>
-                          <td class="center-middle" style="text-align:left;width:25%"><span t-esc="o.sv_declaracion"/></td>
+                          <td class="center-middle" style="text-align:left;width:20%">DECLARACION No</td>
+                          <td class="center-middle" style="text-align:left;width:15%"><span t-esc="o.sv_declaracion"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:30%">FECHA DE IMPORT.</td>
-                          <td class="center-middle" style="text-align:left;width:25%"><span t-esc="o.date"/></td>
+                          <td class="center-middle" style="text-align:left;width:20%">FECHA DE IMPORT.</td>
+                          <td class="center-middle" style="text-align:left;width:15%"><span t-esc="o.date"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:30%">GUIA/BL</td>
-                          <td class="center-middle" style="text-align:left;width:25%"><span t-esc="o.sv_guia"/></td>
+                          <td class="center-middle" style="text-align:left;width:20%">GUIA/BL</td>
+                          <td class="center-middle" style="text-align:left;width:15%"><span t-esc="o.sv_guia"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:30%">SHIP VIA</td>
-                          <td class="center-middle" style="text-align:left;width:25%"></td>
+                          <td class="center-middle" style="text-align:left;width:20%">SHIP VIA</td>
+                          <td class="center-middle" style="text-align:left;width:15%"></td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                 </table>
+                <b><span style="font-size:20pt,color:blue;text-align:left">PRODUCTO PARA LA VENTA</span></b>
                 <table>
                   <tr>
-                    <td>
+                    <td style="text-align:center">
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
                           <th class="center-middle-c">PRODUCTO#</th>
@@ -172,10 +172,49 @@
                           <th class="center-middle-c">COSTO UNITARIO</th>
                         </tr>
                         <tr>
-                          <td></td>
+                          <td class="center-middle"></td>
+                          <td class="center-middle"></td>
+                          <td class="center-middle" style="text-align:left"></td>
+                          <td class="center-middle" style="text-align:left"></td>
+                          <td class="center-middle"></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/></td>
+                          <t t-set="fob" t-value="float(0.00)"/>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="fob"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/></td>
+                          <t t-set="cif" t-value="float(0.00)"/>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="cif"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/></td>
+                          <t t-set="costo" t-value="float(0.00)"/>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="costo"/></td>
+                          <t t-set="unit_price" t-value="float(0.00)"/>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="unit_price"/></td>
+
+                          <!--Calculo de totales-->
+                          <t t-set="total_quantity" t-value="total_quantity + 0"/>
+                          <t t-set="total_FOB" t-value="total_FOB + fob"/>
+                          <t t-set="total_flete" t-value="total_flete + 0"/>
+                          <t t-set="total_CIF" t-value="total_CIF + cif"/>
+                          <t t-set="total_impuesto" t-value="total_impuesto + 0"/>
+                          <t t-set="total_otros" t-value="total_otros + 0"/>
+                          <t t-set="total_costo" t-value="total_costo + costo"/>
+                          <!--Fin de calculo-->
                         </tr>
                         <tr>
-                          <td></td>
+                          <td class="center-middle" style="text-align:right"></td>
+                          <td class="center-middle" style="text-align:right"></td>
+                          <td class="center-middle" style="text-align:right"></td>
+                          <td class="center-middle" style="text-align:right"></td>
+
+                          <td class="center-middle" style="text-align:right"><span t-esc="total_quantity"/></td>
+                          <td class="center-middle" style="text-align:right">-</td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_FOB"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_flete"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_CIF"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_impuesto"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_otros if total_otros &gt; 0 else '-' "/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_costo"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/>-</td>
                         </tr>
                       </table>
                     </td>
