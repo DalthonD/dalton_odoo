@@ -1,0 +1,58 @@
+QUERIES:\
+
+Verificar que las pos.invoice y account.invoice coinciden
+select po.id,po.session_id, po.invoice_id, ai.id, po.amount_total, po.fiscal_position_id, ai.fiscal_position_id, ai.reference from pos_order po inner join account_invoice ai on po.invoice_id=ai.id order by po.date_order desc;
+
+
+extraccion de pos order invoices
+select id, invoice_id, amount_total, partner_id, session_id from pos_order where invoice_id IS NOT NULL and session_id=74 order by invoice_id asc;
+
+
+Ver inforamcion de PoS pos_config
+select id, name, pos_session_username, pos_session_duration, last_,session_closing_date from pos_config group by name order by last_session_closing_date desc;
+
+
+
+select ap.id, payment_date,ap.name, ap.state, ap.payment_type, ap.payment_reference,ap.destination_journal_id, aj.id, aj.name, ap.amount 
+from account_payment ap inner join account_journal aj on aj.id= ap.destination_journal_id order by payment_date desc;
+
+select ap.id, payment_date,ap.name, ap.state, ap.payment_type, aj.id, aj.name, ap.amount
+from account_journal aj, account_payment ap inner join account_invoice ai on ai.partner_id=ap.partner_id  where aj.name in ('Efectivo','Credit Card', 'Wallet') order by payment_date desc;
+
+
+========================================RETACEO===========================================
+
+Query para conocer referencia de factura y fecha
+
+select f.date_invoice as fecha, f.reference as referencia
+--,f.amount_total,
+--s.name,s.sv_declaracion,s.date,p.name,po.name,p.origin,f.origin
+from stock_landed_cost s
+inner join stock_landed_cost_stock_picking_rel sp on s.id=sp.stock_landed_cost_id inner join stock_picking p on p.id=sp.stock_picking_id 
+inner join purchase_order_stock_picking_rel pp on p.id=pp.stock_picking_id inner join purchase_order po on  po.id=pp.purchase_order_id
+inner join account_invoice_purchase_order_rel ip on po.id=ip.purchase_order_id inner join account_invoice f on f.id=ip.account_invoice_id
+where s.sv_declaracion={0} order by f.date_invoice asc;
+
+
+=======================================RETACEO DETAILS======================================
+
+
+select p.id, p.default_code as DEL_P, pp.default_code as DEL_PP
+--, pp.name
+, pp.description, pp.description_purchase 
+from product_product p inner join product_template pp on p.product_tmpl_id=pp.id;
+
+
+select coalesce(coalesce(pp.default_code,pt.default_code),cast(10000+pp.id as VARCHAR)) as codigo
+,coalesce(coalesce(pt.description_purchase,pt.description),pt.name) as descripcion
+--,null as aduana_des
+--,null as posicion
+,cast(sval.quantity as integer) as cantidad
+,sval.former_cost_per_unit as precio_unit
+,sval.former_cost as fob
+from stock_valuation_adjustment_lines sval 
+inner join product_product pp on pp.id=sval.product_id 
+inner join product_template pt on pt.id=pp.product_tmpl_id
+group by codigo, descripcion, cantidad, precio_unit, fob;
+
+
