@@ -113,13 +113,13 @@
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
-                          <th class="center-middle">Factura</th>
-                          <th class="center-middle">Fecha</th>
+                          <th colspan="2" class="center-middle">Factura</th>
+                          <th colspan="2" class="center-middle">Fecha</th>
                           <!--th class="center-middle">Referencia</th-->
                         </tr>
                         <tr t-foreach="o.get_invoices_inf()" t-as="t">
-                          <td class="center-middle-o" style="text-align:left;width:50%"><span t-esc="t.get('referencia')"/></td>
-                          <td class="center-middle-o" style="width:90%"><span t-esc="t.get('fecha')"/></td>
+                          <td class="center-middle" style="text-align:left;width:50%"><span t-esc="t.get('referencia')"/></td>
+                          <td class="center-middle" style="width:90%"><span t-esc="t.get('fecha')"/></td>
                           <!--td class="center-middle" style="text-align:right"><span t-esc=""/></td-->
                         </tr>
                       </table>
@@ -132,20 +132,20 @@
                           <th colspan="2" class="center-middle" style="color:white;width:5%">Datos de la importación</th>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:20%">DECLARACION No</td>
-                          <td class="center-middle" style="text-align:left;width:15%"><span t-esc="o.sv_declaracion"/></td>
+                          <td class="center-middle" style="text-align:left;width:20%;left:5px">DECLARACION No</td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px"><span t-esc="o.sv_declaracion"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:20%">FECHA DE IMPORT.</td>
-                          <td class="center-middle" style="text-align:left;width:15%"><span t-esc="o.date"/></td>
+                          <td class="center-middle" style="text-align:left;width:20%;left:5px">FECHA DE IMPORT.</td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px"><span t-esc="o.date"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:20%">GUIA/BL</td>
-                          <td class="center-middle" style="text-align:left;width:15%"><span t-esc="o.sv_guia"/></td>
+                          <td class="center-middle" style="text-align:left;width:20%;left:5px">GUIA/BL</td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px"><span t-esc="o.sv_guia"/></td>
                         </tr>
                         <tr>
-                          <td class="center-middle" style="text-align:left;width:20%">SHIP VIA</td>
-                          <td class="center-middle" style="text-align:left;width:15%"></td>
+                          <td class="center-middle" style="text-align:left;width:20%;left:5px">SHIP VIA</td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px"></td>
                         </tr>
                       </table>
                     </td>
