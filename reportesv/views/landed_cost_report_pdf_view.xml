@@ -99,7 +99,7 @@
                       <td style="text-align:left">
                           <div class="col-3 mb4" style="text-align:left">
                             <img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="max-height: 45px;"/>
-                            <t t-set="currency_symbol" t-value="o.company_id.currency_id.symbol">
+                            <t t-set="currency_symbol" t-value="o.company_id.currency_id.symbol"/>
                           </div>
                       </td>
                       <td class="center-middle" style="text-align:right">
