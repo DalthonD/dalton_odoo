@@ -65,10 +65,10 @@
                 width: 100%;
                 font-size: 7pt;
                 background-color:gray;
-                content: "Pág. " conunter(page) " de " counter(pages);
+                content: "Pág. " conunter(page+1) " de " counter(pages+1);
               }
               .page:after{
-                content: counter(page)
+                content: counter(page+1)
               }
             </style>
             <!--Declaracion de variables-->
