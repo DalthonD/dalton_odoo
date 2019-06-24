@@ -387,6 +387,27 @@ CREATE OR REPLACE FUNCTION public.facturasagrupadas(p_company_id integer, month_
         END;
         $function$;
 
+
+select ROW_NUMBER () OVER (ORDER BY f.date_invoice,coalesce(F.reference,F.number))  as Registro
+        ,left(coalesce(F.reference,F.number),14) as Serie
+        ,CASE WHEN textregexeq(right(coalesce(F.reference,F.number),length(coalesce(F.reference,F.number))-14),'^[[:digit:]]+(\.[[:digit:]]+)?$') = TRUE THEN
+			cast(right(coalesce(F.reference,F.number),(length(coalesce(F.reference,F.number))-14)) as Integer)
+		ELSE F.ID *1000 end as correlativo
+        ,F.date_invoice as fecha
+        ,case
+        when F.state='cancel' then 'ANULADA'
+        else 'Valida' end as estado
+        ,coalesce(F.reference,F.number) as factura,F.id
+        from Account_invoice F
+        inner join account_fiscal_position afp on F.fiscal_position_id=afp.id
+        where date_part('year',COALESCE(F.sv_fecha_tax,F.date_invoice))= 2019
+        and date_part('month',COALESCE(F.sv_fecha_tax,F.date_invoice))= 5
+        and F.state<>'draft' and F.company_id=1
+        and F.type in ('out_invoice')
+        and ((F.sv_no_tax is null ) or (F.sv_no_tax=false))
+        --and afp.sv_contribuyente=false
+        order by fecha,factura
+
 ================================
 
 CREATE OR REPLACE VIEW strategiksv_reportesv_consumer_report AS (Select
@@ -541,17 +562,14 @@ AND slcl.product_id=pp.id
 AND pp.product_tmpl_id=pt.id
 AND pt.landed_cost_ok=true
 AND pt.sv_tipo_costo='Seguro'
-THEN sum(sval.additional_landed_cost)
+THEN sval.additional_landed_cost
 END, 0.00) as seguro
 ,/*Calculando Flete*/
 coalesce(
 CASE WHEN
-slcl.id=sval.cost_line_id
-AND slcl.product_id=pp.id
-AND pp.product_tmpl_id=pt.id
-AND pt.landed_cost_ok=true
+pt.landed_cost_ok=true
 AND pt.sv_tipo_costo='Flete'
-THEN sum(sval.additional_landed_cost)
+THEN sval.additional_landed_cost
 END, 0.00) as flete
 from stock_valuation_adjustment_lines sval 
 inner join product_product pp on pp.id=sval.product_id 
@@ -563,7 +581,7 @@ group by codigo,
 --descripcion,
 --aduana_des,
 cantidad, 
-precio_unit, fob, slcl.id, sval.cost_line_id,pp.id,pt.id
+precio_unit, fob, slcl.id, sval.cost_line_id,pp.id,pt.id,seguro,flete
 order by codigo asc;
 
 
@@ -584,5 +602,116 @@ and pt.id=pp.product_tmpl_id
 and pt.landed_cost_ok=true
 and pt.sv_tipo_costo='Seguro'
 group by slcl.id)as Seguro
+
+select pt.id, pp.product_tmpl_id,pt.name, pt.landed_cost_ok, pt.sv_tipo_costo, pt.split_method
+from product_template pt inner join product_product pp on pp.product_tmpl_id=pt.id
+where pt.split_method not like 'equal';
+
+
+select sval.name, pt.name, sval.quantity,sval.former_cost_per_unit,sval.additional_landed_cost, sval.final_cost
+from stock_valuation_adjustment_lines sval
+inner join stock_landed_cost_lines slcl on slcl.id=sval.cost_line_id
+inner join product_product pp on pp.id=slcl.product_id
+inner join product_template pt on pt.id=pp.product_tmpl_id
+inner join stock_landed_cost slc on slc.id=sval.cost_id 
+where slc.sv_declaracion='425334'
+and pt.landed_cost_ok=true
+and pt.sv_tipo_costo='Flete'
+group by pt.name;
+
+
+select sval.additional_landed_cost
+from stock_valuation_adjustment_lines sval
+inner join stock_landed_cost_lines slcl on slcl.id=sval.cost_line_id
+inner join product_product pp on pp.id=slcl.product_id
+inner join product_template pt on pt.id=pp.product_tmpl_id
+inner join stock_landed_cost slc on slc.id=sval.cost_id 
+where slc.sv_declaracion='425334'
+and pt.landed_cost_ok=true
+and pt.sv_tipo_costo='Flete';
+
++==+++++++++++++++++++++++++++++++++++CORECTO+++++++++++++++++++++++++++++++++
+select DISTINCT coalesce(coalesce(pp.default_code,pt.default_code),cast(10000+pp.id as VARCHAR)) as codigo
+--,coalesce(coalesce(pt.description_purchase,pt.description),pt.name) as descripcion
+--,(select name from purchase_order_line pol where pol.product_id=pp.id group by name) as aduana_des
+--,null as posicion
+,cast(sval.quantity as integer) as cantidad
+,sval.former_cost_per_unit as precio_unit
+,sval.former_cost as fob
+
+,/*Calculando Seguros*/
+coalesce((select sum(sval1.additional_landed_cost)
+from stock_valuation_adjustment_lines sval1
+inner join stock_landed_cost_lines slcl1 on slcl1.id=sval1.cost_line_id
+inner join product_product pp1 on pp1.id=slcl1.product_id
+inner join product_template pt1 on pt1.id=pp1.product_tmpl_id
+inner join stock_landed_cost slc1 on slc1.id=sval1.cost_id 
+where slc1.sv_declaracion='425334'
+and sval1.product_id=pp.id
+and pt1.landed_cost_ok=true
+and pt1.sv_tipo_costo='Seguro'), 0.00) as seguro
+
+,/*Calculando Flete*/
+coalesce((select sum(sval2.additional_landed_cost)
+from stock_valuation_adjustment_lines sval2
+inner join stock_landed_cost_lines slcl2 on slcl2.id=sval2.cost_line_id
+inner join product_product pp2 on pp2.id=slcl2.product_id
+inner join product_template pt2 on pt2.id=pp2.product_tmpl_id
+inner join stock_landed_cost slc2 on slc2.id=sval2.cost_id 
+where slc2.sv_declaracion='425334'
+and sval2.product_id=pp.id
+and pt2.landed_cost_ok=true
+and pt2.sv_tipo_costo='Flete'), 0.00) as flete
+
+,/*Calculando Flete*/
+coalesce((select sum(sval3.additional_landed_cost)
+from stock_valuation_adjustment_lines sval3
+inner join stock_landed_cost_lines slcl3 on slcl3.id=sval3.cost_line_id
+inner join product_product pp3 on pp3.id=slcl3.product_id
+inner join product_template pt3 on pt3.id=pp3.product_tmpl_id
+inner join stock_landed_cost slc3 on slc3.id=sval3.cost_id 
+where slc3.sv_declaracion='425334'
+and sval3.product_id=pp.id
+and pt3.landed_cost_ok=true
+and pt3.sv_tipo_costo='Impuestos'), 0.00) as impuestos
+
+,/*Calculando Flete*/
+coalesce((select sum(sval4.additional_landed_cost)
+from stock_valuation_adjustment_lines sval4
+inner join stock_landed_cost_lines slcl4 on slcl4.id=sval4.cost_line_id
+inner join product_product pp4 on pp4.id=slcl4.product_id
+inner join product_template pt4 on pt4.id=pp4.product_tmpl_id
+inner join stock_landed_cost slc4 on slc4.id=sval4.cost_id 
+where slc4.sv_declaracion='425334'
+and sval4.product_id=pp.id
+and pt4.landed_cost_ok=true
+and pt4.sv_tipo_costo='Otros'), 0.00) as otros
+
+
+from stock_valuation_adjustment_lines sval 
+inner join product_product pp on pp.id=sval.product_id 
+inner join product_template pt on pt.id=pp.product_tmpl_id
+inner join stock_landed_cost_lines slcl on slcl.id=sval.cost_line_id
+inner join stock_landed_cost slc on slc.id=sval.cost_id
+
+where slc.sv_declaracion='425334'
+
+group by codigo,
+--descripcion,
+--aduana_des,
+cantidad, 
+precio_unit, fob, slcl.id, sval.cost_line_id,pp.id,pt.id,seguro,flete
+order by codigo asc;
+
+
+
+
+
+
+
+
+
+
+
 
 
