@@ -125,6 +125,7 @@ class stock_landed_cost(models.Model):
             codigo,
             descripcion,
             aduana_des,
+            posicion,
             cantidad,
             precio_unit,
             fob,
