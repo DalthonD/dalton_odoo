@@ -17,14 +17,14 @@ class res_company(models.Model):
     def get_purchase_details(self, company_id, date_year, date_month):
         #data = {}
         data = ()
-        sql = """CREATE OR REPLACE VIEW strategiksv_reportesv_purchase_report AS (select * from (select ai.date_invoice as fecha
+        sql = """CREATE OR REPLACE VIEW strategiksv_reportesv_purchase_report AS (select * from (select coalesce(ai.sv_fecha_tax,ai.date_invoice) as fecha
         ,ai.reference as factura
         ,rp.name as proveedor
         ,rp.vat as NRC
         ,case
         when rp.country_id=211 then False
-        when rp.country_id=209 then False
         when rp.country_id is null then False
+        when rp.country_id=209 then False
         else True end as Importacion
         ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
         (select coalesce(sum(price_subtotal_signed),0.00)
@@ -117,6 +117,7 @@ class res_company(models.Model):
         ,rp.vat as NRC
         ,case
         when rp.country_id=211 then False
+        when rp.country_id=209 then False
         when rp.country_id is null then False
         else True end as Importacion
         ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
@@ -209,7 +210,9 @@ class res_company(models.Model):
         inner join account_tax at on aml.account_id=at.account_id
         inner join account_tax_group atg on at.tax_group_id=atg.id
         left join res_partner rp on aml.partner_id=rp.id
-        where atg.name='percepcion' and not exists (select id from account_invoice ai where ai.move_id=am.id and ai.company_id= {0} )
+        where atg.name='percepcion'
+        and am.ref IS NOT NULL
+        and not exists (select id from account_invoice ai where ai.move_id=am.id and ai.company_id= {0} )
         and date_part('year',am.date)= {1}
         and date_part('month',am.date)= {2}
         and am.company_id= {0}
@@ -227,7 +230,6 @@ class res_company(models.Model):
         data = {}
         sql = """CREATE OR REPLACE VIEW strategiksv_reportesv_taxpayer_report AS (select * from(
         select ai.date_invoice as fecha
-        ,ai.sucursal_id as sucursal
         ,ai.reference as factura
         ,rp.name as cliente
         ,rp.vat as NRC
@@ -290,7 +292,6 @@ class res_company(models.Model):
         union
 
         select ai.date_invoice as fecha
-        ,ai.sucursal_id as sucursal
         ,ai.reference as factura
         ,'Anulado' as cliente
         ,rp.vat as NRC
@@ -321,8 +322,8 @@ class res_company(models.Model):
     @api.multi
     def get_consumer_details(self, company_id, date_year, date_month, sv_invoice_serie_size):
         data = {}
-        #if sv_invoice_serie_size == None or sv_invoice_serie_size < 8:
-            #sv_invoice_serie_size = 14
+        if sv_invoice_serie_size == None or sv_invoice_serie_size < 8:
+            sv_invoice_serie_size = 8
         func = """CREATE OR REPLACE FUNCTION public.facturasagrupadas(p_company_id integer, month_number integer, year_number integer, p_series_lenght integer)
         RETURNS TABLE(invoice_id integer, factura_number character varying, factura_status character varying, grupo integer)
         LANGUAGE plpgsql
@@ -354,7 +355,7 @@ class res_company(models.Model):
         and F.state<>'draft' and F.company_id=p_company_id
         and F.type in ('out_invoice')
         and ((F.sv_no_tax is null ) or (F.sv_no_tax=false))
-        --and afp.sv_contribuyente=False
+        and afp.sv_contribuyente=false
         order by fecha,factura )
         LOOP
         invoice_id := var_r.id;
@@ -378,7 +379,6 @@ class res_company(models.Model):
 
         sql = """CREATE OR REPLACE VIEW strategiksv_reportesv_consumer_report AS (Select
         SS.Fecha
-        ,SS.sucursal
         ,SS.grupo
         ,min(SS.Factura) as DELNum
         ,max(SS.Factura) as ALNum
@@ -391,7 +391,6 @@ class res_company(models.Model):
         ,estado
         FROM (
         select S.fecha
-        ,S.sucursal
         ,S.factura
         ,S.estado
         ,S.grupo
@@ -411,13 +410,12 @@ class res_company(models.Model):
         ,S.Retenido
         from(
         select ai.date_invoice as fecha
-        ,ai.sucursal_id as sucursal
         ,coalesce(ai.reference,ai.number) as factura
         ,'valid' as estado
         ,FG.grupo
         ,afp.sv_region
         ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
-        (select coalesce(sum(price_subtotal_signed),0.00)
+        (select coalesce(sum(sv_total_con_iva),0.00)
         from account_invoice_line ail
         where invoice_id=ai.id
         and exists(select ailt.tax_id
@@ -427,7 +425,7 @@ class res_company(models.Model):
         where ailt.invoice_line_id=ail.id and atg.name='iva')
         ) as Gravado,
         /*Calculando el excento que no tiene iva*/
-        (Select coalesce(sum(price_subtotal_signed),0.00)
+        (Select coalesce(sum(sv_total_con_iva),0.00)
         from account_invoice_line ail
         where invoice_id=ai.id
         and not exists(select ailt.tax_id
@@ -461,13 +459,12 @@ class res_company(models.Model):
         and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  {2}
         and ai.type='out_invoice'
         and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
-        --and afp.sv_contribuyente=False
+        and afp.sv_contribuyente=false
         and ai.state in ('open','paid')
 
         union
 
         select ai.date_invoice as fecha
-        ,ai.sucursal_id as sucursal
         ,coalesce(ai.reference,ai.number) as factura
         ,ai.state as estado
         ,FG.grupo
@@ -485,9 +482,9 @@ class res_company(models.Model):
         and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))= {2}
         and ai.type='out_invoice'
         and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
-        --and afp.sv_contribuyente=False
+        and afp.sv_contribuyente=false
         and ai.state in ('cancel')
-        )S )SS group by SS.fecha, SS.sucursal,SS.Grupo,SS.estado order by SS.fecha,SS.sucursal,SS.Grupo)""".format(company_id,date_year,date_month,sv_invoice_serie_size)
+        )S )SS group by SS.fecha,SS.Grupo,SS.estado order by SS.fecha,SS.Grupo)""".format(company_id,date_year,date_month,sv_invoice_serie_size)
         tools.drop_view_if_exists(self._cr, 'strategiksv_reportesv_consumer_report')
         self._cr.execute(func) #Create the function used on view creation
         self._cr.execute(sql) #Query for view"
