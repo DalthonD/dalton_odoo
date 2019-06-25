@@ -23,6 +23,7 @@ class res_company(models.Model):
         ,rp.vat as NRC
         ,case
         when rp.country_id=211 then False
+        when rp.country_id=209 then False
         when rp.country_id is null then False
         else True end as Importacion
         ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
