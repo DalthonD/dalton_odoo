@@ -172,8 +172,8 @@
                         <tr t-foreach="o.get_product_details()" t-as="a">
                           <td class="center-middle" style="width:5% !important;"><span t-esc="int(a_index) + 1"/></td>
                           <td class="center-middle"><span t-esc="a.get('codigo')"/></td>
-                          <td class="center-middle"><span t-esc="a.get('descripcion')"/></td>
-                          <td class="center-middle" style="text-align:left"><span t-esc="a.get('aduana_des')"/></td>
+                          <td class="center-middle-o"><span t-esc="a.get('descripcion')"/></td>
+                          <td class="center-middle-o" style="text-align:left"><span t-esc="a.get('aduana_des')"/></td>
                           <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
                           <td class="center-middle"><span t-esc="a.get('cantidad')"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="a.get('precio_unit')"/></td>
@@ -202,7 +202,7 @@
                           <td class="center-middle" style="text-align:right"></td>
                           <td class="center-middle" style="text-align:right"></td>
                           <td class="center-middle" style="text-align:right"></td>
-
+                          <td class="center-middle" style="text-align:right"></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="total_quantity"/></td>
                           <td class="center-middle" style="text-align:right">-</td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_FOB"/></td>
