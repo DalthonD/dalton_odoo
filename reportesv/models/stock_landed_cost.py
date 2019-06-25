@@ -134,5 +134,8 @@ class stock_landed_cost(models.Model):
             otros
             /*Orden*/
             order by R.codigo""".format(self.sv_declaracion)
+            self._cr.execute(adjustment)
+            if self._cr.description: #Verify whether or not the query generated any tuple before fetching in order to avoid PogrammingError: No results when fetching
+                data = self._cr.dictfetchall()
             return data
         return data
