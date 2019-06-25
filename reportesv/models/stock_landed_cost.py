@@ -33,7 +33,7 @@ class stock_landed_cost(models.Model):
     def get_product_details(self):
         data = {}
         if self:
-            adjustment = """Select R.codigo as codigo,
+            adjustment = """Select R.codigo as codigo
             ,R.descripcion as descripcion
             ,R.aduana_des as aduana_des
             ,R.posicion as posicion
