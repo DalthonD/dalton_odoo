@@ -32,7 +32,6 @@
                 padding:5px !important;
                 width70%;
                 color:white
-                colspan:2;
               }
               .tr-color{
                 background-color:blue;
