@@ -160,21 +160,21 @@
                       <!--table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;"-->
                       <table class="table table-bordered">
                         <colgroup>
-                          <col>
-                          <col>
-                          <col class="w">
-                          <col class="w">
-                          <col>
-                          <col>
-                          <col>
-                          <col>
-                          <col>
-                          <col>
-                          <col>
-                          <col>
-                          <col>
-                          <col>
-                          <col>
+                          <col></col>
+                          <col></col>
+                          <col class="w"></col>
+                          <col class="w"></col>
+                          <col></col>
+                          <col></col>
+                          <col></col>
+                          <col></col>
+                          <col></col>
+                          <col></col>
+                          <col></col>
+                          <col></col>
+                          <col></col>
+                          <col></col>
+                          <col></col>
                         </colgroup>
                         <tr class="tr-color">
                           <th class="center-middle-c" style="width:1% !important;">#</th>
