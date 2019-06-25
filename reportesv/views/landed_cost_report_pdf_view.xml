@@ -154,11 +154,11 @@
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
                           <th class="center-middle-c" style="width:1% !important;">#</th>
-                          <th class="center-middle-c" style="width:8%;">PRODUCTO#</th>
-                          <th class="center-middle-c" style="width:10%;">DESCRIPCIÓN DEL PRODUCTO</th>
-                          <th class="center-middle-c" style="width:10%;">DESCRIPCIÓN ADUANA</th>
-                          <th class="center-middle-c" style="width:8%;">POSICIÓN ARANCELARIA</th>
-                          <th class="center-middle-c" style="width:8%;">CANTIDAD</th>
+                          <th class="center-middle-c" style="width:8%; !important;">PRODUCTO#</th>
+                          <th class="center-middle-c" style="width:10% !important;">DESCRIPCIÓN DEL PRODUCTO</th>
+                          <th class="center-middle-c" style="width:10% !important;">DESCRIPCIÓN ADUANA</th>
+                          <th class="center-middle-c" style="width:5% !important;">POSICIÓN ARANCELARIA</th>
+                          <th class="center-middle-c" style="width:8% !important;">CANTIDAD</th>
                           <th class="center-middle-c" style="width:6.11%;">PRECIO UNITARIO</th>
                           <th class="center-middle-c" style="width:6.11%;">VALOR $ FOB</th>
                           <th class="center-middle-c" style="width:6.11%;">SEGURO</th>
@@ -204,7 +204,7 @@
                           <td class="center-middle" style="text-align:right"></td>
                           <td class="center-middle" style="text-align:right"></td>
                           <td class="center-middle"><span t-esc="total_quantity"/></td>
-                          <td class="center-middle" style="text-align:right">-</td>
+                          <td class="center-middle">-</td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_FOB)"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_seguro)"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_flete)"/></td>
@@ -212,7 +212,7 @@
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_impuesto)"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_otros) if total_otros &gt; 0 else '-' "/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_costo)"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/>-</td>
+                          <td class="center-middle">-</td>
                         </tr>
                       </table>
                     </td>
