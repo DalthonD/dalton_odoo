@@ -25,7 +25,6 @@
                 vertical-align: middle !important;
                 white-space: nowrap !important;
                 line-height: 5pt;
-                display: inline-block!important;
               }
               .center-middle-c{
                 text-align: center;
@@ -34,7 +33,6 @@
                 padding:5px !important;
                 width70%;
                 color:white
-                display: inline-block!important;
               }
               .tr-color{
                 background-color:blue;
@@ -61,6 +59,9 @@
               table td:last-child{
                 padding: 0.5px;
                 width:100%;
+              }
+              td{
+                word-wrap:break-word;
               }
               .pagenumber:before {
                 position: relative;
