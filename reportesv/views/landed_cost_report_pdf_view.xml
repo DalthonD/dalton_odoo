@@ -60,9 +60,6 @@
                 padding: 0.5px;
                 width:100%;
               }
-              td{
-                word-wrap:break-word;
-              }
               .pagenumber:before {
                 position: relative;
                 border-width: 55%;
@@ -198,8 +195,8 @@
                         <tr t-foreach="o.get_product_details()" t-as="a">
                           <td class="center-middle"><span t-esc="int(a_index) + 1"/></td>
                           <td class="center-middle"><span t-esc="a.get('codigo')"/></td>
-                          <td class="center-middle-o"><span t-esc="a.get('descripcion')"/></td>
-                          <td class="center-middle-o" style="text-align:left"><span t-esc="a.get('aduana_des')"/></td>
+                          <td class="center-middle-o" style="word-wrap:break-word;"><span t-esc="a.get('descripcion')"/></td>
+                          <td class="center-middle-o" style="text-align:left;word-wrap:break-word"><span t-esc="a.get('aduana_des')"/></td>
                           <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
                           <td class="center-middle"><span t-esc="a.get('cantidad')"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('precio_unit'))"/></td>
