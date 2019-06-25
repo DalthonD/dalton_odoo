@@ -183,7 +183,7 @@
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('cif'))"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('impuesto'))"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('otros'))"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costol_total'))"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costo_total'))"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costo_unitario'))"/></td>
 
                           <!--Calculo de totales-->
