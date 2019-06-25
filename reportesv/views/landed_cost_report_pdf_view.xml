@@ -34,6 +34,7 @@
                 padding:5px !important;
                 width70%;
                 color:white
+                display: inline-block!important;
               }
               .tr-color{
                 background-color:blue;
