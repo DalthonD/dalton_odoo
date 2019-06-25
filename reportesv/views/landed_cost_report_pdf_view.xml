@@ -166,7 +166,7 @@
                   <tr>
                     <td style="text-align:center">
                       <!--table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;"-->
-                      <table class="table table-bordered">
+                      <table class="table table-bordered" style="table-layout:fixed">
                         <colgroup>
                           <col class="num"></col>
                           <col class="codigo"></col>
