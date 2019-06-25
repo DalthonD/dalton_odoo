@@ -177,11 +177,11 @@
                         <tr class="tr-color">
                           <th class="center-middle-c" style="width:1% !important;">#</th>
                           <th class="center-middle-c" style="width:8%; !important;">PRODUCTO#</th>
-                          <th class="center-middle-c" style="width:10% !important;">DESCRIPCIÓN DEL PRODUCTO</th>
-                          <th class="center-middle-c" style="width:10% !important;">DESCRIPCIÓN ADUANA</th>
+                          <th class="center-middle-c" style="width:10% !important;white-space: initial;">DESCRIPCIÓN DEL PRODUCTO</th>
+                          <th class="center-middle-c" style="width:10% !important;white-space: initial;">DESCRIPCIÓN ADUANA</th>
                           <th class="center-middle-c" style="width:5% !important;">POSICIÓN ARANCELARIA</th>
                           <th class="center-middle-c" style="width:8% !important;">CANTIDAD</th>
-                          <th class="center-middle-c" style="width:6.11%;white-space: initial;">PRECIO UNITARIO</th>
+                          <th class="center-middle-c" style="width:6.11%;">PRECIO UNITARIO</th>
                           <th class="center-middle-c" style="width:6.11%;">VALOR $ FOB</th>
                           <th class="center-middle-c" style="width:6.11%;">SEGURO</th>
                           <th class="center-middle-c" style="width:6.11%;">FLETE</th>
@@ -194,8 +194,8 @@
                         <tr t-foreach="o.get_product_details()" t-as="a">
                           <td class="center-middle"><span t-esc="int(a_index) + 1"/></td>
                           <td class="center-middle"><span t-esc="a.get('codigo')"/></td>
-                          <td class="center-middle-o" style="text-align:left;white-space: initial;overflow:hidden;word-wrap:break-word;"><span t-esc="a.get('descripcion')"/></td>
-                          <td class="center-middle-o" style="text-align:left;white-space: initial;word-wrap:break-word"><span t-esc="a.get('aduana_des')"/></td>
+                          <td class="center-middle-o" style="text-align:left;white-space: initial;overflow:hidden;display: block"><span t-esc="a.get('descripcion')"/></td>
+                          <td class="center-middle-o" style="text-align:left;white-space: initial; overflow:hidden;display: block"><span t-esc="a.get('aduana_des')"/></td>
                           <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
                           <td class="center-middle"><span t-esc="a.get('cantidad')"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('precio_unit'))"/></td>
