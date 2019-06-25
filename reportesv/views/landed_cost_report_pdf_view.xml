@@ -18,12 +18,14 @@
                 vertical-align: middle !important;
                 padding:0.5px !important;
                 width70%;
+                display: inline-block !important;
               }
               .center-middle-o{
                 text-align: center;
                 vertical-align: middle !important;
                 white-space: nowrap !important;
                 line-height: 5pt;
+                display: inline-block!important;
               }
               .center-middle-c{
                 text-align: center;
@@ -72,16 +74,16 @@
                 content: counter(page+1)
               }
               .w{
-                width: 400px;
+                width: 350px;
               }
               .money{
                 width: 100px;
               }
               .num{
-                width: 40px;
+                width: 30px;
               }
               .codigo{
-                width: 80px;
+                width: 100px;
               }
             </style>
             <!--Declaracion de variables-->
