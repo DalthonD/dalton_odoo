@@ -633,20 +633,20 @@ and pt.sv_tipo_costo='Flete';
 +==+++++++++++++++++++++++++++++++++++CORECTO+++++++++++++++++++++++++++++++++
 
 
-Select R.codigo as codigo, 
---R.descripcion as descripcion, 
---R.aduana_des as aduana_des, 
---R.posicion as posicion,
-R.cantidad as cantidad,
-R.precio_unit as precio_unit,
-R.fob as fob,
-R.seguro as seguro,
-R.flete as flete,
-sum(R.fob+R.seguro+R.flete) as cif,
-R.impuesto as impuesto,
-R.otros as otros,
-sum(R.fob+R.seguro+R.flete+R.impuesto+R.otros) as costo_total,
-(sum(R.fob+R.seguro+R.flete+R.impuesto+R.otros)/R.cantidad) as costo_unitario
+Select R.codigo as codigo 
+--,R.descripcion as descripcion
+--,R.aduana_des as aduana_des
+--,R.posicion as posicion
+,R.cantidad as cantidad
+,R.precio_unit as precio_unit
+,R.fob as fob
+,R.seguro as seguro
+,R.flete as flete
+,sum(R.fob+R.seguro+R.flete) as cif
+,R.impuesto as impuesto
+,R.otros as otros
+,sum(R.fob+R.seguro+R.flete+R.impuesto+R.otros) as costo_total
+,(sum(R.fob+R.seguro+R.flete+R.impuesto+R.otros)/R.cantidad) as costo_unitario
 from (
 select DISTINCT coalesce(coalesce(pp.default_code,pt.default_code),cast(10000+pp.id as VARCHAR)) as codigo
 --,coalesce(coalesce(pt.description_purchase,pt.description),pt.name) as descripcion

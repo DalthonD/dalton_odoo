@@ -66,7 +66,7 @@ class stock_landed_cost(models.Model):
             inner join product_product pp1 on pp1.id=slcl1.product_id
             inner join product_template pt1 on pt1.id=pp1.product_tmpl_id
             inner join stock_landed_cost slc1 on slc1.id=sval1.cost_id
-            where slc1.sv_declaracion='425334'
+            where slc1.sv_declaracion=cast({0} as VARCHAR)
             and sval1.product_id=pp.id
             and pt1.landed_cost_ok=true
             and pt1.sv_tipo_costo='Seguro'), 0.00) as seguro
@@ -78,7 +78,7 @@ class stock_landed_cost(models.Model):
             inner join product_product pp2 on pp2.id=slcl2.product_id
             inner join product_template pt2 on pt2.id=pp2.product_tmpl_id
             inner join stock_landed_cost slc2 on slc2.id=sval2.cost_id
-            where slc2.sv_declaracion='425334'
+            where slc2.sv_declaracion=cast({0} as VARCHAR)
             and sval2.product_id=pp.id
             and pt2.landed_cost_ok=true
             and pt2.sv_tipo_costo='Flete'), 0.00) as flete
@@ -90,7 +90,7 @@ class stock_landed_cost(models.Model):
             inner join product_product pp3 on pp3.id=slcl3.product_id
             inner join product_template pt3 on pt3.id=pp3.product_tmpl_id
             inner join stock_landed_cost slc3 on slc3.id=sval3.cost_id
-            where slc3.sv_declaracion={0}
+            where slc3.sv_declaracion=cast({0} as VARCHAR)
             and sval3.product_id=pp.id
             and pt3.landed_cost_ok=true
             and pt3.sv_tipo_costo='Impuestos'), 0.00) as impuesto
@@ -102,7 +102,7 @@ class stock_landed_cost(models.Model):
             inner join product_product pp4 on pp4.id=slcl4.product_id
             inner join product_template pt4 on pt4.id=pp4.product_tmpl_id
             inner join stock_landed_cost slc4 on slc4.id=sval4.cost_id
-            where slc4.sv_declaracion='425334'
+            where slc4.sv_declaracion=cast({0} as VARCHAR)
             and sval4.product_id=pp.id
             and pt4.landed_cost_ok=true
             and pt4.sv_tipo_costo='Otros'), 0.00) as otros
@@ -114,7 +114,7 @@ class stock_landed_cost(models.Model):
             inner join stock_landed_cost_lines slcl on slcl.id=sval.cost_line_id
             inner join stock_landed_cost slc on slc.id=sval.cost_id
             /*Condiciones*/
-            where slc.sv_declaracion={0}
+            where slc.sv_declaracion=cast({0} as VARCHAR)
             /*Agrupaciones*/
             group by codigo,
             descripcion,
