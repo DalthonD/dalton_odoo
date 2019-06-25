@@ -48,12 +48,11 @@
               }
               table{
                 width:100%;
-                table-layout:fixed;
+                table-layout:auto;
               }
               table, td,th{
                 padding:5px;
                 white-space: nowrap;
-                border: solid 1px;
                 border-collapse: collapse;
               }
               table td:last-child{
@@ -74,6 +73,15 @@
               }
               .w{
                 width: 400px;
+              }
+              .money{
+                width: 100px;
+              }
+              .num{
+                width: 40px;
+              }
+              .codigo{
+                width: 80px;
               }
             </style>
             <!--Declaracion de variables-->
@@ -160,21 +168,11 @@
                       <!--table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;"-->
                       <table class="table table-bordered">
                         <colgroup>
-                          <col></col>
-                          <col></col>
-                          <col class="w"></col>
-                          <col class="w"></col>
-                          <col></col>
-                          <col></col>
-                          <col></col>
-                          <col></col>
-                          <col></col>
-                          <col></col>
-                          <col></col>
-                          <col></col>
-                          <col></col>
-                          <col></col>
-                          <col></col>
+                          <col class="num"></col>
+                          <col class="codigo"></col>
+                          <col span="2" class="w"></col>
+                          <col class="codigo"></col>
+                          <col span="10" class="money"></col>
                         </colgroup>
                         <tr class="tr-color">
                           <th class="center-middle-c" style="width:1% !important;">#</th>
