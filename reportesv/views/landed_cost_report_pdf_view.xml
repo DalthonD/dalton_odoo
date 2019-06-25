@@ -123,7 +123,7 @@
                     <td style="width:60%">
                     </td>
                     <td>
-                      <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
+                      <table class="table table-bordered" style="table-layout:fixed;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
                           <th colspan="2" class="center-middle" style="color:white;width:5%">Datos de la importación</th>
                         </tr>
@@ -151,7 +151,7 @@
                 <table>
                   <tr>
                     <td style="text-align:center">
-                      <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
+                      <table class="table table-bordered" style="table-layout:fixed;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
                           <th class="center-middle-c">#</th>
                           <th class="center-middle-c">PRODUCTO#</th>
@@ -176,15 +176,15 @@
                           <td class="center-middle-o" style="text-align:left"><span t-esc="a.get('aduana_des')"/></td>
                           <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
                           <td class="center-middle"><span t-esc="a.get('cantidad')"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="a.get('precio_unit')"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="a.get('fob')"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="a.get('seguro')"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="a.get('flete')"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="a.get('cif')"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="a.get('impuesto')"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="a.get('otros')"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="a.get('costol_total')"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="a.get('costo_unitario')"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('precio_unit'))"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('fob'))"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('seguro'))"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('flete'))"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('cif'))"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('impuesto'))"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('otros'))"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costol_total'))"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costo_unitario'))"/></td>
 
                           <!--Calculo de totales-->
                           <t t-set="total_quantity" t-value="total_quantity + a.get('cantidad')"/>
@@ -203,15 +203,15 @@
                           <td class="center-middle" style="text-align:right"></td>
                           <td class="center-middle" style="text-align:right"></td>
                           <td class="center-middle" style="text-align:right"></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="total_quantity"/></td>
+                          <td class="center-middle"><span t-esc="total_quantity"/></td>
                           <td class="center-middle" style="text-align:right">-</td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_FOB"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_seguro"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_flete"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_CIF"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_impuesto"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_otros if total_otros &gt; 0 else '-' "/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="total_costo"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_FOB)"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_seguro)"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_flete)"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_CIF)"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_impuesto)"/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_otros) if total_otros &gt; 0 else '-' "/></td>
+                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_costo)"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/>-</td>
                         </tr>
                       </table>
