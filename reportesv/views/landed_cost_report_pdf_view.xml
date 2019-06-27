@@ -263,8 +263,8 @@
                   </tr>
                 </table>
 
-              <div style="text-align:center;width: 350px;">
-                <table style="table-layout:fixed;margin-left:auto;margin-right:auto;width:50%">
+              <div style="text-align:center;width: 350px; display:inline-block">
+                <table style="table-layout:fixed;margin-left:auto;margin-right:auto;width:100%">
                   <tr>
                     <b><th colspan="2">RESUMEN</th></b>
                   </tr>
