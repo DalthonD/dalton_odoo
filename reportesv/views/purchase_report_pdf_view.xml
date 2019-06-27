@@ -158,9 +158,9 @@
                   </tr>
                   <tr class="tr-color">
                     <th class="center-middle" style="width:10px !important;">#</th>
-                    <th class="center-middle" style="width:25px% !important">Fecha de emisión</th>
+                    <th class="center-middle" style="width:25px !important">Fecha de emisión</th>
                     <th class="center-middle" style="width:40px !important;">Número de documento</th>
-                    <th class="center-middle" style="width:150px !important;word-wrap:break-all;">Nombre del proveedor</th>
+                    <th class="center-middle" style="width:250px !important;word-wrap:break-all;">Nombre del proveedor</th>
                     <th class="center-middle-o">N.R.C.</th>
                     <th class="center-middle">Internas</th>
                     <th class="center-middle">Importaciones e Internacionales</th>
@@ -174,10 +174,10 @@
                     <th class="center-middle">Retención a Terceros</th>
                   </tr>
                   <tr t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c" style="vertical-align: middle; text-align: left; height: auto; width: 100%; padding: 0px; border-spacing: 0.05px; border-collapse: collapse;">
-                    <td class="center-middle" style="width:5%"><span t-esc="int(c_index) + 1"/></td>
-                    <td class="center-middle" style="width:30%"><span t-esc="c[0]"/></td>
-                    <td class="center-middle" style="width:40%;"><span t-esc="c[1]"/></td>
-                    <td class="center-middle" style="text-align:left;width:100%;font-size:6.5pt"><span t-esc="c[2]"/></td>
+                    <td class="center-middle" style="width:10px"><span t-esc="int(c_index) + 1"/></td>
+                    <td class="center-middle" style="width:25px"><span t-esc="c[0]"/></td>
+                    <td class="center-middle" style="width:40px;"><span t-esc="c[1]"/></td>
+                    <td class="center-middle" style="text-align:left;width:150px;font-size:8pt"><span t-esc="c[2]"/></td>
                     <td class="center-middle" style="border-spacing: 0.5px"><span t-esc="c[3]"/></td>
                     <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/>
                         <t t-if="c[4] != true"  t-set="intEX" t-value="intEx+c[6]"/>
