@@ -148,8 +148,8 @@
                           <!--th class="center-middle">Referencia</th-->
                         </tr>
                         <tr t-foreach="o.get_invoices_inf()" t-as="t">
-                          <td class="center-middle-o" style="font-size:10pt;"><span t-esc="t.get('referencia')"/></td>
-                          <td class="center-middle-o" style="font-size:10pt;"><span t-esc="t.get('fecha')"/></td>
+                          <td class="center-middle" style="font-size:10pt;"><span t-esc="t.get('referencia')"/></td>
+                          <td class="center-middle" style="font-size:10pt;"><span t-esc="t.get('fecha')"/></td>
                           <!--td class="center-middle" style="text-align:right"><span t-esc=""/></td-->
                         </tr>
                       </table>
