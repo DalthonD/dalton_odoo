@@ -263,32 +263,29 @@
                   </tr>
                 </table>
 
-              <div align="center">
+              <div align="center" style="width: 300px;">
                 <table style="table-layout:fixed">
-                  <!--colgroup>
-                    <col span="2" class="width-invoice"></col>
-                  </colgroup-->
                   <tr>
                     <b><th colspan="2">RESUMEN</th></b>
                   </tr>
                   <tr>
-                    <td class="center-middle" style="text-align:right;font-size:12pt;">Costo de Producto</td>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Costo de Producto</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_FOB)"/></td>
                   </tr>
                   <tr>
-                    <td class="center-middle" style="text-align:right;font-size:12pt;">Impuestos (DAI)</td>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Impuestos (DAI)</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_impuesto)"/></td>
                   </tr>
                   <tr>
-                    <td class="center-middle" style="text-align:right;font-size:12pt;">Otros gastos aduanales</td>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Otros gastos aduanales</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_otros) if total_otros &gt; 0 else '-' "/></td>
                   </tr>
                   <tr>
-                    <td class="center-middle" style="text-align:right;font-size:12pt;">Seguro</td>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Seguro</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_seguro)"/></td>
                   </tr>
                   <tr>
-                    <td class="center-middle" style="text-align:right;font-size:12pt;">Flete</td>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Flete</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_flete)"/></td>
                   </tr>
                   <tr>
@@ -296,7 +293,7 @@
                     <td style="vertical-align:bottom;text-align:right">________________</td>
                   </tr>
                   <tr>
-                    <td class="center-middle" style="text-align:right;font-size:12pt;">Total</td>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Total</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_costo)"/></td>
                   </tr>
                 </table>
