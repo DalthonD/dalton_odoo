@@ -83,6 +83,9 @@
               .codigo{
                 width: 100px;
               }
+              .text-block{
+                word-wrap: break-word;
+              }
             </style>
             <!--Declaracion de variables-->
             <t t-set="company_id" t-value="int(0)"/>
@@ -194,8 +197,10 @@
                         <tr t-foreach="o.get_product_details()" t-as="a">
                           <td class="center-middle"><span t-esc="int(a_index) + 1"/></td>
                           <td class="center-middle"><span t-esc="a.get('codigo')"/></td>
-                          <td class="center-middle-o" style="text-align:left;white-space:initial;overflow:hidden;"><span style="display: block" t-esc="a.get('descripcion')"/></td>
-                          <td class="center-middle-o" style="text-align:left;white-space:initial;overflow:hidden;"><span style="display: block" t-esc="a.get('aduana_des')"/></td>
+                          <div class="text-block">
+                            <td class="center-middle-o" style="text-align:left;white-space:initial;overflow:hidden;"><span t-esc="a.get('descripcion')"/></td>
+                            <td class="center-middle-o" style="text-align:left;white-space:initial;overflow:hidden;"><span t-esc="a.get('aduana_des')"/></td>
+                          </div>
                           <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
                           <td class="center-middle"><span t-esc="a.get('cantidad')"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('precio_unit'))"/></td>
