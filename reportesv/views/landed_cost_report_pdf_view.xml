@@ -99,10 +99,6 @@
                 word-wrap: break-all !important;
                 overflow: hidden;
               }
-              .text-block{
-                word-wrap: break-all !important;
-                overflow: hidden;
-              }
             </style>
             <!--Declaracion de variables-->
             <t t-set="company_id" t-value="int(0)"/>
@@ -148,7 +144,7 @@
                         </colgroup>
                         <tr class="tr-color">
                           <th class="center-middle">Factura</th>
-                          <th class="center-middle">Fecha</th>
+                          <th class="center-middle" style="width:40%;">Fecha</th>
                           <!--th class="center-middle">Referencia</th-->
                         </tr>
                         <tr t-foreach="o.get_invoices_inf()" t-as="t">
