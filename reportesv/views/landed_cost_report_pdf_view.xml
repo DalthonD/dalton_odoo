@@ -34,6 +34,7 @@
                 color:white;
                 word-wrap: break-all !important;
                 overflow: hidden;
+                white-space:normal;
               }
               .tr-color{
                 background-color:blue;
@@ -75,7 +76,7 @@
               }
               .w{
                 width: 350px;
-                word-wrap: break-word !important;
+                word-wrap: break-all !important;
                 overflow: hidden;
                 white-space:normal;
               }
@@ -84,21 +85,21 @@
               }
               .money{
                 width: 100px;
-                word-wrap: break-word !important;
+                word-wrap: break-all !important;
                 overflow: hidden;
               }
               .num{
                 width: 30px;
-                word-wrap: break-word !important;
+                word-wrap: break-all !important;
                 overflow: hidden;
               }
               .codigo{
                 width: 100px;
-                word-wrap: break-word !important;
+                word-wrap: break-all !important;
                 overflow: hidden;
               }
               .text-block{
-                word-wrap: break-word !important;
+                word-wrap: break-all !important;
                 overflow: hidden;
               }
             </style>
@@ -131,7 +132,7 @@
                           </div>
                       </td>
                       <td class="center-middle" style="text-align:right">
-                          <b><span style="font-size:20pt,color:blue;text-align:right">RETACEO</span></b>
+                          <b><span style="font-size:30pt,color:blue;text-align:right">RETACEO</span></b>
                       </td>
                     </tr>
                   </table>
@@ -141,7 +142,8 @@
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <colgroup>
-                          <col span="2" class="width-invoice"></col>
+                          <col class="width-invoice"></col>
+                          <col class="width-invoice"></col>
                         </colgroup>
                         <tr class="tr-color">
                           <th class="center-middle">Factura</th>
