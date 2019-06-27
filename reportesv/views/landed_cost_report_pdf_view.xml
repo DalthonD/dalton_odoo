@@ -22,8 +22,8 @@
               .center-middle-o{
                 text-align: center;
                 vertical-align: middle !important;
-                white-space: nowrap !important;
-                line-height: 5pt;
+                word-wrap: break-word !important;
+                overflow: hidden;
               }
               .center-middle-c{
                 text-align: center;
@@ -182,8 +182,8 @@
                         <tr class="tr-color">
                           <th class="center-middle-c" style="width:1% !important;">#</th>
                           <th class="center-middle-c" style="width:8%; !important;">PRODUCTO#</th>
-                          <th class="center-middle-c" style="white-space:initial;">DESCRIPCIÓN DEL PRODUCTO</th>
-                          <th class="center-middle-c" style="white-space:initial;">DESCRIPCIÓN ADUANA</th>
+                          <th class="center-middle-c">DESCRIPCIÓN DEL PRODUCTO</th>
+                          <th class="center-middle-c">DESCRIPCIÓN ADUANA</th>
                           <th class="center-middle-c">POSICIÓN ARANCELARIA</th>
                           <th class="center-middle-c" style="width:8% !important;">CANTIDAD</th>
                           <th class="center-middle-c" style="width:6.11%;">PRECIO UNITARIO</th>
