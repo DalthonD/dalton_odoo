@@ -8,7 +8,7 @@ from odoo import SUPERUSER_ID
 class wizard_sv_stock_landed_cost_report(models.TransientModel):
     _name = 'wizard.sv.stock.landed.cost.report'
 
-    company_id=fields.Many2one('res.company', string="Company", help='Company',default=lambda self: self.env.user.company_id.id)
+    company_id=fields.Many2one('res.company', string="Compañia", help='Company',default=lambda self: self.env.user.company_id.id)
     stock_landed_cost_ids=fields.Many2many('stock.landed.cost', 'stock_landed_cost_list', 'wizard_id','cost_id', string="Costos de envío", help='Costos incurridos en la adquisición de mercancía')
 
     @api.multi

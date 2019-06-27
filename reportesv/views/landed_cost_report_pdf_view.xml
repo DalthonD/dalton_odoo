@@ -199,6 +199,8 @@
                           <td class="center-middle"><span t-esc="a.get('codigo')"/></td>
                           <div class="text-block">
                             <td class="center-middle-o" style="text-align:left;"><span t-esc="a.get('descripcion')"/></td>
+                          </div>
+                          <div class="text-block">
                             <td class="center-middle-o" style="text-align:left;"><span t-esc="a.get('aduana_des')"/></td>
                           </div>
                           <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
