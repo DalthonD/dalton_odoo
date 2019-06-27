@@ -148,8 +148,8 @@
                           <!--th class="center-middle">Referencia</th-->
                         </tr>
                         <tr t-foreach="o.get_invoices_inf()" t-as="t">
-                          <td class="center-middle-o" style="font-size:12pt;"><span t-esc="t.get('referencia')"/></td>
-                          <td class="center-middle-o" style="font-size:12pt;"><span t-esc="t.get('fecha')"/></td>
+                          <td class="center-middle-o" style="font-size:10pt;"><span t-esc="t.get('referencia')"/></td>
+                          <td class="center-middle-o" style="font-size:10pt;"><span t-esc="t.get('fecha')"/></td>
                           <!--td class="center-middle" style="text-align:right"><span t-esc=""/></td-->
                         </tr>
                       </table>
@@ -263,42 +263,44 @@
                   </tr>
                 </table>
 
-                <table style="table-layout:fixed;font-size:12pt">
-                  <colgroup>
+              <div align="center">
+                <table style="table-layout:fixed">
+                  <!--colgroup>
                     <col span="2" class="width-invoice"></col>
-                  </colgroup>
+                  </colgroup-->
                   <tr>
                     <b><th colspan="2">RESUMEN</th></b>
                   </tr>
                   <tr>
-                    <td>Costo de Producto</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;">Costo de Producto</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_FOB)"/></td>
                   </tr>
                   <tr>
-                    <td>Impuestos (DAI)</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;">Impuestos (DAI)</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_impuesto)"/></td>
                   </tr>
                   <tr>
-                    <td>Otros gastos aduanales</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;">Otros gastos aduanales</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_otros) if total_otros &gt; 0 else '-' "/></td>
                   </tr>
                   <tr>
-                    <td>Seguro</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;">Seguro</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_seguro)"/></td>
                   </tr>
                   <tr>
-                    <td>Flete</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;">Flete</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_flete)"/></td>
                   </tr>
                   <tr>
                     <td></td>
-                    <td style="vertical-align:bottom;text-align:center">________________</td>
+                    <td style="vertical-align:bottom;text-align:right">________________</td>
                   </tr>
                   <tr>
-                    <td>Total</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;">Total</td>
                     <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_costo)"/></td>
                   </tr>
                 </table>
+              </div>
 
                 <!--div t-if="report_type == 'pdf'" class="text-muted" style="position:absolute;bottom:5pt;text-align:left">
                     Pág.: <span class="page"/> de <span class="topage"/>
