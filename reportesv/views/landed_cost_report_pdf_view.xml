@@ -28,7 +28,6 @@
               .center-middle-c{
                 text-align: center;
                 vertical-align: middle !important;
-                white-space: nowrap !important;
                 padding:5px !important;
                 width70%;
                 color:white
@@ -84,7 +83,8 @@
                 width: 100px;
               }
               .text-block{
-                word-wrap: break-word;
+                word-wrap: break-word !important;
+                overflow: hidden;
               }
             </style>
             <!--Declaracion de variables-->
@@ -180,9 +180,9 @@
                         <tr class="tr-color">
                           <th class="center-middle-c" style="width:1% !important;">#</th>
                           <th class="center-middle-c" style="width:8%; !important;">PRODUCTO#</th>
-                          <th class="center-middle-c" style="width:10% !important;white-space: initial;">DESCRIPCIÓN DEL PRODUCTO</th>
-                          <th class="center-middle-c" style="width:10% !important;white-space: initial;">DESCRIPCIÓN ADUANA</th>
-                          <th class="center-middle-c" style="width:5% !important;">POSICIÓN ARANCELARIA</th>
+                          <th class="center-middle-c" style="white-space:initial;">DESCRIPCIÓN DEL PRODUCTO</th>
+                          <th class="center-middle-c" style="white-space:initial;">DESCRIPCIÓN ADUANA</th>
+                          <div class="text-block"><th class="center-middle-c">POSICIÓN ARANCELARIA</th></div>
                           <th class="center-middle-c" style="width:8% !important;">CANTIDAD</th>
                           <th class="center-middle-c" style="width:6.11%;">PRECIO UNITARIO</th>
                           <th class="center-middle-c" style="width:6.11%;">VALOR $ FOB</th>
@@ -198,8 +198,8 @@
                           <td class="center-middle"><span t-esc="int(a_index) + 1"/></td>
                           <td class="center-middle"><span t-esc="a.get('codigo')"/></td>
                           <div class="text-block">
-                            <td class="center-middle-o" style="text-align:left;white-space:initial;overflow:hidden;"><span t-esc="a.get('descripcion')"/></td>
-                            <td class="center-middle-o" style="text-align:left;white-space:initial;overflow:hidden;"><span t-esc="a.get('aduana_des')"/></td>
+                            <td class="center-middle-o" style="text-align:left;"><span t-esc="a.get('descripcion')"/></td>
+                            <td class="center-middle-o" style="text-align:left;"><span t-esc="a.get('aduana_des')"/></td>
                           </div>
                           <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
                           <td class="center-middle"><span t-esc="a.get('cantidad')"/></td>
