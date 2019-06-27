@@ -51,7 +51,7 @@ class strategiksv_consumer_report_pdf(models.AbstractModel):
         if data and data.get('form')\
             and  data.get('form').get('company_id')\
             and  data.get('form').get('date_year')\
-            and  data.get('form').get('date_month')\
+            and  data.get('form').get('date_month'):
             docids = self.env['res.company'].browse(data['form']['company_id'][0])
         return {'doc_ids': self.env['wizard.sv.consumer.report'].browse(data['ids']),
                 'doc_model': report.model,

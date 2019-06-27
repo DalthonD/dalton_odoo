@@ -1,6 +1,6 @@
 <odoo>
   <data>
-    <record id="report_purchase_wizard_view" model="ir.ui.view" >
+    <record id="report_purchase_wizard_view" model="ir.ui.view">
       <field name="name">wizard.sv.purchase.report.form.view</field>
       <field name="model">wizard.sv.purchase.report</field>
       <field name="arch" type="xml">
