@@ -57,6 +57,7 @@
                 padding:5px;
                 white-space: nowrap;
                 border-collapse: collapse;
+                font-size:12pt;
               }
               table td:last-child{
                 padding: 0.5px;
