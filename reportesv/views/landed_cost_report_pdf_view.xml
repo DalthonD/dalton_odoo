@@ -30,7 +30,9 @@
                 vertical-align: middle !important;
                 padding:5px !important;
                 width70%;
-                color:white
+                color:white;
+                word-wrap: break-word !important;
+                overflow: hidden;
               }
               .tr-color{
                 background-color:blue;
@@ -182,7 +184,7 @@
                           <th class="center-middle-c" style="width:8%; !important;">PRODUCTO#</th>
                           <th class="center-middle-c" style="white-space:initial;">DESCRIPCIÓN DEL PRODUCTO</th>
                           <th class="center-middle-c" style="white-space:initial;">DESCRIPCIÓN ADUANA</th>
-                          <div class="text-block"><th class="center-middle-c">POSICIÓN ARANCELARIA</th></div>
+                          <th class="center-middle-c">POSICIÓN ARANCELARIA</th>
                           <th class="center-middle-c" style="width:8% !important;">CANTIDAD</th>
                           <th class="center-middle-c" style="width:6.11%;">PRECIO UNITARIO</th>
                           <th class="center-middle-c" style="width:6.11%;">VALOR $ FOB</th>
