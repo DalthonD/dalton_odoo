@@ -57,7 +57,7 @@
                 padding:5px;
                 white-space: nowrap;
                 border-collapse: collapse;
-                font-size:12pt;
+                font-size:10pt;
               }
               table td:last-child{
                 padding: 0.5px;
@@ -137,7 +137,7 @@
                 <table style="margin-top:8pt">
                   <tr>
                     <td>
-                      <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
+                      <table class="table table-bordered" style="table-layout:fixed;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <colgroup>
                           <col class="width-invoice"></col>
                           <col class="width-invoice"></col>
@@ -154,7 +154,7 @@
                         </tr>
                       </table>
                     </td>
-                    <td style="width:40%">
+                    <td style="width:60%">
                     </td>
                     <td>
                       <table class="table table-bordered" style="table-layout:fixed;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
