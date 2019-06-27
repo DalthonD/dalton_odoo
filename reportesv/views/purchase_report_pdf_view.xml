@@ -150,18 +150,6 @@
               <!--table class="table table-bordered" style="border-color: black; height: 100%; width: 100%; border-collapse: collapse; border: 1px solid black"-->
               <table class="table table-bordered" style="table-layout:fixed;border: 1px solid black; padding: 0px; border-collapse: collapse;empty-cells:hide;">
                   <!--tr style="text-align: center; vertical-align: middle; height: auto; width: auto;"-->
-                  <colgroup>
-                    <col class="num"></col>
-                    <col class="date"></col>
-                    <col class="codigo"></col>
-                    <col span="" class=""></col>
-                    <col span="" class=""></col>
-                    <col span="" class=""></col>
-                    <col span="" class=""></col>
-                    <col span="" class=""></col>
-                    <col span="" class=""></col>
-                    <col span="" class=""></col>
-                  </colgroup>
                   <tr class="tr-color">
                     <th colspan="5"></th>
                     <th colspan="2" class="center-middle">COMPRAS EXENTAS</th>
@@ -169,10 +157,10 @@
                     <th colspan="5"></th>
                   </tr>
                   <tr class="tr-color">
-                    <th class="center-middle" style="width:5% !important;">#</th>
-                    <th class="center-middle" style="width:5% !important">Fecha de emisión</th>
-                    <th class="center-middle" style="width:40% !important;">Número de documento</th>
-                    <th class="center-middle" style="width:100% !important;">Nombre del proveedor</th>
+                    <th class="center-middle" style="width:10px !important;">#</th>
+                    <th class="center-middle" style="width:25px% !important">Fecha de emisión</th>
+                    <th class="center-middle" style="width:40px !important;">Número de documento</th>
+                    <th class="center-middle" style="width:150px !important;word-wrap:break-all;">Nombre del proveedor</th>
                     <th class="center-middle-o">N.R.C.</th>
                     <th class="center-middle">Internas</th>
                     <th class="center-middle">Importaciones e Internacionales</th>
