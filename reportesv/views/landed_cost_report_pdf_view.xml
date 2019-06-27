@@ -200,10 +200,10 @@
                           <td class="center-middle"><span t-esc="int(a_index) + 1"/></td>
                           <td class="center-middle"><span t-esc="a.get('codigo')"/></td>
                           <div class="text-block">
-                            <td class="center-middle-o" style="text-align:left;"><span t-esc="a.get('descripcion')"/></td>
+                            <td class="center-middle-o" style="text-align:left;"><span class="text-block" t-esc="a.get('descripcion')"/></td>
                           </div>
                           <div class="text-block">
-                            <td class="center-middle-o" style="text-align:left;"><span t-esc="a.get('aduana_des')"/></td>
+                            <td class="center-middle-o" style="text-align:left;"><span class="text-block" t-esc="a.get('aduana_des')"/></td>
                           </div>
                           <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
                           <td class="center-middle"><span t-esc="a.get('cantidad')"/></td>
