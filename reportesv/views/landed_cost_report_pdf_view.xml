@@ -24,6 +24,7 @@
                 vertical-align: middle !important;
                 word-wrap: break-word !important;
                 overflow: hidden;
+                white-space:normal;
               }
               .center-middle-c{
                 text-align: center;
@@ -76,6 +77,10 @@
                 width: 350px;
                 word-wrap: break-word !important;
                 overflow: hidden;
+                white-space:normal;
+              }
+              .width-invoice{
+                width: 200px;
               }
               .money{
                 width: 100px;
@@ -135,6 +140,9 @@
                   <tr>
                     <td>
                       <table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
+                        <colgroup>
+                          <col span="2" class="width-invoice"></col>
+                        </colgroup>
                         <tr class="tr-color">
                           <th class="center-middle">Factura</th>
                           <th class="center-middle">Fecha</th>
