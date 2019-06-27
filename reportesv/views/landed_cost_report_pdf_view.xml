@@ -74,15 +74,23 @@
               }
               .w{
                 width: 350px;
+                word-wrap: break-word !important;
+                overflow: hidden;
               }
               .money{
                 width: 100px;
+                word-wrap: break-word !important;
+                overflow: hidden;
               }
               .num{
                 width: 30px;
+                word-wrap: break-word !important;
+                overflow: hidden;
               }
               .codigo{
                 width: 100px;
+                word-wrap: break-word !important;
+                overflow: hidden;
               }
               .text-block{
                 word-wrap: break-word !important;
@@ -180,31 +188,27 @@
                           <col span="10" class="money"></col>
                         </colgroup>
                         <tr class="tr-color">
-                          <th class="center-middle-c" style="width:1% !important;">#</th>
-                          <th class="center-middle-c" style="width:8%; !important;">PRODUCTO#</th>
+                          <th class="center-middle-c">#</th>
+                          <th class="center-middle-c">PRODUCTO#</th>
                           <th class="center-middle-c">DESCRIPCIÓN DEL PRODUCTO</th>
                           <th class="center-middle-c">DESCRIPCIÓN ADUANA</th>
                           <th class="center-middle-c">POSICIÓN ARANCELARIA</th>
-                          <th class="center-middle-c" style="width:8% !important;">CANTIDAD</th>
-                          <th class="center-middle-c" style="width:6.11%;">PRECIO UNITARIO</th>
-                          <th class="center-middle-c" style="width:6.11%;">VALOR $ FOB</th>
-                          <th class="center-middle-c" style="width:6.11%;">SEGURO</th>
-                          <th class="center-middle-c" style="width:6.11%;">FLETE</th>
-                          <th class="center-middle-c" style="width:6.11%;">VALOR $ CIF</th>
-                          <th class="center-middle-c" style="width:6.11%;">IMPUESTOS</th>
-                          <th class="center-middle-c" style="width:6.11%;">OTROS GASTOS</th>
-                          <th class="center-middle-c" style="width:6.11%;">TOTAL COSTO</th>
-                          <th class="center-middle-c" style="width:6.11%;">COSTO UNITARIO</th>
+                          <th class="center-middle-c">CANTIDAD</th>
+                          <th class="center-middle-c">PRECIO UNITARIO</th>
+                          <th class="center-middle-c">VALOR $ FOB</th>
+                          <th class="center-middle-c">SEGURO</th>
+                          <th class="center-middle-c">FLETE</th>
+                          <th class="center-middle-c">VALOR $ CIF</th>
+                          <th class="center-middle-c">IMPUESTOS</th>
+                          <th class="center-middle-c">OTROS GASTOS</th>
+                          <th class="center-middle-c">TOTAL COSTO</th>
+                          <th class="center-middle-c">COSTO UNITARIO</th>
                         </tr>
                         <tr t-foreach="o.get_product_details()" t-as="a">
                           <td class="center-middle"><span t-esc="int(a_index) + 1"/></td>
                           <td class="center-middle"><span t-esc="a.get('codigo')"/></td>
-                          <div class="text-block">
-                            <td class="center-middle-o" style="text-align:left;"><span class="text-block" t-esc="a.get('descripcion')"/></td>
-                          </div>
-                          <div class="text-block">
-                            <td class="center-middle-o" style="text-align:left;"><span class="text-block" t-esc="a.get('aduana_des')"/></td>
-                          </div>
+                          <td class="center-middle-o" style="text-align:left;"><span class="text-block" t-esc="a.get('descripcion')"/></td>
+                          <td class="center-middle-o" style="text-align:left;"><span class="text-block" t-esc="a.get('aduana_des')"/></td>
                           <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
                           <td class="center-middle"><span t-esc="a.get('cantidad')"/></td>
                           <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('precio_unit'))"/></td>
