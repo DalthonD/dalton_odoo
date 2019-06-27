@@ -175,9 +175,9 @@
                   </tr>
                   <tr t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c" style="vertical-align: middle; text-align: left; height: auto; width: 100%; padding: 0px; border-spacing: 0.05px; border-collapse: collapse;">
                     <td class="center-middle" style="width:10px"><span t-esc="int(c_index) + 1"/></td>
-                    <td class="center-middle" style="width:25px"><span t-esc="c[0]"/></td>
-                    <td class="center-middle" style="width:40px;"><span t-esc="c[1]"/></td>
-                    <td class="center-middle" style="text-align:left;width:150px;font-size:8pt"><span t-esc="c[2]"/></td>
+                    <td class="center-middle" style="width:40px"><span t-esc="c[0]"/></td>
+                    <td class="center-middle" style="width:50px;"><span t-esc="c[1]"/></td>
+                    <td class="center-middle" style="text-align:left;width:200px;font-size:8pt"><span t-esc="c[2]"/></td>
                     <td class="center-middle" style="border-spacing: 0.5px"><span t-esc="c[3]"/></td>
                     <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/>
                         <t t-if="c[4] != true"  t-set="intEX" t-value="intEx+c[6]"/>
@@ -263,7 +263,7 @@
                 <tr style="width: 100%;">
                   <td style="width:30%"></td>
                   <td style="text-align:center;">
-                    <table class="table table-bordered" style="margin-left:auto;margin-right:auto;width:400px;border: 1px solid black; border-collapse: collapse;width:auto;">
+                    <table class="table table-bordered" style="margin-left:auto;margin-right:auto;width:1000px;border: 1px solid black; border-collapse: collapse;width:auto;">
                       <colgroup>
                         <col span="2" class="w"></col>
                       </colgroup>
