@@ -65,12 +65,29 @@
                 background-color:gray;
                 content: "Pág. " conunter(page) " de " counter(pages);
               }
-
               .w{
                 width: 400px;
                 word-wrap: break-all !important;
                 overflow: hidden;
                 white-space:normal;
+              }
+              .money{
+                width: 100px;
+                word-wrap: break-all !important;
+                overflow: hidden;
+              }
+              .num{
+                width: 30px;
+                word-wrap: break-all !important;
+                overflow: hidden;
+              }
+              .codigo{
+                width: 150px;
+                word-wrap: break-all !important;
+                overflow: hidden;
+              }
+              .date{
+                width:100px;
               }
             </style>
             <!--Declaracion de variables-->
@@ -131,8 +148,20 @@
             <!--Contenido de reporte-->
             <!--t t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c"-->
               <!--table class="table table-bordered" style="border-color: black; height: 100%; width: 100%; border-collapse: collapse; border: 1px solid black"-->
-              <table class="table table-bordered" style="table-layout:auto;border: 1px solid black; padding: 0px; border-collapse: collapse;empty-cells:hide;">
+              <table class="table table-bordered" style="table-layout:fixed;border: 1px solid black; padding: 0px; border-collapse: collapse;empty-cells:hide;">
                   <!--tr style="text-align: center; vertical-align: middle; height: auto; width: auto;"-->
+                  <colgroup>
+                    <col class="num"></col>
+                    <col class="date"></col>
+                    <col class="codigo"></col>
+                    <col span="" class=""></col>
+                    <col span="" class=""></col>
+                    <col span="" class=""></col>
+                    <col span="" class=""></col>
+                    <col span="" class=""></col>
+                    <col span="" class=""></col>
+                    <col span="" class=""></col>
+                  </colgroup>
                   <tr class="tr-color">
                     <th colspan="5"></th>
                     <th colspan="2" class="center-middle">COMPRAS EXENTAS</th>
@@ -246,7 +275,7 @@
                 <tr style="width: 100%;">
                   <td style="width:30%"></td>
                   <td style="text-align:center;">
-                    <table class="table table-bordered" style="border: 1px solid black; border-collapse: collapse;width:auto;">
+                    <table class="table table-bordered" style="margin-left:auto;margin-right:auto;width:400px;border: 1px solid black; border-collapse: collapse;width:auto;">
                       <colgroup>
                         <col span="2" class="w"></col>
                       </colgroup>
