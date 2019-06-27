@@ -57,7 +57,7 @@
                 padding:5px;
                 white-space: nowrap;
                 border-collapse: collapse;
-                font-size:10pt;
+                font-size:9pt;
               }
               table td:last-child{
                 padding: 0.5px;
@@ -82,7 +82,7 @@
                 white-space:normal;
               }
               .width-invoice{
-                width: 200px;
+                width: 150px;
               }
               .money{
                 width: 100px;
@@ -143,13 +143,13 @@
                           <col class="width-invoice"></col>
                         </colgroup>
                         <tr class="tr-color">
-                          <th class="center-middle">Factura</th>
-                          <th class="center-middle" style="width:40%;">Fecha</th>
+                          <th class="center-middle" style="font-size:12pt;">Factura</th>
+                          <th class="center-middle" style="font-size:12pt;">Fecha</th>
                           <!--th class="center-middle">Referencia</th-->
                         </tr>
                         <tr t-foreach="o.get_invoices_inf()" t-as="t">
-                          <td class="center-middle-o" style="text-align:left;"><span t-esc="t.get('referencia')"/></td>
-                          <td class="center-middle-o"><span t-esc="t.get('fecha')"/></td>
+                          <td class="center-middle-o" style="font-size:12pt;"><span t-esc="t.get('referencia')"/></td>
+                          <td class="center-middle-o" style="font-size:12pt;"><span t-esc="t.get('fecha')"/></td>
                           <!--td class="center-middle" style="text-align:right"><span t-esc=""/></td-->
                         </tr>
                       </table>
@@ -159,23 +159,23 @@
                     <td>
                       <table class="table table-bordered" style="table-layout:fixed;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
                         <tr class="tr-color">
-                          <th colspan="2" class="center-middle" style="color:white;width:5%">Datos de la importación</th>
+                          <th colspan="2" class="center-middle" style="color:white;width:5%;font-size:12pt;">Datos de la importación</th>
                         </tr>
                         <tr>
                           <td class="center-middle" style="text-align:left;width:20%;left:5px">DECLARACION No</td>
-                          <td class="center-middle" style="text-align:left;width:15%;left:5px"><span t-esc="o.sv_declaracion"/></td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px;font-size:10pt;"><span t-esc="o.sv_declaracion"/></td>
                         </tr>
                         <tr>
                           <td class="center-middle" style="text-align:left;width:20%;left:5px">FECHA DE IMPORT.</td>
-                          <td class="center-middle" style="text-align:left;width:15%;left:5px"><span t-esc="o.date"/></td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px;font-size:10pt;"><span t-esc="o.date"/></td>
                         </tr>
                         <tr>
                           <td class="center-middle" style="text-align:left;width:20%;left:5px">GUIA/BL</td>
-                          <td class="center-middle" style="text-align:left;width:15%;left:5px"><span t-esc="o.sv_guia"/></td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px;font-size:10pt;"><span t-esc="o.sv_guia"/></td>
                         </tr>
                         <tr>
                           <td class="center-middle" style="text-align:left;width:20%;left:5px">SHIP VIA</td>
-                          <td class="center-middle" style="text-align:left;width:15%;left:5px"></td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px;font-size:10pt;"></td>
                         </tr>
                       </table>
                     </td>
@@ -218,15 +218,15 @@
                           <td class="center-middle-o" style="text-align:left;"><span class="text-block" t-esc="a.get('aduana_des')"/></td>
                           <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
                           <td class="center-middle"><span t-esc="a.get('cantidad')"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('precio_unit'))"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('fob'))"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('seguro'))"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('flete'))"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('cif'))"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('impuesto'))"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('otros'))"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costo_total'))"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costo_unitario'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('precio_unit'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('fob'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('seguro'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('flete'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('cif'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('impuesto'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('otros'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costo_total'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costo_unitario'))"/></td>
 
                           <!--Calculo de totales-->
                           <t t-set="total_quantity" t-value="total_quantity + a.get('cantidad')"/>
@@ -247,19 +247,56 @@
                           <td class="center-middle" style="text-align:right"></td>
                           <td class="center-middle"><span t-esc="total_quantity"/></td>
                           <td class="center-middle">-</td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_FOB)"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_seguro)"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_flete)"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_CIF)"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_impuesto)"/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_otros) if total_otros &gt; 0 else '-' "/></td>
-                          <td class="center-middle" style="text-align:right"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_costo)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_FOB)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_seguro)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_flete)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_CIF)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_impuesto)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_otros) if total_otros &gt; 0 else '-' "/></td>
+                          <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_costo)"/></td>
                           <td class="center-middle">-</td>
                         </tr>
                       </table>
                     </td>
                     <td>
                     </td>
+                  </tr>
+                </table>
+
+                <table style="table-layout:fixed;font-size:12pt">
+                  <colgroup>
+                    <col span="2" class="width-invoice"></col>
+                  </colgroup>
+                  <tr>
+                    <b><th colspan="2">RESUMEN</th></b>
+                  </tr>
+                  <tr>
+                    <td>Costo de Producto</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_FOB)"/></td>
+                  </tr>
+                  <tr>
+                    <td>Impuestos (DAI)</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_impuesto)"/></td>
+                  </tr>
+                  <tr>
+                    <td>Otros gastos aduanales</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_otros) if total_otros &gt; 0 else '-' "/></td>
+                  </tr>
+                  <tr>
+                    <td>Seguro</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_seguro)"/></td>
+                  </tr>
+                  <tr>
+                    <td>Flete</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_flete)"/></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td style="vertical-align:bottom;text-align:center">________________</td>
+                  </tr>
+                  <tr>
+                    <td>Total</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_costo)"/></td>
                   </tr>
                 </table>
 
