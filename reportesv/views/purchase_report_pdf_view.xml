@@ -272,9 +272,9 @@
             </table>
             <!--Contenido de reporte-->
             <!--Tabla resumen-->
-          <table>
-            <tr>
-              <td rowspan="2">
+          <table align="center">
+            <tr style="width:100%">
+              <td rowspan="2" align="left">
                 <table class="table tabled-bordered tabla-resumen">
                   <tr class="tr-color">
                     <td colspan="2" class="center-middle-o" style="font-size:12pt;">RESUMEN DE COMPRAS</td>
@@ -322,11 +322,11 @@
                 </table>
               </td>
               <td rowspan="2" style="width:30%"></td>
-              <td rowspan="2" style="vertical-align:middle !important;text-align:center !important;font-size:12pt">
-                  <div style="text-align:center;vertical-align:middle;">
-                      <p align="center" style="text-align:center;vertical-align:middle">________________________________</p>
-                      <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:middle"><span t-esc="contador"/></p>
-                      <p class="spacing-line" style="text-aling:center;vertical-align:middle">Contador</p>
+              <td rowspan="2" style="vertical-align:bottom !important;text-align:right !important;font-size:12pt">
+                  <div style="text-align:center">
+                      <p align="center" style="text-align:center;">________________________________</p>
+                      <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
+                      <p class="spacing-line" style="text-align:center;vertical-align: top">Contador</p>
                   </div>
               </td>
             </tr>
