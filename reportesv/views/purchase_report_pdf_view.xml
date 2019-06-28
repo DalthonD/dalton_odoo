@@ -31,12 +31,13 @@
                 text-align: right;
                 vertical-align: middle !important;
                 padding:8px !important;
-                font-size:10pt;
+                font-size:12pt;
               }
               .center-middle-o{
                 text-align: center;
                 vertical-align: middle !important;
                 padding:0px;
+                font-size:12pt;
               }
               .tr-color{
                 background-color:lightgray;
@@ -147,9 +148,9 @@
                 <th class="partner-name">Nombre del proveedor</th>
                 <th class="standar">N.R.C.</th>
                 <th class="standar">Internas</th>
-                <th class="standar" style="font-sieze:8pt;">Importaciones e Internacionales</th>
+                <th class="standar" style="font-sieze:6pt;">Importaciones e Internacionales</th>
                 <th class="standar">Internas</th>
-                <th class="standar" style="font-sieze:8pt;">Importaciones e Internacionales</th>
+                <th class="standar" style="font-sieze:6pt;">Importaciones e Internacionales</th>
                 <th class="standar">Crédito fiscal</th>
                 <th class="standar">Anticipo a Cuenta de IVA Retenido</th>
                 <th class="standar">Anticipo a Cuenta de IVA Percibido</th>
