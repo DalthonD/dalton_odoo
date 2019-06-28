@@ -55,7 +55,6 @@
                 table-layout:fixed;
                 position:absolute;
                 left:200px;
-                border: 1px solid;
                 width:400px;
               }
               .iden {
@@ -66,12 +65,12 @@
               .standar {
                 text-align: center;
                 vertical-align: middle !important;
-                width:100px;
+                width:110px;
               }
               .num-fact {
                 text-align: center;
                 vertical-align: middle !important;
-                width:200px;
+                width:150px;
               }
               .partner-name {
                 text-align: center;
@@ -207,6 +206,12 @@
                 <td class="center-middle"><span t-esc="company.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(totalCompras)"/></td>
               </tr>
             </table>
+
+            <div style="text-align:center;position:absolute;left:400px">
+                <p style="text-align:center">________________________________</p>
+                <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
+                <p class="spacing-line" style="text-aling:center;vertical-align:top">Contador</p>
+            </div>
 
           </div>
         </t>
