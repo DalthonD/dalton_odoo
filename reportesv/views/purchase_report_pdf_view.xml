@@ -63,6 +63,7 @@
                 vertical-align: middle !important;
                 width:60px;
                 font-size:12pt;
+                padding:0px;
               }
               .standar {
                 text-align: center;
@@ -75,12 +76,20 @@
                 vertical-align: middle !important;
                 font-size:12pt;
                 width:110px;
+                padding:0px;
               }
               .num-fact {
                 text-align: center;
                 vertical-align: middle !important;
                 font-size:12pt;
                 width:110px;
+              }
+              .num-fact-p {
+                text-align: center;
+                vertical-align: middle !important;
+                font-size:12pt;
+                width:110px;
+                padding:0px;
               }
               .partner-name {
                 text-align: left;
@@ -166,10 +175,10 @@
               </tr>
               <tr id="datos" t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c">
                 <td class="iden"><span t-esc="int(c_index + 1)"/></td>
-                <td class="standar"><span t-esc="c.get('fecha')"/></td>
-                <td class="num-fact"><span t-esc="c.get('factura')"/></td>
-                <td class="partner-name" style="font-size:10pt;"><span t-esc="c.get('proveedor')"/></td>
-                <td class="standar"><span t-esc="c.get('nrc')"/></td>
+                <td class="standar" style="padding:0px;"><span t-esc="c.get('fecha')"/></td>
+                <td class="num-fact-p" style="padding:0px;"><span t-esc="c.get('factura')"/></td>
+                <td class="partner-name" style="font-size:10pt;padding:0px;"><span t-esc="c.get('proveedor')"/></td>
+                <td class="standar" style="padding:0px;"><span t-esc="c.get('nrc')"/></td>
                 <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
                   <t t-if="c.get('importacion') != true"  t-set="intEx" t-value="intEx+c.get('exento')"/>
                   <span  t-if="c.get('importacion') != true" t-esc="'{0:.2f}'.format(c.get('exento'))"/>
@@ -262,7 +271,7 @@
               </tr>
             </table>
             <!--Contenido de reporte-->
-
+            <separator string="Resumen"/>
             <!--Tabla resumen-->
           <table>
             <tr>
