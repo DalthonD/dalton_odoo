@@ -11,7 +11,7 @@
               .center-middle-title{
                 font-size: 15pt;
                 text-transform: uppercase;
-                line-height: 10pt;
+                line-height: 15pt;
               }
               .center-middle{
                 text-align: center;
@@ -322,15 +322,15 @@
                 </table>
               </td>
               <td style="width:30%"></td>
-              <td> </td>
+              <td></td>
             </tr>
             <tr>
               <td style="width:30%"></td>
               <td align="center" style="vertical-align:middle !important;text-align:center !important;font-size:12pt">
                 <div style="text-align:center;vertical-align:middle;">
                     <p align="center" style="text-align:center;vertical-align:middle">________________________________</p>
-                    <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
-                    <p class="spacing-line" style="text-aling:center;vertical-align:top">Contador</p>
+                    <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:middle"><span t-esc="contador"/></p>
+                    <p class="spacing-line" style="text-aling:center;vertical-align:middle">Contador</p>
                 </div>
               </td>
             </tr>
