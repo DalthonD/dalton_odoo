@@ -61,7 +61,7 @@
               .iden {
                 text-align: center;
                 vertical-align: middle !important;
-                width:30px;
+                width:40px;
                 font-size:12pt;
               }
               .standar {
@@ -80,12 +80,12 @@
                 text-align: center;
                 vertical-align: middle !important;
                 font-size:12pt;
-                width:150px;
+                width:110px;
               }
               .partner-name {
-                text-align: center;
+                text-align: left;
                 vertical-align: middle !important;
-                width:300px;
+                width:350px;
                 word-wrap:break-all !important;
                 white-space:initial;
                 font-size:12pt;
@@ -133,7 +133,7 @@
                 </div>
               </t>
             <!--Fin encabezado-->
-            <table id="contenido" class="table table-bordered" style="table-layout:fixed;">
+            <table id="contenido" class="table table-bordered" style="table-layout:fixed;width:800px;">
               <colgroup>
                 <col class="iden"></col>
                 <col class="standar"></col>
@@ -151,7 +151,7 @@
                 <th class="iden">#</th>
                 <th class="standar">Fecha de emisión</th>
                 <th class="num-fact">Número de documento</th>
-                <th class="partner-name">Nombre del proveedor</th>
+                <th class="partner-name" style="text-align:center">Nombre del proveedor</th>
                 <th class="standar">N.R.C.</th>
                 <th class="standar">Internas</th>
                 <th class="standar" style="font-size:8pt;">Importaciones e Internacionales</th>
@@ -168,7 +168,7 @@
                 <td class="iden"><span t-esc="int(c_index + 1)"/></td>
                 <td class="standar"><span t-esc="c.get('fecha')"/></td>
                 <td class="num-fact"><span t-esc="c.get('factura')"/></td>
-                <td class="partner-name"><span t-esc="c.get('proveedor')"/></td>
+                <td class="partner-name" style="font-size:10pt;"><span t-esc="c.get('proveedor')"/></td>
                 <td class="standar"><span t-esc="c.get('nrc')"/></td>
                 <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
                   <t t-if="c.get('importacion') != true"  t-set="intEx" t-value="intEx+c.get('exento')"/>
@@ -313,13 +313,13 @@
                   </tr>
                 </table>
               </td>
-              <div style="text-align:center;vertical-align:middle;">
-              <td style="vertical-align:middle;text-align:center;font-size:12pt">
-                    <p style="text-align:center">________________________________</p>
+              <td style="vertical-align:middle !important;text-align:center !important;font-size:12pt">
+                <div style="text-align:center;vertical-align:middle;">
+                    <p style="text-align:center;vertical-align:middle">________________________________</p>
                     <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
                     <p class="spacing-line" style="text-aling:center;vertical-align:top">Contador</p>
+                </div>
               </td>
-              </div>
             </tr>
           </table>
 
