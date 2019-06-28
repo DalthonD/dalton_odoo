@@ -9,7 +9,7 @@
                 line-height: 5pt
               }
               .center-middle-title{
-                font-size: 15px;
+                font-size: 15pt;
                 text-transform: uppercase;
                 line-height: 10pt;
               }
@@ -134,7 +134,7 @@
                 <t t-set="company" t-value="o"/>
 
                 <div style="text-align: center">
-                  <h2 class="center-middle-title" style="font-size:20px;">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
+                  <h2 class="center-middle-title" style="font-size:20pt;">NOMBRE DEL CONTRIBUYENTE: <span t-field="o.name"/></h2>
                   <h2 class="center-middle-title">LIBRO DE COMPRAS CON OPERACIONES DE RETENCIÓN</h2>
                   <h2 class="center-middle-title">NIT: <span t-field="o.sv_nit"/> NRC: <span t-field="o.sv_nrc"/></h2>
                   <h2 class="center-middle-title">MES: <span t-esc="o.get_month_str(month)"/> DE <span t-esc="year"/></h2>
@@ -271,11 +271,10 @@
               </tr>
             </table>
             <!--Contenido de reporte-->
-            <separator string="Resumen"/>
             <!--Tabla resumen-->
           <table>
             <tr>
-              <td>
+              <td rowspan="2">
                 <table class="table tabled-bordered tabla-resumen">
                   <tr class="tr-color">
                     <td colspan="2" class="center-middle-o" style="font-size:12pt;">RESUMEN DE COMPRAS</td>
@@ -323,6 +322,10 @@
                 </table>
               </td>
               <td style="width:30%"></td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td style="width:30%"></td>
               <td align="center" style="vertical-align:middle !important;text-align:center !important;font-size:12pt">
                 <div style="text-align:center;vertical-align:middle;">
                     <p align="center" style="text-align:center;vertical-align:middle">________________________________</p>
@@ -332,7 +335,6 @@
               </td>
             </tr>
           </table>
-
           </div>
         </t>
       </t>
