@@ -275,7 +275,7 @@
           <table align="center">
             <tr style="width:100%">
               <td rowspan="2" align="left">
-                <table class="table tabled-bordered tabla-resumen">
+                <table class="table tabled-bordered tabla-resumen" style="word-break: keep-all;white-space:nowrap">
                   <tr class="tr-color">
                     <td colspan="2" class="center-middle-o" style="font-size:12pt;">RESUMEN DE COMPRAS</td>
                   </tr>
@@ -329,8 +329,6 @@
                       <p class="spacing-line" style="text-align:center;vertical-align: top">Contador</p>
                   </div>
               </td>
-            </tr>
-            <tr>
             </tr>
           </table>
           </div>
