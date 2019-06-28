@@ -16,40 +16,30 @@
               .center-middle{
                 text-align: center;
                 vertical-align: middle !important;
-                padding:10px !important;
+                padding:5px !important;
                 font-size:12pt;
-                width:50%;
+                width:25%;
               }
               .center-middle-r{
                 text-align: left;
                 vertical-align: middle !important;
-                padding:10px !important;
-                width:50%;
+                padding:5px !important;
+                width:25%;
                 font-size:12pt;
               }
               .result{
                 text-align: right;
                 vertical-align: middle !important;
                 padding:10px !important;
-                width:100%;
                 font-size:12pt;
               }
               .center-middle-o{
                 text-align: center;
                 vertical-align: middle !important;
-                white-space: nowrap !important;
               }
               .tr-color{
                 background-color:lightgray;
                 width:100%;
-              }
-              .table-content{
-                text-align: right;
-                vertical-align: middle;
-                height: auto;
-                width: 100%;
-                padding: 0px;
-                border-collapse: collapse;
               }
               table{
                 border-collapse: collapse;
@@ -64,14 +54,15 @@
                 table-layout:fixed;
                 position:absolute;
                 left:200px;
+                border: 1px solid;
               }
               .iden {
                 text-align: center;
                 vertical-align: middle !important;
-                width:20px;
+                width:6px;
               }
               .standar {
-                text-align: right;
+                text-align: center;
                 vertical-align: middle !important;
                 width:100px;
               }
@@ -81,7 +72,7 @@
                 width:200px;
               }
               .partner-name {
-                text-align: left;
+                text-align: center;
                 vertical-align: middle !important;
                 width:300px;
                 word-wrap:break-all !important;
@@ -132,10 +123,10 @@
             <!--Fin encabezado-->
             <table id="contenido" class="table table-bordered" style="table-layout:fixed;">
               <tr id="encabezado_l1" class="tr-color">
-                <th class="center-middle" colspan="5"></th>
-                <th class="center-middle" colspan="2">COMPRAS EXENTAS</th>
-                <th class="center-middle" colspan="3">COMPRAS GRAVADAS</th>
-                <th class="center-middle" colspan="5"></th>
+                <th class="center-middle-o" colspan="5"></th>
+                <th class="center-middle-o" colspan="2">COMPRAS EXENTAS</th>
+                <th class="center-middle-o" colspan="3">COMPRAS GRAVADAS</th>
+                <th class="center-middle-o" colspan="5"></th>
               </tr>
               <tr id="encabezado_l2" class="tr-color">
                 <th class="iden">#</th>
