@@ -18,13 +18,13 @@
                 vertical-align: middle !important;
                 padding:5px !important;
                 font-size:12pt;
-                width:25%;
+                width:35%;
               }
               .center-middle-r{
                 text-align: left;
                 vertical-align: middle !important;
                 padding:5px !important;
-                width:25%;
+                width:35%;
                 font-size:12pt;
               }
               .result{
@@ -56,7 +56,7 @@
                 table-layout:fixed;
                 position:absolute;
                 left:200px;
-                width:400px;
+                width:600px;
               }
               .iden {
                 text-align: center;
@@ -66,6 +66,12 @@
               }
               .standar {
                 text-align: center;
+                vertical-align: middle !important;
+                font-size:12pt;
+                width:110px;
+              }
+              .standar-r{
+                text-align: right;
                 vertical-align: middle !important;
                 font-size:12pt;
                 width:110px;
@@ -148,9 +154,9 @@
                 <th class="partner-name">Nombre del proveedor</th>
                 <th class="standar">N.R.C.</th>
                 <th class="standar">Internas</th>
-                <th class="standar" style="font-sieze:6pt;">Importaciones e Internacionales</th>
+                <th class="standar" style="font-size:8pt;">Importaciones e Internacionales</th>
                 <th class="standar">Internas</th>
-                <th class="standar" style="font-sieze:6pt;">Importaciones e Internacionales</th>
+                <th class="standar" style="font-size:8pt;">Importaciones e Internacionales</th>
                 <th class="standar">Crédito fiscal</th>
                 <th class="standar">Anticipo a Cuenta de IVA Retenido</th>
                 <th class="standar">Anticipo a Cuenta de IVA Percibido</th>
@@ -158,7 +164,59 @@
                 <th class="standar">Compras a Sujetos Excluidos</th>
                 <th class="standar">Retención a Terceros</th>
               </tr>
-              <tr id="datos">
+              <tr id="datos" t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c">
+                <td class="iden"><span t-esc="int(c_index + 1)"/></td>
+                <td class="standar"><span t-esc="c.get('fecha')"/></td>
+                <td class="num-fact"><span t-esc="c.get('factura')"/></td>
+                <td class="partner-name"><span t-esc="c.get('proveedor')"/></td>
+                <td class="standar"><span t-esc="c.get('nrc')"/></td>
+                <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
+                  <t t-if="c.get('importacion') != true"  t-set="intEx" t-value="intEx+c.get('exento')"/>
+                  <span  t-if="c.get('importacion') != true" t-esc="'{0:.2f}'.format(c.get('exento'))"/>
+                  <span  t-else="" t-esc="zero"/>
+                </td>
+                <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
+                  <t t-if="c.get('importacion') == true" t-set="impEx" t-value="impEx+c.get('exento')"/>
+                  <span t-if="c.get('importacion') == true" t-esc="'{0:.2f}'.format(c.get('exento'))"/>
+                  <span t-else="" t-esc="zero"/>
+                </td>
+                <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
+                  <t t-if="c.get('importacion') != true" t-set="intGra" t-value="intGra+c.get('gravado')"/>
+                  <span t-if="c.get('importacion') != true" t-esc="'{0:.2f}'.format(c.get('gravado'))"/>
+                  <span t-else="" t-esc="zero"/>
+                </td>
+                <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
+                  <t t-if="c.get('importacion') == true" t-set="intGra" t-value="intGra+c.get('gravado')"/>
+                  <span t-if="c.get('importacion') == true" t-esc="'{0:.2f}'.format(c.get('gravado'))"/>
+                  <span t-else="" t-esc="zero"/>
+                </td>
+                <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
+                  <span t-esc="'{0:.2f}'.format(c.get('iva'))"/>
+                </td>
+                <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
+                  <span t-esc="'{0:.2f}'.format(c.get('retenido'))"/>
+                </td>
+                <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
+                  <span t-esc="'{0:.2f}'.format(c.get('percibido'))"/>
+                </td>
+                <t t-set="compra" t-value="c.get('exento') + c.get('gravado') + c.get('iva') + c.get('retenido') + c.get('percibido')"/>
+                <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
+                  <span t-esc="'{0:.2f}'.format(compra)"/>
+                </td>
+                <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
+                  <span t-esc="'{0:.2f}'.format(c.get('excluido'))"/>
+                </td>
+                <td class="standar-r"><span t-esc="company.currency_id.symbol"/>
+                  <span t-esc="'{0:.2f}'.format(c.get('retencion3'))"/>
+                </td>
+                <!--Calculo de totales-->
+                <t t-set="totalIva" t-value="totalIva + c.get('iva')"/>
+                <t t-set="totalRetenido" t-value="totalRetenido + c.get('retenido')"/>
+                <t t-set="totalPercibido" t-value="totalPercibido + c.get('percibido')"/>
+                <t t-set="totalCompras" t-value="totalCompras + compra"/>
+                <t t-set="totalExcluidos" t-value="totalExcluidos + c.get('excluido')"/>
+                <t t-set="totalRetenido3" t-value="totalRetenido3 + c.get('retencion3')"/>
+                <!--Fin ce calculos-->
               </tr>
               <tr id="totales" class="tr-color">
                 <td>
@@ -255,13 +313,13 @@
                   </tr>
                 </table>
               </td>
+              <div style="text-align:center;vertical-align:middle;">
               <td style="vertical-align:middle;text-align:center;font-size:12pt">
-                <div style="text-align:center;">
                     <p style="text-align:center">________________________________</p>
                     <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
                     <p class="spacing-line" style="text-aling:center;vertical-align:top">Contador</p>
-                </div>
               </td>
+              </div>
             </tr>
           </table>
 
