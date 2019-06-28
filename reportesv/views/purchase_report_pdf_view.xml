@@ -323,9 +323,9 @@
               </td>
               <td style="width:30%"></td>
               <td style="vertical-align:bottom !important;text-align:right !important;font-size:12pt">
-                      <span align="center" style="text-align:center;">________________________________</span></br>
-                      <span t-esc="contador" class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"/></br>
-                      <span class="spacing-line" style="text-align:center;vertical-align: top">Contador</span>
+                      <p align="center" style="text-align:center;">________________________________</p>
+                      <p t-esc="contador" class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"/>
+                      <p class="spacing-line" style="text-align:center;vertical-align: top">Contador</p>
               </td>
             </tr>
           </table>
