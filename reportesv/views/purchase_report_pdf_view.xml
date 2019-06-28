@@ -61,14 +61,14 @@
               .iden {
                 text-align: center;
                 vertical-align: middle !important;
-                width:40px;
+                width:60px;
                 font-size:12pt;
               }
               .standar {
                 text-align: center;
                 vertical-align: middle !important;
                 font-size:12pt;
-                width:110px;
+                width:120px;
               }
               .standar-r{
                 text-align: right;
@@ -85,7 +85,7 @@
               .partner-name {
                 text-align: left;
                 vertical-align: middle !important;
-                width:350px;
+                width:330px;
                 word-wrap:break-all !important;
                 white-space:initial;
                 font-size:12pt;
@@ -313,9 +313,10 @@
                   </tr>
                 </table>
               </td>
-              <td style="vertical-align:middle !important;text-align:center !important;font-size:12pt">
+              <td style="width:300px"></td>
+              <td align="center" style="vertical-align:middle !important;text-align:center !important;font-size:12pt">
                 <div style="text-align:center;vertical-align:middle;">
-                    <p style="text-align:center;vertical-align:middle">________________________________</p>
+                    <p align="center" style="text-align:center;vertical-align:middle">________________________________</p>
                     <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
                     <p class="spacing-line" style="text-aling:center;vertical-align:top">Contador</p>
                 </div>
