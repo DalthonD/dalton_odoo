@@ -61,18 +61,18 @@
                 text-align: center;
                 vertical-align: middle !important;
                 width:30px;
-                font-size:10pt;
+                font-size:12pt;
               }
               .standar {
                 text-align: center;
                 vertical-align: middle !important;
-                font-size:10pt;
+                font-size:12pt;
                 width:110px;
               }
               .num-fact {
                 text-align: center;
                 vertical-align: middle !important;
-                font-size:10pt;
+                font-size:12pt;
                 width:150px;
               }
               .partner-name {
@@ -81,7 +81,7 @@
                 width:300px;
                 word-wrap:break-all !important;
                 white-space:initial;
-                font-size:10pt;
+                font-size:12pt;
               }
             </style>
             <!--Declaracion de variables-->
@@ -147,9 +147,9 @@
                 <th class="partner-name">Nombre del proveedor</th>
                 <th class="standar">N.R.C.</th>
                 <th class="standar">Internas</th>
-                <th class="standar">Importaciones e Internacionales</th>
+                <th class="standar" style="font-sieze:8pt;">Importaciones e Internacionales</th>
                 <th class="standar">Internas</th>
-                <th class="standar">Importaciones e Internacionales</th>
+                <th class="standar" style="font-sieze:8pt;">Importaciones e Internacionales</th>
                 <th class="standar">Crédito fiscal</th>
                 <th class="standar">Anticipo a Cuenta de IVA Retenido</th>
                 <th class="standar">Anticipo a Cuenta de IVA Percibido</th>
@@ -254,7 +254,7 @@
                   </tr>
                 </table>
               </td>
-              <td>
+              <td style="vertical-align:middle;text-align:center;font-size:12pt">
                 <div style="text-align:center;">
                     <p style="text-align:center">________________________________</p>
                     <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
