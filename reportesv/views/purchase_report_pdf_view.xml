@@ -274,7 +274,7 @@
             <!--Tabla resumen-->
           <table align="center">
             <tr style="width:100%">
-              <td align="left" style="word-break: keep-all;white-space:nowrap">
+              <td align="left" style="word-break: keep-all;">
                 <table class="tabla-resumen">
                   <tr class="tr-color">
                     <td colspan="2" class="center-middle-o" style="font-size:12pt;">RESUMEN DE COMPRAS</td>
