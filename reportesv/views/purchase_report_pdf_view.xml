@@ -274,8 +274,8 @@
             <!--Tabla resumen-->
           <table align="center">
             <tr style="width:100%">
-              <td rowspan="2" align="left">
-                <table class="table tabled-bordered tabla-resumen" style="word-break: keep-all;white-space:nowrap">
+              <td align="left" style="word-break: keep-all;white-space:nowrap">
+                <table class="tabla-resumen">
                   <tr class="tr-color">
                     <td colspan="2" class="center-middle-o" style="font-size:12pt;">RESUMEN DE COMPRAS</td>
                   </tr>
@@ -321,8 +321,8 @@
                   </tr>
                 </table>
               </td>
-              <td rowspan="2" style="width:30%"></td>
-              <td rowspan="2" style="vertical-align:bottom !important;text-align:right !important;font-size:12pt">
+              <td style="width:30%"></td>
+              <td style="vertical-align:bottom !important;text-align:right !important;font-size:12pt">
                   <div style="text-align:center">
                       <p align="center" style="text-align:center;">________________________________</p>
                       <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
