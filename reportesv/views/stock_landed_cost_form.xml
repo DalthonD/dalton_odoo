@@ -3,12 +3,13 @@
 
 
 
-	<record model="ir.ui.view" id="strategiksv.account_invoice_form">
-	  <field name="inherit_id" ref="account.invoice_form"/>
-      <field name="name">strategiksv account invoice form</field>
-      <field name="model">account.invoice</field>
+	<record model="ir.ui.view" id="strategiksv.stock_landed_valuation_adjustment_lines_form">
+	  <field name="inherit_id" ref="stock.landed.cost.form"/>
+      <field name="name">strategiksv stock landed cost form</field>
+      <field name="model">stock.valuation.adjustment.lines</field>
       <field name="arch" type="xml">
-		  <xpath expr="//button[@name='preview_invoice']" position="before">
+  </record>
+      <!--xpath expr="//button[@name='preview_invoice']" position="before">
 
 			<button  class="btn btn-sm btn-primary" string="Imprimir" custom="click_invoice">
 
@@ -67,7 +68,7 @@
 			</button>
           </xpath>
        </field>
-    </record>
+    </record-->
 
 
 
