@@ -17,20 +17,12 @@
                 text-align: center;
                 vertical-align: middle !important;
                 padding:0.5px !important;
-                width:70%;
-                font-size:10pt;
-                word-wrap: break-all !important;
-                overflow: hidden;
-                white-space:normal;
+                width:100%;
               }
               .center-middle-o{
-                font-size:10pt;
                 text-align: center;
                 vertical-align: middle !important;
-                word-wrap: break-all !important;
-                overflow: hidden;
-                white-space:normal;
-                font-size:10pt;
+                white-space: nowrap !important;
               }
               .tr-color{
                 background-color:lightgray;
@@ -49,12 +41,11 @@
               }
               table td{
                 padding:0.5px;
-                font-size:10pt;
+                white-space: nowrap;
               }
               table td:last-child{
                 padding: 0.5px;
                 width:100%;
-                font-size:10pt;
               }
               .pagenumber:before {
                 position: relative;
@@ -64,30 +55,6 @@
                 font-size: 7pt;
                 background-color:gray;
                 content: "Pág. " conunter(page) " de " counter(pages);
-              }
-              .w{
-                width: 400px;
-                word-wrap: break-all !important;
-                overflow: hidden;
-                white-space:normal;
-              }
-              .money{
-                width: 100px;
-                word-wrap: break-all !important;
-                overflow: hidden;
-              }
-              .num{
-                width: 30px;
-                word-wrap: break-all !important;
-                overflow: hidden;
-              }
-              .codigo{
-                width: 150px;
-                word-wrap: break-all !important;
-                overflow: hidden;
-              }
-              .date{
-                width:100px;
               }
             </style>
             <!--Declaracion de variables-->
@@ -157,10 +124,10 @@
                     <th colspan="5"></th>
                   </tr>
                   <tr class="tr-color">
-                    <th class="center-middle" style="width:10px !important;">#</th>
-                    <th class="center-middle" style="width:25px !important">Fecha de emisión</th>
-                    <th class="center-middle" style="width:40px !important;">Número de documento</th>
-                    <th class="center-middle" style="width:250px !important;word-wrap:break-all;">Nombre del proveedor</th>
+                    <th class="center-middle" style="width:5% !important;">#</th>
+                    <th class="center-middle" style="width:5% !important">Fecha de emisión</th>
+                    <th class="center-middle" style="width:40% !important;">Número de documento</th>
+                    <th class="center-middle" style="width:100% !important;">Nombre del proveedor</th>
                     <th class="center-middle-o">N.R.C.</th>
                     <th class="center-middle">Internas</th>
                     <th class="center-middle">Importaciones e Internacionales</th>
@@ -174,13 +141,13 @@
                     <th class="center-middle">Retención a Terceros</th>
                   </tr>
                   <tr t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c" style="vertical-align: middle; text-align: left; height: auto; width: 100%; padding: 0px; border-spacing: 0.05px; border-collapse: collapse;">
-                    <td class="center-middle" style="width:10px"><span t-esc="int(c_index) + 1"/></td>
-                    <td class="center-middle" style="width:40px"><span t-esc="c[0]"/></td>
-                    <td class="center-middle" style="width:50px;"><span t-esc="c[1]"/></td>
-                    <td class="center-middle" style="text-align:left;width:200px;font-size:8pt"><span t-esc="c[2]"/></td>
+                    <td class="center-middle" style="width:5%"><span t-esc="int(c_index) + 1"/></td>
+                    <td class="center-middle" style="width:30%"><span t-esc="c[0]"/></td>
+                    <td class="center-middle" style="width:40%;"><span t-esc="c[1]"/></td>
+                    <td class="center-middle" style="text-align:left;width:100%;font-size:6.5pt"><span t-esc="c[2]"/></td>
                     <td class="center-middle" style="border-spacing: 0.5px"><span t-esc="c[3]"/></td>
                     <td class="center-middle" style="text-align:right;"><span t-esc="company.currency_id.symbol"/>
-                        <t t-if="c[4] != true"  t-set="intEX" t-value="intEx+c[6]"/>
+                        <t t-if="c[4] != true"  t-set="intEx" t-value="intEx+c[6]"/>
                         <span  t-if="c[4] != true" t-esc="'{0:.2f}'.format(c[6])"/>
                         <span  t-else="" t-esc="zero"/>
                     </td>
@@ -261,12 +228,9 @@
             <!--/t-->
               <table>
                 <tr style="width: 100%;">
-                  <td style="width:30%"></td>
-                  <td style="text-align:center;">
-                    <table class="table table-bordered" style="margin-left:auto;margin-right:auto;width:1000px;border: 1px solid black; border-collapse: collapse;width:auto;">
-                      <colgroup>
-                        <col span="2" class="w"></col>
-                      </colgroup>
+                  <td style="width: 30%"></td>
+                  <td align="center">
+                    <table class="table table-bordered" style="border: 1px solid black; border-collapse: collapse;width:auto;">
                       <tr class="tr-color">
                         <td colspan="2" class="center-middle-o">RESUMEN DE COMPRAS</td>
                       </tr>
