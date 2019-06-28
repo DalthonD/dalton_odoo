@@ -170,7 +170,7 @@
                 </td>
                 <td>
                 </td>
-                <td class="result"span t-esc="company.currency_id.symbol"/>
+                <td class="result"><span t-esc="company.currency_id.symbol"/>
                     <span t-esc="'{0:.2f}'.format(intEx)"/>
                 </td>
                 <td class="result"><span t-esc="company.currency_id.symbol"/>
