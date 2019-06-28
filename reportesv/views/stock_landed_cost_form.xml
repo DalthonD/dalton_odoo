@@ -8,6 +8,7 @@
       <field name="name">strategiksv stock landed cost form</field>
       <field name="model">stock.valuation.adjustment.lines</field>
       <field name="arch" type="xml">
+      </field>
   </record>
       <!--xpath expr="//button[@name='preview_invoice']" position="before">
 
@@ -69,8 +70,5 @@
           </xpath>
        </field>
     </record-->
-
-
-
   </data>
 </odoo>
