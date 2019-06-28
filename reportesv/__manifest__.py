@@ -31,7 +31,6 @@
         'views/taxpayer_report_pdf_view.xml',
         'views/consumer_report_pdf_view.xml',
         'views/landed_cost_report_pdf_view.xml',
-        #'views/stock_landed_cost_form.xml',
         'wizard/wizard_purchases_report.xml',
         'wizard/wizard_taxpayer_sales_report.xml',
         'wizard/wizard_consumer_report.xml',
