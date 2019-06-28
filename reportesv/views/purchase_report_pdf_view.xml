@@ -323,7 +323,7 @@
               </td>
               <td style="width:30%"></td>
               <td style="vertical-align:bottom !important;text-align:right !important;font-size:12pt">
-                      <p style="line-height: 20pt"></p>
+                      <p style="line-height: 150pt"></p>
                       <p align="center" style="text-align:center;">________________________________</p>
                       <p t-esc="contador" class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"/>
                       <p class="spacing-line" style="text-align:center;vertical-align: top">Contador</p>
