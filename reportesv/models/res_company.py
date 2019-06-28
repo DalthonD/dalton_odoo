@@ -15,8 +15,7 @@ class res_company(models.Model):
 
     @api.multi
     def get_purchase_details(self, company_id, date_year, date_month):
-        #data = {}
-        data = ()
+        data = {}
         sql = """CREATE OR REPLACE VIEW strategiksv_reportesv_purchase_report AS (select * from (select coalesce(ai.sv_fecha_tax,ai.date_invoice) as fecha
         ,ai.reference as factura
         ,rp.name as proveedor
@@ -221,8 +220,7 @@ class res_company(models.Model):
         self._cr.execute(sql)
         self._cr.execute("SELECT * FROM public.strategiksv_reportesv_purchase_report")
         if self._cr.description: #Verify whether or not the query generated any tuple before fetching in order to avoid PogrammingError: No results when fetching
-            data = tuple(self._cr.fetchall())
-        #data = self._cr.dictfetchall()
+            data = self._cr.dictfetchall()
         return data
 
     @api.multi
