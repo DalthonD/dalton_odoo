@@ -1,0 +1,75 @@
+<odoo>
+  <data>
+
+
+
+	<record model="ir.ui.view" id="strategiksv.account_invoice_form">
+	  <field name="inherit_id" ref="account.invoice_form"/>
+      <field name="name">strategiksv account invoice form</field>
+      <field name="model">account.invoice</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//button[@name='preview_invoice']" position="before">
+
+			<button  class="btn btn-sm btn-primary" string="Imprimir" custom="click_invoice">
+
+			</button>
+          </xpath>
+          <xpath expr="//field[@name='number']" position="after">
+			<div id="identidad" style="display:none"><field name="id" readonly="True"/></div>
+			<div id="reporte" style="display:none"><field name="sv_reporte" readonly="True"/></div>
+          </xpath>
+          <xpath expr="//field[@name='product_id']" position="attributes">
+			<attribute name="domain">[('sale_ok', '=', True)]</attribute>
+          </xpath>
+		  <xpath expr="//field[@name='payment_term_id']" position="after">
+			<field name="sv_fecha_tax"/>
+			<field name="sv_no_tax"/>
+          </xpath>
+          <xpath expr="//field[@name='date_invoice']" position="after">
+			<field name="reference"/>
+          </xpath>
+          <xpath expr="//field[@name='price_subtotal']" position="after">
+			<field name="sv_total_con_iva"/>
+          </xpath>
+           <xpath expr="//field[@name='analytic_tag_ids']" position="replace">
+          </xpath>
+       </field>
+    </record>
+
+    <record model="ir.ui.view" id="strategiksv.account_supplier_invoice_form">
+	  <field name="inherit_id" ref="account.invoice_supplier_form"/>
+      <field name="name">strategiksv account supplier invoice form</field>
+      <field name="model">account.invoice</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//field[@name='reference']" position="after">
+			<field name="sv_fecha_tax"/>
+			<field name="sv_no_tax"/>
+			<field name="sv_region" invisible="1"/>
+			<field name="sv_importacion_number" attrs="{'invisible': [('sv_region', '=', 'Local')]}" />
+          </xpath>
+          <xpath expr="//field[@name='product_id']" position="attributes">
+				<attribute name="domain">[('purchase_ok', '=', True)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='analytic_tag_ids']" position="replace">
+          </xpath>
+       </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="strategiksv.sale_order_form">
+	  <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="name">strategiksv sale order form</field>
+      <field name="model">sale.order</field>
+      <field name="arch" type="xml">
+		  <xpath expr="//button[@name='print_quotation']" position="replace">
+			  <div id="identidad" style="display:none"><field name="id" invisible="1" readonly="True"/></div>
+			<button  class="btn btn-sm btn-primary" string="Vale" custom="click_venta">
+			</button>
+          </xpath>
+       </field>
+    </record>
+
+
+
+  </data>
+</odoo>
