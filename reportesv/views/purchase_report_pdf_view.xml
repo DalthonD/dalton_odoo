@@ -36,6 +36,7 @@
               .center-middle-o{
                 text-align: center;
                 vertical-align: middle !important;
+                padding:0px;
               }
               .tr-color{
                 background-color:lightgray;
@@ -55,11 +56,12 @@
                 position:absolute;
                 left:200px;
                 border: 1px solid;
+                width:400px;
               }
               .iden {
                 text-align: center;
                 vertical-align: middle !important;
-                width:6px;
+                width:30px;
               }
               .standar {
                 text-align: center;
@@ -76,7 +78,7 @@
                 vertical-align: middle !important;
                 width:300px;
                 word-wrap:break-all !important;
-                white-
+                white-space:initial;
               }
             </style>
             <!--Declaracion de variables-->
@@ -122,6 +124,13 @@
               </t>
             <!--Fin encabezado-->
             <table id="contenido" class="table table-bordered" style="table-layout:fixed;">
+              <colgroup>
+                <col class="iden"></col>
+                <col class="standar"></col>
+                <col class="num-fact"></col>
+                <col class="partner-name"></col>
+                <col span="11" class="standar"></col>
+              </colgroup>
               <tr id="encabezado_l1" class="tr-color">
                 <th class="center-middle-o" colspan="5"></th>
                 <th class="center-middle-o" colspan="2">COMPRAS EXENTAS</th>
@@ -153,7 +162,7 @@
             <!--Contenido de reporte-->
 
             <!--Tabla resumen-->
-            <table class="tabla-resumen">
+            <table class="table tabled-bordered tabla-resumen">
               <tr class="tr-color">
                 <td colspan="2" class="center-middle-o" style="font-size:12pt;">RESUMEN DE COMPRAS</td>
               </tr>
