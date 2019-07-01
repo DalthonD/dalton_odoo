@@ -322,11 +322,12 @@
                 </table>
               </td>
               <td style="width:30%"></td>
-              <td style="vertical-align:bottom;text-align:right;font-size:12pt;white-space:initial">
-                      <p style="line-height: 1500pt"></p>
-                      <p align="center" style="text-align:center;">________________________________</p>
-                      <p t-esc="contador" class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"/>
-                      <p class="spacing-line" style="text-align:center;vertical-align: top">Contador</p>
+              <td style="text-align: center; vertical-align: middle">
+                <div style="text-align: center;">
+                    <p align="center">________________________________</p>
+                    <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
+                    <p class="spacing-line" style="text-aling:center;vertical-align:top">Contador</p>
+                </div>
               </td>
             </tr>
           </table>
