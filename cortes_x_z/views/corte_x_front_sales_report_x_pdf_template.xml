@@ -100,7 +100,15 @@
                       </td>
                       <td class="text-right">
                         <span t-esc="o.get_session_date(o.stop_at)"/>
-                        <span t-esc="o.get_session_time(o.start_at)"/>
+                        <span t-if="o.stop_at" t-esc="o.get_session_time(o.stop_at)"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">
+                        CAJERO:
+                      </td>
+                      <td class="text-right">
+                        <span t-esc="o.user_id.name"/>
                       </td>
                     </tr>
                     <tr>
@@ -108,7 +116,7 @@
                         USUARIO:
                       </td>
                       <td class="text-right">
-                        <span t-esc="o.user_id.name"/>
+                        <span t-esc="o.config_id.get_uid()"/>
                       </td>
                     </tr>
                   </table>
@@ -317,7 +325,7 @@
                       </td>
                       <t t-set="total1" t-value="total1 + l.get('sum')"/>
                     </tr>
-                    <!--tr><td></td></tr>
+                    <tr><td></td></tr>
                     <tr>
                       <td class="text-left">FACTURA y CCF</td>
                     </tr>
@@ -329,7 +337,7 @@
                         <span t-field="o.currency_id.symbol"/><span t-esc="'{0:.2f}'.format(l.get('sum'))"/>
                       </td>
                       <t t-set="total2" t-value="total2 + l.get('sum')"/>
-                    </tr-->
+                    </tr>
                     <tr>
                       <td class="text-right" colspan="2">
                         ----------------------

@@ -15,7 +15,7 @@
         <report
             id="report_pos_sales_pdf"
             string="Z Report(pdf)"
-            model="pos.session"
+            model="pos.config"
             report_type="qweb-pdf"
             file="cortes_x_z.pos_sales_report_pdf_template"
             name="cortes_x_z.pos_sales_report_pdf_template"

@@ -3,12 +3,8 @@
     <template id ='account_invoice_formato_cryo'>
       <t t-call="web.html_container">
         <t t-call="web.basic_layout">
-
-          <!--Variables a utilizar-->
-          <t t-set="totalExentas" t-value="float(0.00)"/>
-          <t t-set="totalNosujetas" t-value="float(0.00)"/>
-          <!---->
           <t t-foreach="docs" t-as="doc">
+            <t t-set="fp_sv_clase" t-value="doc.fiscal_position_id.sv_clase if doc.fiscal_position_id else 'Gravado'"/>
             <div class="page" style="position:absolute;top:64px;left:20px;width:530px;height:130px;">
               <div style="position:absolute;top:130px;left:0px;width:530px;">
                 <table class="table o_report_block_table small table-borderless" style="border-bottom:none;width:400px;margin-top:5px;margin-left:-14px;">
@@ -52,43 +48,38 @@
                     <tbody>
                       <tr t-foreach="doc.invoice_line_ids" t-as="table_line">
                         <td>
-                          <span t-field="table_line.quantity" style="position:absolute; left:-1px;"/>
+                          <span t-esc="'{0:.2f}'.format(table_line.quantity)" style="position:absolute; left:-0.5px;"/>
                         </td>
-                        <td style="width:300px">
-                          <span t-field="table_line.display_name" t-options-widget="&quot;&quot;" style="display:inline-block;width:245px; position:absolute; left:55px;"/>
-                        </td>
-                        <td>
-                          <span t-esc="table_line.price_unit" style="position:absolute; left:310px;"/>
-                        </td>
-                        <td style="color:#FFFFFF">
-                          <span t-esc="table_line.quantity" class="small"/>
+                        <td style="width:300px;position:absolute; left:5px;">
+                          <span t-field="table_line.display_name" t-options-widget="&quot;&quot;" style="font-size:7.7pt;display:inline-block;width:100%; position:absolute; left:50px;"/>
                         </td>
                         <td>
-                          <!--span t-field="table_line.sv_total_con_iva" t-if="table_line.price_subtotal != table_line.price_total" style="position:absolute; left:470px;"/-->
-                          <span t-field="table_line.price_total" style="position:absolute; left:470px;"/>
+                          <span t-esc="doc.currency_id.symbol" style="position:absolute; left:303px;"/><span t-esc="'{0:.2f}'.format(table_line.price_unit) if fp_sv_clase =='Gravado' else ''" style="position:absolute; left:310px;"/>
+                          <span t-esc="'{0:.2f}'.format(table_line.price_unit+table_line.price_tax) if fp_sv_clase =='Exento' else ''" style="position:absolute; left:310px;"/>
                         </td>
                         <td>
-                          <!--span t-field="table_line.price_subtotal" t-if="table_line.price_subtotal == table_line.price_total" style="position:absolute; left:440px;"/-->
-                          <span t-field="table_line.price_subtotal" style="position:absolute; left:420px;"/>
+                          <span t-esc="doc.currency_id.symbol if fp_sv_clase == 'Gravado' else ''" style="position:absolute; left:493px;"/>
+                          <span t-esc="'{0:.2f}'.format(table_line.sv_total_con_iva) if fp_sv_clase == 'Gravado' else ''" style="position:absolute; left:500px;"/>
+                          <span t-esc="doc.currency_id.symbol if fp_sv_clase == 'Exento' else ''" style="position:absolute; left:423px;"/>
+                          <span t-esc="'{0:.2f}'.format(table_line.price_total) if fp_sv_clase == 'Exento' else ''" style="position:absolute; left:430px;"/>
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
                 <div style="position:absolute;top:630px;left:0px;width:530px;height:110px;"/>
-                <span t-field="doc.date_invoice" class="small" style="position:absolute;top:2px;left:380px;width:70px;color:black;"/>
-                <span t-field="doc.partner_id.name" class="small" style="position:absolute;top:20px;left:80px;width:250px;color:black;"/>
-                <span t-field="doc.partner_id.street" class="small" style="position:absolute;top:58px;left:97px;width:120px;color:black;"/>
-                <span t-field="doc.partner_id.city" class="small" style="position:absolute;top:82px;left:380px;width:120px;color:black;"/>
-                <span t-field="doc.partner_id.x_nit" class="small" style="position:absolute;top:115px;left:72px;width:120px;color:black;"/>
-                <span t-field="docs.payment_term_id.name" class="small" style="position:absolute;top:115px;left:287px;width:120px;color:black;"/>
-                <span t-field="doc.x_letras" class="small" style="position:absolute;top:657px;left:30px;width:60%;color:black;"/>
-                <!--span t-field="doc.amount_total" t-if="doc.amount_untaxed == doc.amount_total" class="small" style="position:absolute;top:657px;left:470px;width:65px;color:black;"/-->
-                <span t-esc="doc.gravado + doc.iva" class="small" style="position:absolute;top:650px;left:470px;width:65px;color:black;"/>
-                <span t-field="doc.nosujeto" class="small" style="position:absolute;top:675px;left:470px;width:50px;color:black;"/>
-                <span t-field="doc.excento" class="small" style="position:absolute;top:700px;left:470px;width:50px;color:black;"/>
-                <!--span t-field="doc.amount_total" t-if="doc.amount_untaxed != doc.amount_total" class="small" style="position:absolute;top:700px;left:460px;width:50px;color:black; display:none"/-->
-                <span t-field="doc.amount_total" class="small" style="position:absolute;top:730px;left:470px;width:65px;color:black;"/>
+                <span t-field="doc.date_invoice" class="small" style="position:absolute;top:3px;left:400px;width:70px;color:black;"/>
+                <span t-field="doc.partner_id.name" class="small" style="position:absolute;top:32px;left:60px;width:250px;color:black;"/>
+                <span t-field="doc.partner_id.street" class="small" style="position:absolute;top:58px;left:90px;width:100%;color:black;"/>
+                <span t-field="doc.partner_id.city" class="small" style="position:absolute;top:83px;left:365px;width:120px;color:black;"/>
+                <span t-field="doc.partner_id.x_nit" class="small" style="position:absolute;top:110px;left:70px;width:120px;color:black;"/>
+                <span t-field="docs.payment_term_id.name" class="small" style="position:absolute;top:110px;left:287px;width:120px;color:black;"/>
+                <span t-field="doc.x_letras" class="small" style="position:absolute;top:660px;left:30px;width:60%;color:black;"/>
+                <span t-esc="doc.currency_id.symbol if fp_sv_clase == 'Gravado' else ''" style="font-size:10pt;position:absolute;top:660px;left:493px;width:65px;color:black;"/><span t-esc="'{0:.2f}'.format(doc.amount_total) if fp_sv_clase == 'Gravado' else ''" class="small" style="position:absolute;top:660px;left:500px;width:65px;color:black;"/>
+                <span t-esc="doc.currency_id.symbol if fp_sv_clase == 'Exento' else ''" style="font-size:10pt;position:absolute;top:660px;left:423px;width:65px;color:black;"/><span t-esc="'{0:.2f}'.format(doc.amount_total) if fp_sv_clase == 'Exento' else ''" class="small" style="position:absolute;top:660px;left:430px;width:65px;color:black;"/>
+                <span class="small" style="position:absolute;top:690px;left:500px;width:50px;color:black;">0.00</span>
+                <span t-esc="doc.currency_id.symbol if fp_sv_clase == 'Exento' else ''" style="font-size:10pt;position:absolute;top:715px;left:493px;width:50px;color:black;"/><span t-esc="'{0:.2f}'.format(doc.amount_total) if fp_sv_clase == 'Exento' else '0.00'" class="small" style="position:absolute;top:715px;left:500px;width:50px;color:black;"/>
+                <span t-esc="doc.currency_id.symbol" style="font-size:10pt;position:absolute;top:745px;left:493px;width:65px;color:black;"/><span t-esc="'{0:.2f}'.format(doc.amount_total)" class="small" style="position:absolute;top:745px;left:500px;width:65px;color:black;"/>
               </div>
             </t>
           </t>

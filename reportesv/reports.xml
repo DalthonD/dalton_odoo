@@ -42,6 +42,16 @@
             menu="False"
         />
 
+        <report
+            id="report_stock_landed_cost_pdf"
+            string="Retaceo"
+            model="stock.landed.cost"
+            report_type="qweb-pdf"
+            file="reportesv.company_strategiksv_landed_cost_report_pdf"
+            name="reportesv.company_strategiksv_landed_cost_report_pdf"
+            menu="False"
+        />
+
         <!--report
             id="report_x_pos_sales_pdf_front"
             string="X Report(pdf)"
@@ -66,8 +76,6 @@
             <field name="name">Libros Legales PDF</field>
             <field name="default" eval="True" />
             <field name="format">Letter</field>
-            <!--field name="page_height">279</field>
-            <field name="page_width">216</field-->
             <field name="orientation">Landscape</field>
             <field name="margin_top">5</field>
             <field name="margin_bottom">5</field>
@@ -77,15 +85,14 @@
             <field name="header_spacing">0</field>
             <field name="dpi">90</field>
             <field name="report_ids" eval="[(6,0,[ref('reportesv.report_purchase_pdf'),
-                                                  ref('reportesv.report_taxpayer_sales_pdf'),])]"/>
+                                                  ref('reportesv.report_taxpayer_sales_pdf'),
+                                                  ])]"/>
         </record>
 
         <record id="paperformat_book_consumer_report_pdf" model="report.paperformat">
             <field name="name">Libros Consumirdor PDF</field>
             <field name="default" eval="True" />
             <field name="format">Letter</field>
-            <!--field name="page_height">279</field>
-            <field name="page_width">216</field-->
             <field name="orientation">Portrait</field>
             <field name="margin_top">10</field>
             <field name="margin_bottom">5</field>
@@ -96,6 +103,22 @@
             <field name="dpi">90</field>
             <field name="report_ids" eval="[(6,0,[ref('reportesv.report_consumer_sales_pdf'),
                                                   ref('reportesv.report_ticket_sales_pdf'),])]"/>
+        </record>
+
+        <record id="paperformat_book_report_pdf_c" model="report.paperformat">
+            <field name="name">Reporte Retaceo</field>
+            <field name="default" eval="True" />
+            <field name="format">Legal</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">6</field>
+            <field name="margin_right">6</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+            <field name="report_ids" eval="[(6,0,[ref('reportesv.report_stock_landed_cost_pdf'),])]"/>
+
         </record>
 
     </data>

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Reporte-SV",
+    'name': "Reporte-SV-Sucursal",
 
-    'summary': """Allows users to print Purchase Report, Sales Report either taxpayer or consumer""",
+    'summary': """Allows users to print Purchase Report, Sales Report either taxpayer or consumer by invoices or tickets""",
 
-    'description': "Creación de Reportes para Compras, Ventas Contribuyentes y  Ventas Consumidores",
+    'description': "Creación de Reportes para Compras, Ventas Contribuyentes, Ventas Consumidores y Ventas por tickets",
 
     'author': "strategiksv",
     'website': "http://Strategi-k.com",
@@ -13,10 +13,10 @@
     # Check https://github.com/odoo/odoo/blob/12.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Reporting',
-    'version': '0.1',
+    'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account','strategiksv','purchase','account_accountant'],
+    'depends': ['base','account','strategiksv','purchase','account_accountant','stock_landed_costs'],
 
     # always loaded
     'data': [

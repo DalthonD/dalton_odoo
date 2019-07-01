@@ -7,7 +7,7 @@
         <form>
           <group>
             <field name="company_id"/>
-            <field name="stock_location_id"/>
+            <!--field name="stock_location_id"/-->
           </group>
           <group col="4">
             <field name="date_month"/>
@@ -31,6 +31,6 @@
       <field name="target">new</field>
   	</record>
 
-        <menuitem id="ticket_report" name="Libro de Ventas con Tickets(PDF)" action="action_ticket_report_wizard" parent="legal_report" sequence="14"/>
+        <menuitem id="ticket_report" name="Libro de IVA Tiquete-Consumidor" action="action_ticket_report_wizard" parent="account_reports.account_reports_audit_reports_menu" sequence="9"/>
   </data>
 </odoo>

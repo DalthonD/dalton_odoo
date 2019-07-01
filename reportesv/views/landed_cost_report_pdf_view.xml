@@ -1,0 +1,311 @@
+<odoo>
+  <data>
+    <template id ='company_strategiksv_landed_cost_report_pdf'>
+      <t t-call="web.html_container">
+        <t t-call="web.basic_layout">
+          <div class="page" style="font-size: 9pt">
+            <style type="text/css">
+              .spacing-line{
+                line-height: 5pt
+              }
+              .center-middle-title{
+                font-size: 15px;
+                text-transform: uppercase;
+                line-height: 10pt;
+              }
+              .center-middle{
+                text-align: center;
+                vertical-align: middle !important;
+                padding:0.5px !important;
+                width70%;
+              }
+              .center-middle-o{
+                text-align: center;
+                vertical-align: middle !important;
+                word-wrap: break-all !important;
+                overflow: hidden;
+                white-space:normal;
+              }
+              .center-middle-c{
+                text-align: center;
+                vertical-align: middle !important;
+                padding:5px !important;
+                width70%;
+                color:white;
+                word-wrap: break-all !important;
+                overflow: hidden;
+                white-space:normal;
+              }
+              .tr-color{
+                background-color:blue;
+                width:100%;
+                color:white;
+              }
+              .table-content{
+                text-align: right;
+                vertical-align: middle;
+                height: auto;
+                width: 100%;
+                padding: 0px;
+                border-collapse: collapse;
+              }
+              table{
+                width:100%;
+                table-layout:auto;
+              }
+              table, td,th{
+                padding:5px;
+                white-space: nowrap;
+                border-collapse: collapse;
+                font-size:9pt;
+              }
+              table td:last-child{
+                padding: 0.5px;
+                width:100%;
+              }
+              .pagenumber:before {
+                position: relative;
+                border-width: 55%;
+                bottom: 1;
+                width: 100%;
+                font-size: 7pt;
+                background-color:gray;
+                content: "Pág. " conunter(page+1) " de " counter(pages+1);
+              }
+              .page:after{
+                content: counter(page+1)
+              }
+              .w{
+                width: 350px;
+                word-wrap: break-all !important;
+                overflow: hidden;
+                white-space:normal;
+              }
+              .width-invoice{
+                width: 150px;
+              }
+              .money{
+                width: 100px;
+                word-wrap: break-all !important;
+                overflow: hidden;
+              }
+              .num{
+                width: 30px;
+                word-wrap: break-all !important;
+                overflow: hidden;
+              }
+              .codigo{
+                width: 100px;
+                word-wrap: break-all !important;
+                overflow: hidden;
+              }
+            </style>
+            <!--Declaracion de variables-->
+            <t t-set="company_id" t-value="int(0)"/>
+            <t t-set="contador" t-value="null"/>
+            <t t-set="company" t-value="null"/>
+            <t t-set="currency_symbol" t-value="null"/>
+
+            <t t-set="total_quantity" t-value="0"/>
+            <t t-set="total_FOB" t-value="float(0.00)"/>
+            <t t-set="total_seguro" t-value="float(0.00)"/>
+            <t t-set="total_flete" t-value="float(0.00)"/>
+            <t t-set="total_CIF" t-value="float(0.00)"/>
+            <t t-set="total_impuesto" t-value="float(0.00)"/>
+            <t t-set="total_otros" t-value="float(0.00)"/>
+            <t t-set="total_costo" t-value="float(0.00)"/>
+            <!--Fin de declaraciones-->
+
+            <!--Encabezado-->
+              <t t-foreach="docs" t-as="o">
+                <t t-set="company_id" t-value="int(data.get('form').get('company_id')[0])"/>
+                <div class="row" style="width:100%">
+                  <table style="table-layout:auto;border-collapse:collapse;empty-cells:hide;">
+                    <tr>
+                      <td style="text-align:left">
+                          <div class="col-3 mb4" style="text-align:left">
+                            <img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="max-height: 45px;"/>
+                            <t t-set="currency_symbol" t-value="o.company_id.currency_id.symbol"/>
+                          </div>
+                      </td>
+                      <td class="center-middle" style="text-align:right">
+                          <b><span style="font-size:30pt,color:blue;text-align:right">RETACEO</span></b>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <table style="margin-top:8pt">
+                  <tr>
+                    <td>
+                      <table class="table table-bordered" style="table-layout:fixed;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
+                        <colgroup>
+                          <col class="width-invoice"></col>
+                          <col class="width-invoice"></col>
+                        </colgroup>
+                        <tr class="tr-color">
+                          <th class="center-middle" style="font-size:12pt;">Factura</th>
+                          <th class="center-middle" style="font-size:12pt;">Fecha</th>
+                          <!--th class="center-middle">Referencia</th-->
+                        </tr>
+                        <tr t-foreach="o.get_invoices_inf()" t-as="t">
+                          <td class="center-middle" style="font-size:10pt;"><span t-esc="t.get('referencia')"/></td>
+                          <td class="center-middle" style="font-size:10pt;"><span t-esc="t.get('fecha')"/></td>
+                          <!--td class="center-middle" style="text-align:right"><span t-esc=""/></td-->
+                        </tr>
+                      </table>
+                    </td>
+                    <td style="width:60%">
+                    </td>
+                    <td>
+                      <table class="table table-bordered" style="table-layout:fixed;border:1px solid black;border-collapse:collapse;empty-cells:hide;">
+                        <tr class="tr-color">
+                          <th colspan="2" class="center-middle" style="color:white;width:5%;font-size:12pt;">Datos de la importación</th>
+                        </tr>
+                        <tr>
+                          <td class="center-middle" style="text-align:left;width:20%;left:5px">DECLARACION No</td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px;font-size:10pt;"><span t-esc="o.sv_declaracion"/></td>
+                        </tr>
+                        <tr>
+                          <td class="center-middle" style="text-align:left;width:20%;left:5px">FECHA DE IMPORT.</td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px;font-size:10pt;"><span t-esc="o.date"/></td>
+                        </tr>
+                        <tr>
+                          <td class="center-middle" style="text-align:left;width:20%;left:5px">GUIA/BL</td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px;font-size:10pt;"><span t-esc="o.sv_guia"/></td>
+                        </tr>
+                        <tr>
+                          <td class="center-middle" style="text-align:left;width:20%;left:5px">SHIP VIA</td>
+                          <td class="center-middle" style="text-align:left;width:15%;left:5px;font-size:10pt;"></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                <b><span style="font-size:20pt,color:blue;text-align:left">PRODUCTO PARA LA VENTA</span></b>
+                <table>
+                  <tr>
+                    <td style="text-align:center">
+                      <!--table class="table table-bordered" style="table-layout:auto;border:1px solid black;border-collapse:collapse;empty-cells:hide;"-->
+                      <table class="table table-bordered" style="table-layout:fixed">
+                        <colgroup>
+                          <col class="num"></col>
+                          <col class="codigo"></col>
+                          <col span="2" class="w"></col>
+                          <col class="codigo"></col>
+                          <col span="10" class="money"></col>
+                        </colgroup>
+                        <tr class="tr-color">
+                          <th class="center-middle-c">#</th>
+                          <th class="center-middle-c">PRODUCTO#</th>
+                          <th class="center-middle-c">DESCRIPCIÓN DEL PRODUCTO</th>
+                          <th class="center-middle-c">DESCRIPCIÓN ADUANA</th>
+                          <th class="center-middle-c">POSICIÓN ARANCELARIA</th>
+                          <th class="center-middle-c">CANTIDAD</th>
+                          <th class="center-middle-c">PRECIO UNITARIO</th>
+                          <th class="center-middle-c">VALOR $ FOB</th>
+                          <th class="center-middle-c">SEGURO</th>
+                          <th class="center-middle-c">FLETE</th>
+                          <th class="center-middle-c">VALOR $ CIF</th>
+                          <th class="center-middle-c">IMPUESTOS</th>
+                          <th class="center-middle-c">OTROS GASTOS</th>
+                          <th class="center-middle-c">TOTAL COSTO</th>
+                          <th class="center-middle-c">COSTO UNITARIO</th>
+                        </tr>
+                        <tr t-foreach="o.get_product_details()" t-as="a">
+                          <td class="center-middle"><span t-esc="int(a_index) + 1"/></td>
+                          <td class="center-middle"><span t-esc="a.get('codigo')"/></td>
+                          <td class="center-middle-o" style="text-align:left;"><span class="text-block" t-esc="a.get('descripcion')"/></td>
+                          <td class="center-middle-o" style="text-align:left;"><span class="text-block" t-esc="a.get('aduana_des')"/></td>
+                          <td class="center-middle" style="text-align:left"><span t-esc="a.get('posicion')"/></td>
+                          <td class="center-middle" style="font-size:10pt;"><span t-esc="a.get('cantidad')"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('precio_unit'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('seguro'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('fob'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('flete'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('cif'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('impuesto'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('otros'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costo_total'))"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(a.get('costo_unitario'))"/></td>
+
+                          <!--Calculo de totales-->
+                          <t t-set="total_quantity" t-value="total_quantity + a.get('cantidad')"/>
+                          <t t-set="total_FOB" t-value="total_FOB + a.get('fob')"/>
+                          <t t-set="total_seguro" t-value="total_seguro + a.get('seguro')"/>
+                          <t t-set="total_flete" t-value="total_flete + a.get('flete')"/>
+                          <t t-set="total_CIF" t-value="total_CIF + a.get('cif')"/>
+                          <t t-set="total_impuesto" t-value="total_impuesto + a.get('impuesto')"/>
+                          <t t-set="total_otros" t-value="total_otros + a.get('otros')"/>
+                          <t t-set="total_costo" t-value="total_costo + a.get('costo_total')"/>
+                          <!--Fin de calculo-->
+                        </tr>
+                        <tr>
+                          <td class="center-middle" style="text-align:right"></td>
+                          <td class="center-middle" style="text-align:right"></td>
+                          <td class="center-middle" style="text-align:right"></td>
+                          <td class="center-middle" style="text-align:right"></td>
+                          <td class="center-middle" style="text-align:right"></td>
+                          <td class="center-middle"><span t-esc="total_quantity"/></td>
+                          <td class="center-middle">-</td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_FOB)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_seguro)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_flete)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_CIF)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_impuesto)"/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_otros) if total_otros &gt; 0 else '-' "/></td>
+                          <td class="center-middle" style="text-align:right;font-size:10pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_costo)"/></td>
+                          <td class="center-middle">-</td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td>
+                    </td>
+                  </tr>
+                </table>
+
+              <div style="left:100px;text-align:center;width: 350px;">
+                <table style="table-layout:fixed;margin-left:auto;margin-right:auto;width:100%">
+                  <tr>
+                    <b><th colspan="2">RESUMEN</th></b>
+                  </tr>
+                  <tr>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Costo de Producto</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_FOB)"/></td>
+                  </tr>
+                  <tr>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Impuestos (DAI)</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_impuesto)"/></td>
+                  </tr>
+                  <tr>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Otros gastos aduanales</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_otros) if total_otros &gt; 0 else '-' "/></td>
+                  </tr>
+                  <tr>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Seguro</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_seguro)"/></td>
+                  </tr>
+                  <tr>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Flete</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_flete)"/></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td style="vertical-align:bottom;text-align:right">________________</td>
+                  </tr>
+                  <tr>
+                    <td class="center-middle" style="text-align:left;font-size:12pt;">Total</td>
+                    <td class="center-middle" style="text-align:right;font-size:12pt;"><span t-esc="currency_symbol"/><span t-esc="'{0:.2f}'.format(total_costo)"/></td>
+                  </tr>
+                </table>
+              </div>
+
+                <!--div t-if="report_type == 'pdf'" class="text-muted" style="position:absolute;bottom:5pt;text-align:left">
+                    Pág.: <span class="page"/> de <span class="topage"/>
+                </div-->
+              </t>
+          </div>
+        </t>
+      </t>
+    </template>
+  </data>
+</odoo>

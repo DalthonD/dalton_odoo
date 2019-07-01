@@ -115,7 +115,7 @@
                 <t t-set="month" t-value="int(data.get('form').get('date_month'))"/>
                 <t t-set="year" t-value="int(data.get('form').get('date_year'))"/>
                 <t t-set="company_id" t-value="int(data.get('form').get('company_id')[0])"/>
-                <t t-set="stock_id" t-value="int(data.get('form').get('stock_location_id')[0])"/>
+                <!--t t-set="stock_id" t-value="int(data.get('form').get('stock_location_id')[0])"/-->
                 <t t-set="contador" t-value="o.sv_aprueba_partida"/>
                 <t t-set="company" t-value="o"/>
                 <div style="text-align:center;">

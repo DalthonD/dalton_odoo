@@ -9,7 +9,7 @@
                 <form>
                     <group>
                         <field name="session_ids" widget="many2many_tags" required="1"
-                            domain="[('state', 'in', ['opened'])]"/>
+                            domain="[('state', 'in', ['opened','closed'])]"/>
                     </group>
                     <group>
                         <field name="report_type" required="1"/>
@@ -21,7 +21,7 @@
                     </group>
                     <footer>
                         <button type="object" id="main_print_button" name="print_x_report"
-                                string="Print" class="oe_highlight"/>
+                                string="Imprimir" class="oe_highlight"/>
                         <button string="Cancel" class="oe_link" special="cancel"/>
                     </footer>
                 </form>

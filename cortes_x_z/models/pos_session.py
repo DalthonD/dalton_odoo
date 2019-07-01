@@ -14,7 +14,7 @@ from odoo import fields, models, api, SUPERUSER_ID, _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 import pytz
 from pytz import timezone
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, time
 from odoo.exceptions import UserError, ValidationError
 from odoo import exceptions
 _logger = logging.getLogger(__name__)
@@ -542,8 +542,8 @@ class pos_session(models.Model):
             data = {}
             if inv_ids:
                 inv_ids = [inv.partner_id.id for inv in inv_ids]
-                account_payment_ids = account_payment_obj.search([('partner_id', 'in', inv_ids),('create_date', '>=', start_at),
-                                                ('create_date', '<=', stop_at),
+                account_payment_ids = account_payment_obj.search([('partner_id', 'in', inv_ids),('payment_date', '>=', start_at),
+                                                ('payment_date', '<=', stop_at),
                                                 ('create_uid', '=', self.user_id.id), ('company_id', '=', company_id)])
                 if account_payment_ids:
                     a_l = []
@@ -557,126 +557,7 @@ class pos_session(models.Model):
         else:
             return {}
 
-    #############FACTURA#############
-    @api.multi
-    def get_invoice_range_no_contr1(self):
-        invran = '0-0'
-        if self:
-            for record in self:
-                pos_order_obj = []
-                pos_invoice_obj = []
-                orders = []
-                invoices = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id)], order='invoice_id asc')
-                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False)], order='reference asc')
-                if len(fiscal_position_ids)>1 and pos_invoice_obj and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_invoice_obj and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return invran
-                for order in orders:
-                    invoice = pos_invoice_obj.filtered(lambda r: r.id==order.invoice_id)
-                    invoices.append(invoice.number)
-                    #for invoice in pos_invoice_obj:
-                    #    if order.invoice_id == invoice.id:
-                    #        invoices.append(invoice.reference)
-                    raise UserError(_("Contenido de la lista facturas: ", invoices))
-                if len(invoices)>1:
-                    inv_in = invoices[0]
-                    inv_fin = invoices[-1]
-                elif len(invoices)==1:
-                    inv_in = invoices[0]
-                    inv_fin = '(único)'
-                else:
-                    inv_in = 0
-                    inv_fin = 0
-                invran = '{0}-{1}'.format(inv_in,inv_fin)
-                return invran
-        else:
-            return invran
-
-    @api.multi
-    def get_total_sales_invoice_gravado_no_contr1(self):
-        total_price = 0.0
-        if self:
-            for record in self:
-                pos_order_obj = []
-                orders = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Gravado')])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id),('invoice_id.reference','!=',False)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return total_price
-                for order in orders:
-                    total_price += sum([(line.qty * line.price_unit) for line in order.lines])
-                return total_price
-        else:
-            return total_price
-
-    @api.multi
-    def get_total_sales_invoice_exento_no_contr1(self):
-        total_price = 0.0
-        if self:
-            for record in self:
-                pos_order_obj = []
-                orders = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Exento')])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id),('invoice_id.reference','!=',False)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return total_price
-                for order in orders:
-                    total_price += sum([(line.qty * line.price_unit) for line in order.lines])
-                return total_price
-        else:
-            return total_price
-
-    @api.multi
-    def get_total_sales_invoice_no_aplica_no_contr1(self):
-        total_price = 0.0
-        if self:
-            for record in self:
-                pos_order_obj = []
-                orders = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','No Aplica')])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id),('invoice_id.reference','!=',False)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return total_price
-                for order in orders:
-                    total_price += sum([(line.qty * line.price_unit) for line in order.lines])
-                return total_price
-        else:
-            return total_price
-
-    ########NUEVOS##############
+    ########FACTURA CORTE X##############
     @api.multi
     def get_invoice_range_no_contr(self):
         invran = '0-0'
@@ -686,22 +567,11 @@ class pos_session(models.Model):
                 stop_at = datetime.now()
                 if record.stop_at:
                     stop_at = record.stop_at
-                pos_order_obj = []
                 invoices = []
                 pos_invoice_obj = []
-                sales_invoice = []
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
-                sales_invoice = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
-                ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at)], order='reference asc')
-                #pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id)], order='invoice_id asc')
-                sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
-                self._cr.execute(sql)
-                pos_order_obj = self._cr.dictfetchall()
-                for order in pos_order_obj:
-                    for invoice in sales_invoice:
-                        if order.get('invoice_id')==invoice.id:
-                            pos_invoice_obj.append(invoice)
-                pos_invoice_obj.sort(key=lambda i: i.reference)
+                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
+                ,('create_date','>=',start_at),('create_date','<=',stop_at)], order='reference asc')
                 if len(fiscal_position_ids)>1 and pos_invoice_obj:
                     for inv in pos_invoice_obj:
                         if inv.fiscal_position_id in fiscal_position_ids:
@@ -735,20 +605,20 @@ class pos_session(models.Model):
                 stop_at = datetime.now()
                 if record.stop_at:
                     stop_at = record.stop_at
-                pos_order_obj = []
+                #pos_order_obj = []
+                #sales_invoice = []
                 invoices = []
                 pos_invoice_obj = []
-                sales_invoice = []
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Gravado')])
-                sales_invoice = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
-                ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at)], order='reference asc')
-                sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
-                self._cr.execute(sql)
-                pos_order_obj = self._cr.dictfetchall()
-                for order in pos_order_obj:
-                    for invoice in sales_invoice:
-                        if order.get('invoice_id')==invoice.id:
-                            pos_invoice_obj.append(invoice)
+                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
+                ,('create_date','>=',start_at),('create_date','<=',stop_at)], order='reference asc')
+                #sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
+                #self._cr.execute(sql)
+                #pos_order_obj = self._cr.dictfetchall()
+                #for order in pos_order_obj:
+                #    for invoice in sales_invoice:
+                #        if order.get('invoice_id')==invoice.id:
+                #            pos_invoice_obj.append(invoice)
                 if len(fiscal_position_ids)>1 and pos_invoice_obj:
                     for inv in pos_invoice_obj:
                         if inv.fiscal_position_id in fiscal_position_ids:
@@ -774,20 +644,20 @@ class pos_session(models.Model):
                 stop_at = datetime.now()
                 if record.stop_at:
                     stop_at = record.stop_at
-                pos_order_obj = []
+                #pos_order_obj = []
+                #sales_invoice = []
                 invoices = []
                 pos_invoice_obj = []
-                sales_invoice = []
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Exento')])
-                sales_invoice = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
-                ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at)], order='reference asc')
-                sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
-                self._cr.execute(sql)
-                pos_order_obj = self._cr.dictfetchall()
-                for order in pos_order_obj:
-                    for invoice in sales_invoice:
-                        if order.get('invoice_id')==invoice.id:
-                            pos_invoice_obj.append(invoice)
+                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
+                ,('create_date','>=',start_at),('create_date','<=',stop_at)], order='reference asc')
+                #sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
+                #self._cr.execute(sql)
+                #pos_order_obj = self._cr.dictfetchall()
+                #for order in pos_order_obj:
+                #    for invoice in sales_invoice:
+                #        if order.get('invoice_id')==invoice.id:
+                #            pos_invoice_obj.append(invoice)
                 if len(fiscal_position_ids)>1 and pos_invoice_obj:
                     for inv in pos_invoice_obj:
                         if inv.fiscal_position_id in fiscal_position_ids:
@@ -813,20 +683,20 @@ class pos_session(models.Model):
                 stop_at = datetime.now()
                 if record.stop_at:
                     stop_at = record.stop_at
-                pos_order_obj = []
+                #pos_order_obj = []
+                #sales_invoice = []
                 invoices = []
                 pos_invoice_obj = []
-                sales_invoice = []
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','No Aplica')])
-                sales_invoice = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
-                ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at)], order='reference asc')
-                sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
-                self._cr.execute(sql)
-                pos_order_obj = self._cr.dictfetchall()
-                for order in pos_order_obj:
-                    for invoice in sales_invoice:
-                        if order.get('invoice_id')==invoice.id:
-                            pos_invoice_obj.append(invoice)
+                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
+                ,('create_date','>=',start_at),('create_date','<=',stop_at)], order='reference asc')
+                #sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
+                #self._cr.execute(sql)
+                #pos_order_obj = self._cr.dictfetchall()
+                #for order in pos_order_obj:
+                #    for invoice in sales_invoice:
+                #        if order.get('invoice_id')==invoice.id:
+                #            pos_invoice_obj.append(invoice)
                 if len(fiscal_position_ids)>1 and pos_invoice_obj:
                     for inv in pos_invoice_obj:
                         if inv.fiscal_position_id in fiscal_position_ids:
@@ -844,126 +714,7 @@ class pos_session(models.Model):
             return total_price
     #############################
 
-    #############CCF#############
-    @api.multi
-    def get_invoice_range_ccf1(self):
-        invran = '0-0'
-        if self:
-            for record in self:
-                pos_order_obj = []
-                pos_invoice_obj = []
-                orders = []
-                invoices = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True)])
-                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False)], order='reference asc')
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_invoice_obj and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_invoice_obj and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return invran
-                for order in orders:
-                    for invoice in pos_invoice_obj:
-                        if order.invoice_id == invoice.id:
-                            invoices.append(invoice.reference)
-                if len(invoices)>1:
-                    inv_in = invoices[0]
-                    inv_fin = invoices[-1]
-                elif len(invoices)==1:
-                    inv_in = invoices[0]
-                    inv_fin = '(único)'
-                else:
-                    inv_in = 0
-                    inv_fin = 0
-                invran = '{0}-{1}'.format(inv_in,inv_fin)
-                return invran
-        else:
-            return invran
-
-    @api.multi
-    def get_total_sales_invoice_gravado_ccf1(self):
-        total_price = 0.0
-        if self:
-            for record in self:
-                pos_order_obj = []
-                orders = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','Gravado')])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id),('invoice_id.reference','!=',False)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return total_price
-                for order in orders:
-                    #total_price += sum([(line.qty * line.price_unit) for line in order.lines])
-                    total_price += order.amount_total
-                return total_price
-        else:
-            return total_price
-
-    @api.multi
-    def get_total_sales_invoice_exento_ccf1(self):
-        total_price = 0.0
-        if self:
-            for record in self:
-                pos_order_obj = []
-                orders = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','Exento')])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id),('invoice_id.reference','!=',False)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return total_price
-                for order in orders:
-                    #total_price += sum([(line.qty * line.price_unit) for line in order.lines])
-                    total_price += order.amount_total
-                return total_price
-        else:
-            return total_price
-
-    @api.multi
-    def get_total_sales_invoice_no_aplica_ccf1(self):
-        total_price = 0.0
-        if self:
-            for record in self:
-                pos_order_obj = []
-                orders = []
-                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','No Aplica')])
-                pos_order_obj = self.env['pos.order'].search([('invoice_id','!=',False),('session_id','=',record.id),('invoice_id.reference','!=',False)], order='invoice_id asc')
-                if len(fiscal_position_ids)>1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id in fiscal_position_ids:
-                            orders.append(order)
-                elif len(fiscal_position_ids)==1 and pos_order_obj:
-                    for order in pos_order_obj:
-                        if order.fiscal_position_id == fiscal_position_ids:
-                            orders.append(order)
-                else:
-                    return total_price
-                for order in orders:
-                    #total_price += sum([(line.qty * line.price_unit) for line in order.lines])
-                    total_price += order.amount_total
-                return total_price
-        else:
-            return total_price
-
-    ########NUEVOS##############
+    ########CCF CORTE X##############
 
     @api.multi
     def get_invoice_range_ccf(self):
@@ -974,21 +725,21 @@ class pos_session(models.Model):
                 stop_at = datetime.now()
                 if record.stop_at:
                     stop_at = record.stop_at
-                pos_order_obj = []
+                #pos_order_obj = []
+                #sales_invoice = []
                 invoices = []
                 pos_invoice_obj = []
-                sales_invoice = []
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True)])
-                sales_invoice = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
-                ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at),('sv_credito_fiscal','=',True)], order='reference asc')
-                sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
-                self._cr.execute(sql)
-                pos_order_obj = self._cr.dictfetchall()
-                for order in pos_order_obj:
-                    for invoice in sales_invoice:
-                        if order.get('invoice_id')==invoice.id:
-                            pos_invoice_obj.append(invoice)
-                pos_invoice_obj.sort(key=lambda i: i.reference)
+                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
+                ,('create_date','>=',start_at),('create_date','<=',stop_at),('sv_credito_fiscal','=',True)], order='reference asc')
+                #sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
+                #self._cr.execute(sql)
+                #pos_order_obj = self._cr.dictfetchall()
+                #for order in pos_order_obj:
+                    #for invoice in sales_invoice:
+                        #if order.get('invoice_id')==invoice.id:
+                            #pos_invoice_obj.append(invoice)
+                #pos_invoice_obj.sort(key=lambda i: i.reference)
                 if len(fiscal_position_ids)>1 and pos_invoice_obj:
                     for inv in pos_invoice_obj:
                         if inv.fiscal_position_id in fiscal_position_ids:
@@ -1022,20 +773,20 @@ class pos_session(models.Model):
                 stop_at = datetime.now()
                 if record.stop_at:
                     stop_at = record.stop_at
-                pos_order_obj = []
+                #pos_order_obj = []
+                #sales_invoice = []
                 invoices = []
                 pos_invoice_obj = []
-                sales_invoice = []
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','Gravado')])
-                sales_invoice = self.env['account.invoice'].search([('reference','!=',False),('state','!=','cancel'),('fiscal_position_id','!=',False)\
-                ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at),('sv_credito_fiscal','=',True)], order='reference asc')
-                sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
-                self._cr.execute(sql)
-                pos_order_obj = self._cr.dictfetchall()
-                for order in pos_order_obj:
-                    for invoice in sales_invoice:
-                        if order.get('invoice_id')==invoice.id:
-                            pos_invoice_obj.append(invoice)
+                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','!=','cancel'),('fiscal_position_id','!=',False)\
+                ,('create_date','>=',start_at),('create_date','<=',stop_at),('sv_credito_fiscal','=',True)], order='reference asc')
+                #sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
+                #self._cr.execute(sql)
+                #pos_order_obj = self._cr.dictfetchall()
+                #for order in pos_order_obj:
+                #    for invoice in sales_invoice:
+                #        if order.get('invoice_id')==invoice.id:
+                #            pos_invoice_obj.append(invoice)
                 if len(fiscal_position_ids)>1 and pos_invoice_obj:
                     for inv in pos_invoice_obj:
                         if inv.fiscal_position_id in fiscal_position_ids:
@@ -1061,20 +812,20 @@ class pos_session(models.Model):
                 stop_at = datetime.now()
                 if record.stop_at:
                     stop_at = record.stop_at
-                pos_order_obj = []
+                #pos_order_obj = []
+                #sales_invoice = []
                 invoices = []
                 pos_invoice_obj = []
-                sales_invoice = []
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','Exento')])
-                sales_invoice = self.env['account.invoice'].search([('reference','!=',False),('state','!=','cancel'),('fiscal_position_id','!=',False)\
-                ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at),('sv_credito_fiscal','=',True)], order='reference asc')
-                sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
-                self._cr.execute(sql)
-                pos_order_obj = self._cr.dictfetchall()
-                for order in pos_order_obj:
-                    for invoice in sales_invoice:
-                        if order.get('invoice_id')==invoice.id:
-                            pos_invoice_obj.append(invoice)
+                pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','!=','cancel'),('fiscal_position_id','!=',False)\
+                ,('create_date','>=',start_at),('create_date','<=',stop_at),('sv_credito_fiscal','=',True)], order='reference asc')
+                #sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
+                #self._cr.execute(sql)
+                #pos_order_obj = self._cr.dictfetchall()
+                #for order in pos_order_obj:
+                #    for invoice in sales_invoice:
+                #        if order.get('invoice_id')==invoice.id:
+                #            pos_invoice_obj.append(invoice)
                 if len(fiscal_position_ids)>1 and pos_invoice_obj:
                     for inv in pos_invoice_obj:
                         if inv.fiscal_position_id in fiscal_position_ids:
@@ -1100,20 +851,20 @@ class pos_session(models.Model):
                 stop_at = datetime.now()
                 if record.stop_at:
                     stop_at = record.stop_at
-                pos_order_obj = []
+                #pos_order_obj = []
+                #sales_invoice = []
                 invoices = []
                 pos_invoice_obj = []
-                sales_invoice = []
                 fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','No Aplica')])
                 pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','!=','cancel'),('fiscal_position_id','!=',False)\
-                ,('date_invoice','>=',start_at),('date_invoice','<=',stop_at),('sv_credito_fiscal','=',True)], order='reference asc')
-                sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
-                self._cr.execute(sql)
-                pos_order_obj = self._cr.dictfetchall()
-                for order in pos_order_obj:
-                    for invoice in sales_invoice:
-                        if order.get('invoice_id')==invoice.id:
-                            pos_invoice_obj.append(invoice)
+                ,('create_date','>=',start_at),('create_date','<=',stop_at),('sv_credito_fiscal','=',True)], order='reference asc')
+                #sql = "select invoice_id from pos_order where invoice_id IS NOT NULL and session_id = {0} order by invoice_id asc".format(record.id)
+                #self._cr.execute(sql)
+                #pos_order_obj = self._cr.dictfetchall()
+                #for order in pos_order_obj:
+                #    for invoice in sales_invoice:
+                #        if order.get('invoice_id')==invoice.id:
+                #            pos_invoice_obj.append(invoice)
                 if len(fiscal_position_ids)>1 and pos_invoice_obj:
                     for inv in pos_invoice_obj:
                         if inv.fiscal_position_id in fiscal_position_ids:
@@ -1131,7 +882,7 @@ class pos_session(models.Model):
             return total_price
     ############################
 
-    #############TIQUETE#############
+    #############TIQUETE CORTE X#############
     @api.multi
     def get_ticket_range(self):
         tcktran = '0-0'
@@ -1249,7 +1000,7 @@ class pos_session(models.Model):
 
     ############################
 
-    #############RECIBO WALLET#############
+    #############RECIBO WALLET CORTE X#############
     @api.multi
     def get_wallet_reciept(self):
         recran = '0-0'
@@ -1285,6 +1036,612 @@ class pos_session(models.Model):
         return total_price
 
     ############################
+
+class pos_config(models.Model):
+    _inherit = 'pos.config'
+
+    @api.multi
+    def get_invoice_range_no_contr_z(self, today):
+        session_ids = []
+        invoices = set()
+        invran = '0-0'
+        today = datetime.strptime(today, '%Y-%m-%d')
+        today = today.date()
+        hora = time(20,0,0)
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_invoice_obj = []
+                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        start_at = session.start_at
+                        stop_at = session.stop_at
+                        pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
+                        ,('create_date','>=',start_at),('create_date','<=',stop_at)], order='reference asc')
+                        if len(fiscal_position_ids)>1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id in fiscal_position_ids:
+                                    invoices.add(inv)
+                        elif len(fiscal_position_ids)==1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id == fiscal_position_ids:
+                                    invoices.add(inv)
+                        else:
+                            continue
+                    invoices = list(invoices)
+                    invoices.sort(key=lambda i: i.reference)
+                    if invoices:
+                        if len(invoices)>1:
+                            inv_in = invoices[0].reference
+                            inv_fin = invoices[-1].reference
+                        elif len(invoices)==1:
+                            inv_in = invoices[0].reference
+                            inv_fin = '(único)'
+                        else:
+                            inv_in = 0
+                            inv_fin = 0
+                        invran = '{0}-{1}'.format(inv_in,inv_fin)
+                        return invran
+                    return invran
+                return invran
+        return invran
+
+    @api.multi
+    def get_invoice_info_z(self, today):
+        session_ids = []
+        invoices = set()
+        invran = '0-0'
+        gravado = 0.0
+        excento = 0.0
+        no_aplica= 0.0
+        total_price = 0.0
+        data = {"invran":invran,"gravado":gravado,"excento":excento,"no_aplica":no_aplica,"total_price":total_price}
+        today = datetime.strptime(today, '%Y-%m-%d')
+        today = today.date()
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_invoice_obj = []
+                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False)])
+                fiscal_position_gravado_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Gravado')])
+                fiscal_position_excento_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Exento')])
+                fiscal_position_noaplica_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','No Aplica')])
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        start_at = session.start_at
+                        stop_at = session.stop_at
+                        pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
+                        ,('create_date','>=',start_at),('create_date','<=',stop_at)], order='reference asc')
+                        if len(fiscal_position_ids)>1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id in fiscal_position_ids:
+                                    invoices.add(inv)
+                        elif len(fiscal_position_ids)==1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id == fiscal_position_ids:
+                                    invoices.add(inv)
+                        else:
+                            continue
+                    invoices = list(invoices)
+                    invoices.sort(key=lambda i: i.reference)
+                    if invoices:
+                        if len(invoices)>1:
+                            inv_in = invoices[0].reference
+                            inv_fin = invoices[-1].reference
+                        elif len(invoices)==1:
+                            inv_in = invoices[0].reference
+                            inv_fin = '(único)'
+                        else:
+                            inv_in = 0
+                            inv_fin = 0
+                        invran = '{0}-{1}'.format(inv_in,inv_fin)
+                        data["invran"]=invran #rango de facturas del POS
+                        pos_invoice_obj = invoices #Listado de todos las facturas hechas en las sessiones del POS
+                        invoices = []
+                        if len(fiscal_position_gravado_ids)>1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id in fiscal_position_gravado_ids:
+                                    invoices.append(inv)
+                        elif len(fiscal_position_gravado_ids)==1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id == fiscal_position_gravado_ids:
+                                    invoices.append(inv)
+                        else:
+                            gravado = 0.0 #En caso no haya facturas gravadas
+                        if invoices:
+                            for inv in invoices:
+                                gravado += inv.amount_total
+                        data["gravado"] = gravado #Facturas gravadas
+                        invoices = []
+                        if len(fiscal_position_excento_ids)>1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id in fiscal_position_excento_ids:
+                                    invoices.append(inv)
+                        elif len(fiscal_position_excento_ids)==1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id == fiscal_position_excento_ids:
+                                    invoices.append(inv)
+                        else:
+                            excento = 0.0 #En caso no haya facturas gravadas
+                        if invoices:
+                            for inv in invoices:
+                                excento += inv.amount_total
+                        data["excento"] = excento
+                        invoices = []
+                        if len(fiscal_position_noaplica_ids)>1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id in fiscal_position_noaplica_ids:
+                                    invoices.append(inv)
+                        elif len(fiscal_position_noaplica_ids)==1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id == fiscal_position_noaplica_ids:
+                                    invoices.append(inv)
+                        else:
+                            no_aplica = 0.0 #En caso no haya facturas gravadas
+                        if invoices:
+                            for inv in invoices:
+                                no_aplica += inv.amount_total
+                        data["no_aplica"] = no_aplica
+                        data["total_price"] = total_price + gravado + excento + no_aplica
+                        return data
+                    return data
+                return data
+        return data
+
+    @api.multi
+    def get_ccf_info_z(self, today):
+        session_ids = []
+        invoices = set()
+        invran = '0-0'
+        gravado = 0.0
+        excento = 0.0
+        no_aplica= 0.0
+        total_price = 0.0
+        data = {"invran":invran,"gravado":gravado,"excento":excento,"no_aplica":no_aplica,"total_price":total_price}
+        today = datetime.strptime(today, '%Y-%m-%d')
+        today = today.date()
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_invoice_obj = []
+                fiscal_position_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True)])
+                fiscal_position_gravado_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','Gravado')])
+                fiscal_position_excento_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','Exento')])
+                fiscal_position_noaplica_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',True),('sv_clase','=','No Aplica')])
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        start_at = session.start_at
+                        stop_at = session.stop_at
+                        pos_invoice_obj = self.env['account.invoice'].search([('reference','!=',False),('state','in',['paid','open']),('fiscal_position_id','!=',False)\
+                        ,('create_date','>=',start_at),('create_date','<=',stop_at)], order='reference asc')
+                        if len(fiscal_position_ids)>1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id in fiscal_position_ids:
+                                    invoices.add(inv)
+                        elif len(fiscal_position_ids)==1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id == fiscal_position_ids:
+                                    invoices.add(inv)
+                        else:
+                            continue
+                    invoices = list(invoices)
+                    invoices.sort(key=lambda i: i.reference)
+                    if invoices:
+                        if len(invoices)>1:
+                            inv_in = invoices[0].reference
+                            inv_fin = invoices[-1].reference
+                        elif len(invoices)==1:
+                            inv_in = invoices[0].reference
+                            inv_fin = '(único)'
+                        else:
+                            inv_in = 0
+                            inv_fin = 0
+                        invran = '{0}-{1}'.format(inv_in,inv_fin)
+                        data["invran"]=invran #rango de facturas del POS
+                        pos_invoice_obj = invoices #Listado de todos las facturas hechas en las sessiones del POS
+                        invoices = []
+                        if len(fiscal_position_gravado_ids)>1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id in fiscal_position_gravado_ids:
+                                    invoices.append(inv)
+                        elif len(fiscal_position_gravado_ids)==1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id == fiscal_position_gravado_ids:
+                                    invoices.append(inv)
+                        else:
+                            gravado = 0.0 #En caso no haya facturas gravadas
+                        if invoices:
+                            for inv in invoices:
+                                gravado += inv.amount_total
+                        data["gravado"] = gravado #Facturas gravadas
+                        invoices = []
+                        if len(fiscal_position_excento_ids)>1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id in fiscal_position_excento_ids:
+                                    invoices.append(inv)
+                        elif len(fiscal_position_excento_ids)==1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id == fiscal_position_excento_ids:
+                                    invoices.append(inv)
+                        else:
+                            excento = 0.0 #En caso no haya facturas gravadas
+                        if invoices:
+                            for inv in invoices:
+                                excento += inv.amount_total
+                        data["excento"] = excento
+                        invoices = []
+                        if len(fiscal_position_noaplica_ids)>1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id in fiscal_position_noaplica_ids:
+                                    invoices.append(inv)
+                        elif len(fiscal_position_noaplica_ids)==1 and pos_invoice_obj:
+                            for inv in pos_invoice_obj:
+                                if inv.fiscal_position_id == fiscal_position_noaplica_ids:
+                                    invoices.append(inv)
+                        else:
+                            no_aplica = 0.0 #En caso no haya facturas gravadas
+                        if invoices:
+                            for inv in invoices:
+                                no_aplica += inv.amount_total
+                        data["no_aplica"] = no_aplica
+                        data["total_price"] = total_price + gravado + excento + no_aplica
+                        return data
+                    return data
+                return data
+        return data
+
+    @api.multi
+    def get_tiquete_info_z(self, today):
+        session_ids = []
+        orders = set()
+        tcktran = '0-0'
+        gravado = 0.0
+        excento = 0.0
+        no_aplica= 0.0
+        total_price = 0.0
+        data = {"tcktran":tcktran,"gravado":gravado,"excento":excento,"no_aplica":no_aplica,"total_price":total_price}
+        today = datetime.strptime(today, '%Y-%m-%d')
+        today = today.date()
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_order_obj = []
+                #fiscal_position_gravado_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Gravado')])
+                default_fiscal_position_id = pos.default_fiscal_position_id #No contribuyente gravado local
+                fiscal_position_excento_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','Exento')])
+                fiscal_position_noaplica_ids = self.env['account.fiscal.position'].search([('sv_contribuyente','=',False),('sv_clase','=','No Aplica')])
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        pos_order_obj = self.env['pos.order'].search([('invoice_id','=',False),('session_id','=',session.id),('recibo_number','=',False),('ticket_number','!=',False)], order='ticket_number asc')
+                        for order in pos_order_obj:
+                            orders.add(order)
+                    orders = list(orders)
+                    orders.sort(key=lambda o: o.ticket_number)
+                    if orders:
+                        if len(orders)>1:
+                            tckt_in = orders[0].ticket_number
+                            tckt_fin = orders[-1].ticket_number
+                        elif len(orders)==1:
+                            tckt_in = orders[0].ticket_number
+                            tckt_fin = '(único)'
+                        else:
+                            tckt_in = 0
+                            tckt_fin = 0
+                        tcktran = '{0}-{1}'.format(tckt_in,tckt_fin)
+                        data["tcktran"]=tcktran #rango de tickets del POS
+                        pos_order_obj = orders #Listado de todos las ordenes hechas en las sessiones del POS
+                        orders = [] #Nos aseguramos que la lista esté vacía
+                        for order in pos_order_obj:
+                            if order.fiscal_position_id == default_fiscal_position_id:
+                                orders.append(order)
+                        if orders:
+                            for order in orders:
+                                gravado += sum([(line.qty * line.price_unit) for line in order.lines])
+                        data["gravado"] = gravado #Facturas gravadas
+                        orders = [] #volvemos a vaciar las ordernes
+                        if len(fiscal_position_excento_ids)>1 and pos_order_obj:
+                            for order in pos_order_obj:
+                                if order.fiscal_position_id in fiscal_position_excento_ids:
+                                    orders.append(order)
+                        elif len(fiscal_position_excento_ids)==1 and pos_order_obj:
+                            for order in pos_order_obj:
+                                if order.fiscal_position_id == fiscal_position_excento_ids:
+                                    orders.append(order)
+                        else:
+                            excento = 0.0 #En caso no haya ordernes excentas
+                        if orders:
+                            for order in orders:
+                                excento += sum([(line.qty * line.price_unit) for line in order.lines])
+                        data["excento"] = excento
+                        orders = []
+                        if len(fiscal_position_noaplica_ids)>1 and pos_order_obj:
+                            for order in pos_order_obj:
+                                if order.fiscal_position_id in fiscal_position_ids:
+                                    orders.append(order)
+                        elif len(fiscal_position_noaplica_ids)==1 and pos_order_obj:
+                            for order in pos_order_obj:
+                                if order.fiscal_position_id == fiscal_position_noaplica_ids:
+                                    orders.append(order)
+                        else:
+                            no_aplica = 0.0 #En caso no haya facturas gravadas
+                        if orders:
+                            for order in orders:
+                                no_aplica += sum([(line.qty * line.price_unit) for line in order.lines])
+                        data["no_aplica"] = no_aplica
+                        data["total_price"] = total_price + gravado + excento + no_aplica
+                        return data
+                    return data
+                return data
+        return data
+
+    @api.multi
+    def get_total_sales_tickets_z(self, today):
+        session_ids = []
+        total_price = 0.0
+        today = datetime.strptime(today, '%Y-%m-%d')
+        today = today.date()
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_order_obj = []
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        total_price += session.get_total_sales_tickets()
+                    return total_price
+                else:
+                    return total_price
+        else:
+            return total_price
+
+    @api.multi
+    def get_total_returns_tickets_z(self, today):
+        session_ids = []
+        total_return = 0.0
+        today = datetime.strptime(today, '%Y-%m-%d')
+        today = today.date()
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_order_obj = []
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        total_return += session.get_total_returns_tickets_x()
+                    return total_return
+                else:
+                    return total_return
+        else:
+            return total_return
+
+    #############RECIBO WALLET CORTE Z#############
+    @api.multi
+    def get_wallet_reciept_z(self, today):
+        session_ids = []
+        orders = set()
+        recran = '0-0'
+        today = datetime.strptime(today, '%Y-%m-%d')
+        today = today.date()
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        pos_order_obj = self.env['pos.order'].search([('invoice_id','=',False),('session_id','=',session.id), ('recibo_number','!=',False),('ticket_number','=',False)], order='recibo_number asc')
+                        for order in pos_order_obj:
+                            orders.add(order)
+                    orders = list(orders)
+                    orders.sort(key=lambda o: o.recibo_number)
+                    if len(orders)>1:
+                        rec_in = orders[0].recibo_number
+                        rec_fin = orders[-1].recibo_number
+                    elif len(orders)==1:
+                        rec_in = orders[0].recibo_number
+                        rec_fin = '(único)'
+                    else:
+                        rec_in = 0
+                        rec_fin = 0
+                    recran = '{0}-{1}'.format(rec_in,rec_fin)
+                    return recran
+                return recran
+        else:
+            return recran
+
+    @api.multi
+    def get_total_wallet_recharges_z(self, today):
+        session_ids = []
+        total_price = 0.0
+        today = datetime.strptime(today, '%Y-%m-%d')
+        today = today.date()
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_order_obj = []
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        total_price += session.get_total_wallet_recharges()
+                    return total_price
+                else:
+                    return total_price
+        else:
+            return total_price
+
+    ############################
+
+    #############DETALLE DE PAGOS CORTE Z#############
+    @api.multi
+    def get_payments_z(self, today):
+        session_ids = []
+        orders_ids = set()
+        data = {}
+        total_price = 0.0
+        today = datetime.strptime(today, '%Y-%m-%d')
+        today = today.date()
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_order_obj = []
+                company_id = self.env['res.users'].browse([self._uid]).company_id.id
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        pos_order_obj = self.env['pos.order'].search([('session_id', '=', session.id),
+                                                        ('state', 'in', ['paid', 'invoiced', 'done']),
+                                                        ('user_id', '=', session.user_id.id), ('company_id', '=', company_id)])
+                        for order in pos_order_obj:
+                            orders_ids.add(order.id)
+                    orders_ids = list(orders_ids)
+                    if orders_ids:
+                        statement_line_obj = self.env["account.bank.statement.line"].search([('pos_statement_id', 'in', orders_ids)])
+                        if statement_line_obj:
+                            a_l = []
+                            for r in statement_line_obj:
+                                a_l.append(r['id'])
+                            self._cr.execute("select aj.name,sum(amount) from account_bank_statement_line as absl,account_bank_statement as abs,account_journal as aj " \
+                                            "where absl.statement_id = abs.id and abs.journal_id = aj.id  and absl.id IN %s " \
+                                            "group by aj.name ", (tuple(a_l),))
+                            data = self._cr.dictfetchall()
+                            return data
+                        else:
+                            return data
+                    else:
+                        return data
+                else:
+                    return data
+        else:
+            return data
+
+    @api.multi
+    def get_payments_invoice_z(self, today):
+        session_ids = []
+        inv_ids =[]
+        a_l = set()
+        data = {}
+        today = datetime.strptime(today, '%Y-%m-%d')
+        today = today.date()
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        company_id = self.env['res.users'].browse([self._uid]).company_id.id
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_invoice_obj = []
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    for session in pos_session_obj:
+                        start_at = session.start_at
+                        stop_at = session.stop_at
+                        invoice_obj = self.env["account.invoice"].search([('create_date', '>=', start_at),
+                                                        ('create_date', '<=', stop_at),
+                                                        ('state', '=', 'paid'),('fiscal_position_id','!=',False),
+                                                        ('user_id', '=', session.user_id.id), ('company_id', '=', company_id)])
+                        if invoice_obj:
+                            for inv in invoice_obj:
+                                inv_ids.append(inv.partner_id.id)
+                            if inv_ids:
+                                account_payment_obj = self.env["account.payment"].search([('partner_id', 'in', inv_ids),('payment_date', '>=', start_at),
+                                                            ('payment_date', '<=', stop_at),('create_uid', '=', session.user_id.id),('company_id', '=', company_id)])
+                                if account_payment_obj:
+                                    for r in account_payment_obj:
+                                        a_l.add(r['id'])
+                                else:
+                                    continue
+                            else:
+                                continue
+                        else:
+                            continue
+                    a_l = list(a_l)
+                    self._cr.execute("select aj.name, sum(ap.amount) from account_payment as ap, account_journal as aj " \
+                                        "where ap.journal_id = aj.id  and ap.id IN %s " \
+                                        "group by aj.name ", (tuple(a_l),))
+                    data = self._cr.dictfetchall()
+                    return data
+                else:
+                    return data
+        else:
+            return data
+
+    ############################
+
+    @api.model
+    def get_uid(self):
+        current_user_name = self.env['res.users'].browse([self._uid]).name or ' '
+        return current_user_name
+
+    @api.multi
+    def get_current_date_z(self):
+        if self._context and self._context.get('tz'):
+            tz = self._context['tz']
+            tz = timezone(tz)
+        else:
+            tz = pytz.utc
+        if tz:
+            c_time = datetime.now(tz)
+            return c_time.strftime('%d/%m/%Y')
+        else:
+            return date.today().strftime('%d/%m/%Y')
+
+    @api.multi
+    def get_current_time_z(self):
+        if self._context and self._context.get('tz'):
+            tz = self._context['tz']
+            tz = timezone(tz)
+        else:
+            tz = pytz.utc
+        if tz:
+            c_time = datetime.now(tz)
+            return c_time.strftime('%I:%M %p')
+        else:
+            return datetime.now().strftime('%I:%M:%S %p')
+
+    @api.multi
+    def get_eval_date(self, fecha):
+        return datetime.strptime(fecha, '%Y-%m-%d').date()
+
+    @api.multi
+    def get_open_close_time(self, today):
+        data = {}
+        session_ids = []
+        invran = '0-0'
+        today = datetime.strptime(today,'%Y-%m-%d')
+        today = today.date()
+        hora = time(20,0,0)
+        stop_at = datetime(today.year,today.month,today.day,23,59,59)
+        start_at = datetime(today.year,today.month,today.day,0,0,1)
+        if self:
+            for pos in self:
+                pos_config_id = pos.id
+                pos_session_obj = self.env['pos.session'].search([('config_id','=',pos_config_id),('start_at','>=',start_at),('stop_at','<=',stop_at)], order="id asc")
+                if pos_session_obj:
+                    data["open_time"] = pos_session_obj[0].get_session_time(pos_session_obj[0].start_at)
+                    data["close_time"] = pos_session_obj[-1].get_session_time(pos_session_obj[-1].stop_at)
+                return data
+        return data
 
 class res_company(models.Model):
     _inherit = 'res.company'
