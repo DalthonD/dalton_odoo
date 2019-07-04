@@ -4,10 +4,7 @@
 
     'summary': """Allows users to print Purchase Report, Sales Report either taxpayer or consumer""",
 
-    'description': """Creación de Reportes para Compras, Ventas Contribuyentes y Ventas Consumidores
-                    Los cuales se encuentran en la direccion: 'Contabilidad/Informes/Informes de auditoría' .
-                    Ademas, permite generar el reporte de retaceo a partir de los costos de envio
-                    dicho opcion se encuentra en: 'Inventario/Operaciones' """,
+    'description': "Creación de Reportes para Compras, Ventas Contribuyentes y  Ventas Consumidores",
 
     'author': "strategiksv",
     'website': "http://Strategi-k.com",
@@ -20,8 +17,7 @@
 
     # any module necessary for this one to work correctly
     'depends': ['base','account','account_accountant',
-                'purchase','stock','strategiksv',
-                'stock_landed_costs'],
+                'purchase','strategiksv',],
 
     # always loaded
     'data': [

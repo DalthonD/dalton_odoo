@@ -17,7 +17,7 @@
                 text-align: right;
                 vertical-align: middle !important;
                 padding:5px !important;
-                font-size:12pt;
+                font-size:12pt !important;
                 width:35%;
               }
               .center-middle-r{
@@ -25,7 +25,7 @@
                 vertical-align: middle !important;
                 padding:5px !important;
                 width:35%;
-                font-size:12pt;
+                font-size:12pt !important;
               }
               .result{
                 text-align: right;
@@ -62,32 +62,32 @@
                 text-align: center;
                 vertical-align: middle !important;
                 width:60px;
-                font-size:12pt;
+                font-size:11pt;
                 padding:8px;
               }
               .standar {
                 text-align: center;
                 vertical-align: middle !important;
-                font-size:12pt;
-                width:120px;
+                font-size:11pt;
+                width:100px;
               }
               .standar-r{
                 text-align: right;
                 vertical-align: middle !important;
-                font-size:12pt;
-                width:110px;
+                font-size:11pt;
+                width:100px;
                 padding:8px;
               }
               .num-fact {
                 text-align: center;
                 vertical-align: middle !important;
-                font-size:12pt;
+                font-size:11pt;
                 width:110px;
               }
               .num-fact-p {
                 text-align: center;
                 vertical-align: middle !important;
-                font-size:12pt;
+                font-size:11pt;
                 width:110px;
                 padding:8px;
               }
@@ -97,7 +97,7 @@
                 width:330px;
                 word-wrap:break-all !important;
                 white-space:initial;
-                font-size:12pt;
+                font-size:11pt;
               }
             </style>
             <!--Declaracion de variables-->
@@ -175,7 +175,7 @@
               </tr>
               <tr id="datos" t-foreach="company.get_purchase_details(company_id, year, month)" t-as="c">
                 <td class="iden"><span t-esc="int(c_index + 1)"/></td>
-                <td class="standar" style="padding:8px;"><span t-esc="c.get('fecha')"/></td>
+                <td class="standar" style="padding:8px;"><span t-esc="c.get('fecha').strftime('%d-%m-%Y')"/></td>
                 <td class="num-fact-p"><span t-esc="c.get('factura')"/></td>
                 <td class="partner-name" style="font-size:10pt;padding:8px;"><span t-esc="c.get('proveedor')"/></td>
                 <td class="standar" style="padding:8px;"><span t-esc="c.get('nrc')"/></td>
@@ -324,9 +324,10 @@
               <td style="width:30%"></td>
               <td style="text-align: center; vertical-align: baseline">
                 <div style="text-align:center;vertical-align:baseline;">
-                    <p align="center">________________________________</p>
-                    <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top"><span t-esc="contador"/></p>
-                    <p class="spacing-line" style="text-aling:center;vertical-align:top">Contador</p>
+                    <p style="margin-top:150px"/>
+                    <p>_________________________________</p>
+                    <p class="spacing-line" t-if="contador" style="text-align:center;vertical-align:top;font-size:12pt"><span t-esc="contador"/></p>
+                    <p class="spacing-line" style="text-aling:center;vertical-align:top;font-size:12pt">Contador</p>
                 </div>
               </td>
             </tr>

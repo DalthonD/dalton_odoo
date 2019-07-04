@@ -136,7 +136,7 @@
                   </tr>
                 <tr t-foreach="company.get_taxpayer_details(company_id, year, month)" t-as="c" style="text-align: left; vertical-align: middle; height: auto; width: 100%; padding: 0px; border-collapse: collapse;">
                   <td class="center-middle" style="width:5% !important;"><span t-esc="int(c_index) + 1"/></td>
-                  <td class="center-middle" style="width:20% !important;"><span t-esc="c.get('fecha')"/></td>
+                  <td class="center-middle" style="width:20% !important;"><span t-esc="c.get('fecha').strftime('%d-%m-%Y')"/></td>
                   <td class="center-middle" style="width:30% !important;"><span t-esc="c.get('factura')"/></td>
                   <td class="center-middle" style="text-align:left;"><span t-esc="c.get('cliente')"/></td>
                   <td class="center-middle"><span t-esc="c.get('nrc')"/></td>

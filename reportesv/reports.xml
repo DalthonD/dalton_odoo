@@ -79,8 +79,8 @@
             <field name="orientation">Landscape</field>
             <field name="margin_top">5</field>
             <field name="margin_bottom">5</field>
-            <field name="margin_left">1</field>
-            <field name="margin_right">1</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">10</field>
             <field name="header_line" eval="False" />
             <field name="header_spacing">0</field>
             <field name="dpi">90</field>
@@ -105,7 +105,7 @@
                                                   ref('reportesv.report_ticket_sales_pdf'),])]"/>
         </record>
 
-        <record id="paperformat_stock_landed_report_pdf_c" model="report.paperformat">
+        <record id="paperformat_book_report_pdf_c" model="report.paperformat">
             <field name="name">Reporte Retaceo</field>
             <field name="default" eval="True" />
             <field name="format">Legal</field>
