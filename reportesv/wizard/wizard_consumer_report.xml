@@ -31,6 +31,6 @@
       <field name="target">new</field>
   	</record>
 
-        <menuitem id="consumer_report" name="Libro de Ventas a Consumidores(PDF)" action="action_consumer_report_wizard" parent="legal_report" sequence="13"/>
+        <menuitem id="consumer_report" name="Libro de IVA Consumidor" action="action_consumer_report_wizard" parent="account_reports.account_reports_audit_reports_menu" sequence="9"/>
   </data>
 </odoo>

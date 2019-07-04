@@ -17,8 +17,7 @@
 
     # any module necessary for this one to work correctly
     'depends': ['base','account','account_accountant',
-                'purchase','stock','strategiksv',
-                'stock_landed_costs'],
+                'purchase','strategiksv',],
 
     # always loaded
     'data': [
