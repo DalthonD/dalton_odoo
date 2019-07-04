@@ -5,7 +5,7 @@
         <template id="assets_backend_reportes" name="libros legales assets" inherit_id="web.report_assets_common">
             <xpath expr="." position="inside">
                 <!--inherit_id="web.report_assets_common"-->
-                <link rel="stylesheet" href="/reportesv/static/src/css/report.css" id="reporte-stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="/reportesv_sucursal/static/src/css/report.css" id="reporte-stylesheet" type="text/css"/>
             </xpath>
         </template>
     </data>

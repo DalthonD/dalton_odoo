@@ -1,10 +1,10 @@
 <odoo>
   <data>
-    <template id ='company_strategiksv_taxpayer_report_pdf'>
+    <template id ='strategiksv_taxpayer_report_pdf'>
       <t t-call="web.html_container">
         <t t-call="web.basic_layout">
           <div class="page">
-            <link rel="stylesheet" href="/reportesv/static/src/css/report.css"/>
+            <link rel="stylesheet" href="/reportesv_sucursal/static/src/css/report.css"/>
             <style type="text/css">
               .pagenumber:after {
                 content: counter(page);
@@ -102,12 +102,13 @@
                 <t t-set="month" t-value="int(data.get('form').get('date_month'))"/>
                 <t t-set="year" t-value="int(data.get('form').get('date_year'))"/>
                 <t t-set="company_id" t-value="int(data.get('form').get('company_id')[0])"/>
-                <!--t t-set="stock_id" t-value="int(data.get('form').get('stock_location_id')[0])"/-->
+                <t t-set="stock_id" t-value="int(data.get('form').get('stock_location_id')[0])"/>
                 <t t-set="contador" t-value="o.sv_aprueba_partida"/>
                 <t t-set="company" t-value="o"/>
                 <div style="text-align: center; background-color: ligthgray">
                   <h2 class="center-middle-title" style="line-height: 15pt;font-size: 30px;text-transform:uppercase"><span t-field="o.name"/></h2>
                   <h2 class="center-middle-title">LIBRO DE VENTAS A CONTRIBUYENTES</h2>
+                  <h2 class="center-middle-title">SUCURSAL: <span t-esc="o.get_stock_name(stock_id)"/></h2>
                   <h2 class="center-middle-title">NIT: <span t-field="o.sv_nit"/>  NRC: <span t-field="o.sv_nrc"/></h2>
                   <h2 class="center-middle-title"><span t-esc="o.get_month_str(month)"/> <span t-esc="year"/></h2>
                 </div>
@@ -134,7 +135,7 @@
                     <th class="center-middle-o">DEBITO</th>
                     <th class="center-middle-o">T. VENTA</th>
                   </tr>
-                <tr t-foreach="company.get_taxpayer_details(company_id, year, month)" t-as="c" style="text-align: left; vertical-align: middle; height: auto; width: 100%; padding: 0px; border-collapse: collapse;">
+                <tr t-foreach="company.get_taxpayer_details(company_id, year, month,stock_id)" t-as="c" style="text-align: left; vertical-align: middle; height: auto; width: 100%; padding: 0px; border-collapse: collapse;">
                   <td class="center-middle" style="width:5% !important;"><span t-esc="int(c_index) + 1"/></td>
                   <td class="center-middle" style="width:20% !important;"><span t-esc="c.get('fecha').strftime('%d-%m-%Y')"/></td>
                   <td class="center-middle" style="width:30% !important;"><span t-esc="c.get('factura')"/></td>

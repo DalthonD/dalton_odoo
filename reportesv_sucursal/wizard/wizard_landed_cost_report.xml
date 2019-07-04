@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--RETACEO-->
+        <record id="wizard_landed_cost_report_form_view" model="ir.ui.view">
+            <field name="name">wizard.sv.stock.landed.cost.report.form.view</field>
+            <field name="model">wizard.sv.stock.landed.cost.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                      <field name="company_id"/>
+                    </group>
+                    <group>
+                        <field name="stock_landed_cost_ids" widget="many2many_tags" required="1" domain="[('state', 'in', ['done'])]"/>
+                    </group>
+                    <footer>
+                        <button type="object" id="main_print_button" name="print_landed_cost_report" string="Imprimir" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_stock_landed_cost_report" model="ir.actions.act_window">
+            <field name="name">Retaceo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.sv.stock.landed.cost.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="action_wizard_stock_landed_cost_report" id="menu_print_stock_landed_cost_report" name="Retaceo" parent="stock.menu_warehouse_report" sequence='15'/>
+
+    </data>
+</odoo>
