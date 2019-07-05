@@ -834,11 +834,44 @@ Select R.codigo as codigo
             otros
             /*Orden*/
             order by R.codigo
+========================================================================================
+FACTURA ESKBAL
+
+select 
+ail.name as fact_nombre
+,ail.quantity as canti
+,ail.price_unit as u_p
+,ail.price_subtotal as sub_t
+,ail.price_total as t
+,at.name as imp_name
+,at.type_tax_use as uso
+,at.description as descrip
+from account_invoice ai
+inner join account_invoice_line ail on ail.invoice_id=ai.id
+inner join account_invoice_line_tax ailt on ailt.invoice_line_id=ail.id
+inner join account_tax at on at.id=ailt.tax_id
+where ai.reference='093'
+group by imp_name, fact_nombre, canti, u_p,sub_t,t,uso,descrip;
 
 
-
-
-
+select 
+--ail.id as iden
+--,ail.name as fact_nombre
+--,ail.quantity as canti
+--,ail.price_unit as u_p
+--,ail.price_subtotal as sub_t
+--,ail.price_total as t
+at.name as imp_name
+--,at.type_tax_use as uso
+--,at.description as descrip
+from account_invoice ai
+inner join account_invoice_line ail on ail.invoice_id=ai.id
+inner join account_invoice_line_tax ailt on ailt.invoice_line_id=ail.id
+inner join account_tax at on at.id=ailt.tax_id
+where ai.reference='165'
+and at.type_tax_use = 'sale'
+and ail.id=2366
+;
 
 
 
