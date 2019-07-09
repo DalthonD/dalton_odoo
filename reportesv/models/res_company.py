@@ -90,7 +90,7 @@ class res_company(models.Model):
         where ai.company_id= {0}
         and date_part('year',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  {1}
         and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  {2}
-        and ai.type='in_invoice'
+        and ai.type in ('in_invoice','in_refund')
         and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
         and ai.state in ('open','paid')
         and ((ai.sv_importacion_number is null) or (trim(ai.sv_importacion_number)=''))

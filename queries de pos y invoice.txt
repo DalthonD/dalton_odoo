@@ -1,0 +1,879 @@
+QUERIES:\
+
+Verificar que las pos.invoice y account.invoice coinciden
+select po.id,po.session_id, po.invoice_id, ai.id, po.amount_total, po.fiscal_position_id, ai.fiscal_position_id, ai.reference from pos_order po inner join account_invoice ai on po.invoice_id=ai.id order by po.date_order desc;
+
+
+extraccion de pos order invoices
+select id, invoice_id, amount_total, partner_id, session_id from pos_order where invoice_id IS NOT NULL and session_id=74 order by invoice_id asc;
+
+
+Ver inforamcion de PoS pos_config
+select id, name, pos_session_username, pos_session_duration, last_,session_closing_date from pos_config group by name order by last_session_closing_date desc;
+
+
+
+select ap.id, payment_date,ap.name, ap.state, ap.payment_type, ap.payment_reference,ap.destination_journal_id, aj.id, aj.name, ap.amount 
+from account_payment ap inner join account_journal aj on aj.id= ap.destination_journal_id order by payment_date desc;
+
+select ap.id, payment_date,ap.name, ap.state, ap.payment_type, aj.id, aj.name, ap.amount
+from account_journal aj, account_payment ap inner join account_invoice ai on ai.partner_id=ap.partner_id  where aj.name in ('Efectivo','Credit Card', 'Wallet') order by payment_date desc;
+
+========================================COMPRAS==========================================
+
+select ai.date_invoice as fecha
+        ,ai.reference as factura
+        ,rp.name as proveedor
+        ,rp.vat as NRC
+        ,case
+        when rp.country_id=211 then False
+        when rp.country_id is null then False
+        else True end as Importacion
+        ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
+        (select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as Gravado,
+        /*Calculando el excento que no tiene iva*/
+        (Select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as Exento
+        ,/*Calculando el iva*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='iva'
+        ) as Iva
+        ,/*Calculando el retenido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='retencion'
+        ) as Retenido
+        ,/*Calculando el percibido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='percepcion'
+        ) as Percibido
+        ,/*Calculando el excluido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='excluido'
+        ) as Excluido
+        ,/*Calculando el retencion a terceros*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='retencion3'
+        ) as retencion3
+        from account_invoice ai
+        inner join res_partner rp on ai.partner_id=rp.id
+        where ai.company_id= {0}
+        and date_part('year',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  {1}
+        and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  {2}
+        and ai.type in ('in_invoice','in_refund')
+        and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
+        and ai.state in ('open','paid')
+        and ((ai.sv_importacion_number is null) or (trim(ai.sv_importacion_number)=''))
+
+        union all
+
+        select min(SI.fecha) as fecha
+        ,SI.sv_importacion_number as factura
+        ,'DGT' as proveedor
+        ,'DGT' as NRC
+        ,True as Importacion
+        ,sum (SI.Gravado) as  Gravado
+        ,sum (SI.Exento) as  Exento
+        ,sum (SI.Iva) as  Iva
+        ,sum (SI.Retenido) as  Retenido
+        ,sum (SI.Percibido) as  Percibido
+        ,sum (SI.Excluido) as  Excluido
+        ,sum (SI.retencion3) as  retencion3
+        from (select ai.date_invoice as fecha
+        ,ai.reference as factura
+        ,ai.sv_importacion_number
+        ,rp.name as proveedor
+        ,rp.vat as NRC
+        ,case
+        when rp.country_id=211 then False
+        when rp.country_id is null then False
+        else True end as Importacion
+        ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
+        (select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as Gravado,
+        /*Calculando el excento que no tiene iva*/
+        (Select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and not exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as Exento
+        ,/*Calculando el iva*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='iva'
+        ) as Iva
+        ,/*Calculando el retenido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='retencion'
+        ) as Retenido
+        ,/*Calculando el percibido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='percepcion'
+        ) as Percibido
+        ,/*Calculando el excluido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='excluido'
+        ) as Excluido
+        ,/*Calculando el retencion a terceros*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='retencion3'
+        ) as retencion3
+        from account_invoice ai
+        inner join res_partner rp on ai.partner_id=rp.id
+        where ai.company_id= {0}
+        and date_part('year',COALESCE(ai.sv_fecha_tax,ai.date_invoice))= {1}
+        and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))= {2}
+        and ai.type in ('in_invoice','in_refund')
+        and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
+        and ai.state in ('open','paid')
+        and ((ai.sv_importacion_number is not null) or (trim(ai.sv_importacion_number)!=''))
+        ) SI group by   SI.sv_importacion_number
+
+        union all
+
+        select aml.date as fecha
+        ,am.ref as factura
+        ,rp.name as proveedor
+        ,rp.vat as NRC
+        ,False as Importacion
+        ,0.0 as  Gravado
+        ,0.0 as  Exento
+        ,0.0  as  Iva
+        ,0.0 as  Retenido
+        ,aml.debit as  Percibido
+        ,0.0  as  Excluido
+        ,0.0 as  retencion3
+        from account_move_line aml
+        inner join account_move am on aml.move_id=am.id
+        inner join account_tax at on aml.account_id=at.account_id
+        inner join account_tax_group atg on at.tax_group_id=atg.id
+        left join res_partner rp on aml.partner_id=rp.id
+        where atg.name='percepcion' and not exists (select id from account_invoice ai where ai.move_id=am.id and ai.company_id= {0} )
+        and date_part('year',am.date)= {1}
+        and date_part('month',am.date)= {2}
+        and am.company_id= {0}
+        and am.state='posted') S order by s.Fecha, s.Factura
+
+
+
+
+
+select id, reference, (Select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and not exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as exento from account_invoice ai where ai.reference like '290' or ai.reference like '9327493';
+
+
+
+
+
+
+
+
+========================================CONTRIBUYENTE====================================
+
+
+select * from(
+        select ai.date_invoice as fecha
+        ,ai.sucursal_id as sucursal
+        ,ai.reference as factura
+        ,rp.name as cliente
+        ,rp.vat as NRC
+        ,ai.state as estado
+        ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
+        (select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as Gravado,
+        /*Calculando el excento que no tiene iva*/
+        (Select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and not exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as Exento
+        ,/*Calculando el iva*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='iva'
+        )*(case when ai.type='out_refund' then -1 else 1 end) as Iva
+        ,/*Calculando el retenido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='retencion'
+        ) as Retenido
+        ,/*Calculando el percibido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='percepcion'
+        ) as Percibido
+        from account_invoice ai
+        inner join res_partner rp on ai.partner_id=rp.id
+        left join account_fiscal_position afp on ai.fiscal_position_id=afp.id
+        where ai.company_id= {0}
+        and date_part('year',COALESCE(ai.sv_fecha_tax,ai.date_invoice))= {1}
+        and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))= {2}
+        and ((ai.type='out_invoice') or (ai.type='out_refund'))
+        and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
+        and afp.sv_contribuyente=True
+        and ai.state in ('open','paid')
+
+        union
+
+        select ai.date_invoice as fecha
+        ,ai.sucursal_id as sucursal
+        ,ai.reference as factura
+        ,'Anulado' as cliente
+        ,rp.vat as NRC
+        ,ai.state as estado
+        ,0.0 as Gravado
+        ,0.0 as Exento
+        ,0.0 as Iva
+        ,0.0 as Retenido
+        ,0.0 as Percibido
+        from account_invoice ai
+        inner join res_partner rp on ai.partner_id=rp.id
+        left join account_fiscal_position afp on ai.fiscal_position_id=afp.id
+        where ai.company_id=  {0}
+        and date_part('year',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  {1}
+        and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))= {2}
+        and ai.type='out_invoice'
+        and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
+        and afp.sv_contribuyente=True
+        and ai.state in ('cancel')
+        )S order by s.fecha, s.factura
+
+
+========================================CONSUMIDOR========================================
+
+======================FUNCTION
+
+CREATE OR REPLACE FUNCTION public.facturasagrupadas(p_company_id integer, month_number integer, year_number integer, p_series_lenght integer)
+        RETURNS TABLE(invoice_id integer, factura_number character varying, factura_status character varying, grupo integer)
+        LANGUAGE plpgsql
+        AS $function$
+
+        DECLARE
+        var_r record;
+        var_serie varchar;
+        var_fecha date;
+        var_correlativo int;
+        var_estado varchar;
+        var_grupo int;
+        BEGIN
+        var_grupo :=0;
+        FOR var_r IN (select ROW_NUMBER () OVER (ORDER BY f.date_invoice,coalesce(F.reference,F.number))  as Registro
+        ,left(coalesce(F.reference,F.number),p_series_lenght) as Serie
+        ,CASE WHEN textregexeq(right(coalesce(F.reference,F.number),length(coalesce(F.reference,F.number))-p_series_lenght),'^[[:digit:]]+(\.[[:digit:]]+)?$') = TRUE THEN
+			cast(right(coalesce(F.reference,F.number),(length(coalesce(F.reference,F.number))-p_series_lenght)) as Integer)
+		ELSE F.ID *1000 end as correlativo
+        ,F.date_invoice as fecha
+        ,case
+        when F.state='cancel' then 'ANULADA'
+        else 'Valida' end as estado
+        ,coalesce(F.reference,F.number) as factura,F.id
+        from Account_invoice F
+        inner join account_fiscal_position afp on F.fiscal_position_id=afp.id
+        where date_part('year',COALESCE(F.sv_fecha_tax,F.date_invoice))= year_number
+        and date_part('month',COALESCE(F.sv_fecha_tax,F.date_invoice))= month_number
+        and F.state<>'draft' and F.company_id=p_company_id
+        and F.type in ('out_invoice')
+        and ((F.sv_no_tax is null ) or (F.sv_no_tax=false))
+        --and afp.sv_contribuyente=False
+        order by fecha,factura )
+        LOOP
+        invoice_id := var_r.id;
+        factura_number := var_r.Factura;
+        factura_status := var_r.estado;
+        if ((var_r.Serie=var_serie) and (var_r.fecha=var_Fecha) and (var_r.estado=var_estado) and (var_r.correlativo=(var_correlativo+1))) then
+        grupo := var_grupo;
+        else
+        var_grupo := var_grupo+1;
+        grupo := var_grupo;
+        end if;
+        var_serie := var_r.Serie;
+        var_fecha := var_r.fecha;
+        var_estado := var_r.estado;
+        var_correlativo := var_r.correlativo;
+
+        RETURN NEXT;
+        END LOOP;
+        END;
+        $function$;
+
+
+select ROW_NUMBER () OVER (ORDER BY f.date_invoice,coalesce(F.reference,F.number))  as Registro
+        ,left(coalesce(F.reference,F.number),8) as Serie
+        ,CASE WHEN textregexeq(right(coalesce(F.reference,F.number),length(coalesce(F.reference,F.number))-8),'^[[:digit:]]+(\.[[:digit:]]+)?$') = TRUE THEN
+			cast(right(coalesce(F.reference,F.number),(length(coalesce(F.reference,F.number))-8)) as Integer)
+		ELSE F.ID *1000 end as correlativo
+        ,F.date_invoice as fecha
+        ,case
+        when F.state='cancel' then 'ANULADA'
+        else 'Valida' end as estado
+        ,coalesce(F.reference,F.number) as factura,F.id
+        from Account_invoice F
+        inner join account_fiscal_position afp on F.fiscal_position_id=afp.id
+        where date_part('year',COALESCE(F.sv_fecha_tax,F.date_invoice))= 2019
+        and date_part('month',COALESCE(F.sv_fecha_tax,F.date_invoice))= 5
+        and F.state<>'draft' and F.company_id=1
+        and F.type in ('out_invoice')
+        and ((F.sv_no_tax is null ) or (F.sv_no_tax=false))
+        and afp.sv_contribuyente=false
+        order by fecha,factura
+
+================================
+
+CREATE OR REPLACE VIEW strategiksv_reportesv_consumer_report AS (Select
+        SS.Fecha
+        ,SS.sucursal
+        ,SS.grupo
+        ,min(SS.Factura) as DELNum
+        ,max(SS.Factura) as ALNum
+        ,sum(SS.exento) as Exento
+        ,sum(SS.GravadoLocal) as GravadoLocal
+        ,sum(SS.GravadoExportacion) as GravadoExportacion
+        ,Sum(SS.ivaLocal) as IvaLocal
+        ,Sum(SS.ivaexportacion) as IvaExportacion
+        ,Sum(SS.retenido) as Retenido
+        ,estado
+        FROM (
+        select S.fecha
+        ,S.sucursal
+        ,S.factura
+        ,S.estado
+        ,S.grupo
+        ,S.exento
+        ,case
+        when S.sv_region='Local' then S.Gravado
+        else 0.00 end as GravadoLocal
+        ,case
+        when S.sv_region!='Local' then S.Gravado
+        else 0.00 end as GravadoExportacion
+        ,case
+        when S.sv_region='Local' then S.Iva
+        else 0.00 end as IvaLocal
+        ,case
+        when S.sv_region!='Local' then S.Iva
+        else 0.00 end as IvaExportacion
+        ,S.Retenido
+        from(
+        select ai.date_invoice as fecha
+        ,ai.sucursal_id as sucursal
+        ,coalesce(ai.reference,ai.number) as factura
+        ,'valid' as estado
+        ,FG.grupo
+        ,afp.sv_region
+        ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
+        (select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as Gravado,
+        /*Calculando el excento que no tiene iva*/
+        (Select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and not exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as Exento
+        ,/*Calculando el iva*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='iva'
+        ) as Iva
+        ,/*Calculando el retenido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='retencion'
+        ) as Retenido
+        from account_invoice ai
+        inner join res_partner rp on ai.partner_id=rp.id
+        inner join (select * from FacturasAgrupadas({0} , {2}, {1} , {3})) FG on ai.id=FG.invoice_id
+        left join account_fiscal_position afp on ai.fiscal_position_id=afp.id
+        where ai.company_id= {0}
+        and date_part('year',COALESCE(ai.sv_fecha_tax,ai.date_invoice))= {1}
+        and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  {2}
+        and ai.type='out_invoice'
+        and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
+        --and afp.sv_contribuyente=False
+        and ai.state in ('open','paid')
+
+        union
+
+        select ai.date_invoice as fecha
+        ,ai.sucursal_id as sucursal
+        ,coalesce(ai.reference,ai.number) as factura
+        ,ai.state as estado
+        ,FG.grupo
+        ,afp.sv_region
+        ,0.0 as Gravado
+        ,0.0 as Exento
+        ,0.0 as Iva
+        ,0.0 as Retenido
+        from account_invoice ai
+        inner join res_partner rp on ai.partner_id=rp.id
+        inner join (select * from FacturasAgrupadas( {0} , {2}, {1} , {3})) FG on ai.id=FG.invoice_id
+        left join account_fiscal_position afp on ai.fiscal_position_id=afp.id
+        where ai.company_id= {0}
+        and date_part('year',COALESCE(ai.sv_fecha_tax,ai.date_invoice))= {1}
+        and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))= {2}
+        and ai.type='out_invoice'
+        and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
+        --and afp.sv_contribuyente=False
+        and ai.state in ('cancel')
+        )S )SS group by SS.fecha, SS.sucursal,SS.Grupo,SS.estado order by SS.fecha,SS.sucursal,SS.Grupo
+
+
+========================================RETACEO===========================================
+
+Query para conocer referencia de factura y fecha
+
+select f.date_invoice as fecha, f.reference as referencia
+--,f.amount_total,
+--s.name,s.sv_declaracion,s.date,p.name,po.name,p.origin,f.origin
+from stock_landed_cost s
+inner join stock_landed_cost_stock_picking_rel sp on s.id=sp.stock_landed_cost_id inner join stock_picking p on p.id=sp.stock_picking_id 
+inner join purchase_order_stock_picking_rel pp on p.id=pp.stock_picking_id inner join purchase_order po on  po.id=pp.purchase_order_id
+inner join account_invoice_purchase_order_rel ip on po.id=ip.purchase_order_id inner join account_invoice f on f.id=ip.account_invoice_id
+where s.sv_declaracion={0} order by f.date_invoice asc;
+
+
+=======================================RETACEO DETAILS======================================
+
+
+select p.id, p.default_code as DEL_P, pp.default_code as DEL_PP
+--, pp.name
+, pp.description, pp.description_purchase 
+from product_product p inner join product_template pp on p.product_tmpl_id=pp.id;
+
+
+select DISTINCT coalesce(coalesce(pp.default_code,pt.default_code),cast(10000+pp.id as VARCHAR)) as codigo
+--,coalesce(coalesce(pt.description_purchase,pt.description),pt.name) as descripcion
+--,(select name from purchase_order_line pol where pol.product_id=pp.id group by name) as aduana_des
+--,null as posicion
+,cast(sval.quantity as integer) as cantidad
+,sval.former_cost_per_unit as precio_unit
+,sval.former_cost as fob
+,/*Calculando Seguros*/
+coalesce(
+CASE WHEN
+slcl.id=sval.cost_line_id
+AND slcl.product_id=pp.id
+AND pp.product_tmpl_id=pt.id
+AND pt.landed_cost_ok=true
+AND pt.sv_tipo_costo='Seguro'
+THEN sval.additional_landed_cost
+END, 0.00) as seguro
+,/*Calculando Flete*/
+coalesce(
+CASE WHEN
+pt.landed_cost_ok=true
+AND pt.sv_tipo_costo='Flete'
+THEN sval.additional_landed_cost
+END, 0.00) as flete
+from stock_valuation_adjustment_lines sval 
+inner join product_product pp on pp.id=sval.product_id 
+inner join product_template pt on pt.id=pp.product_tmpl_id
+inner join stock_landed_cost_lines slcl on slcl.id=sval.cost_line_id
+inner join stock_landed_cost slc on slc.id=sval.cost_id
+where slc.sv_declaracion='425334'
+group by codigo,
+--descripcion,
+--aduana_des,
+cantidad, 
+precio_unit, fob, slcl.id, sval.cost_line_id,pp.id,pt.id,seguro,flete
+order by codigo asc;
+
+
+(select sum(slcl.price_unit) from stock_landed_cost slc
+inner join stock_landed_cost_lines slcl
+on slcl.cost_id=slc.id
+
+where slcl.id=sval.cost_line_id
+and slc.id=sval.cost_id
+and landed_cost_ok=true
+and sv_tipo_costo='Seguro')
+
+
+(select sum(sval.additional_landed_cost) from stock_landed_cost_lines slcl
+where slcl.id=sval.cost_line_id
+and slcl.product_id=pp.id
+and pt.id=pp.product_tmpl_id
+and pt.landed_cost_ok=true
+and pt.sv_tipo_costo='Seguro'
+group by slcl.id)as Seguro
+
+select pt.id, pp.product_tmpl_id,pt.name, pt.landed_cost_ok, pt.sv_tipo_costo, pt.split_method
+from product_template pt inner join product_product pp on pp.product_tmpl_id=pt.id
+where pt.split_method not like 'equal';
+
+
+select sval.name, pt.name, sval.quantity,sval.former_cost_per_unit,sval.additional_landed_cost, sval.final_cost
+from stock_valuation_adjustment_lines sval
+inner join stock_landed_cost_lines slcl on slcl.id=sval.cost_line_id
+inner join product_product pp on pp.id=slcl.product_id
+inner join product_template pt on pt.id=pp.product_tmpl_id
+inner join stock_landed_cost slc on slc.id=sval.cost_id 
+where slc.sv_declaracion='425334'
+and pt.landed_cost_ok=true
+and pt.sv_tipo_costo='Flete'
+group by pt.name;
+
+
+select sval.additional_landed_cost
+from stock_valuation_adjustment_lines sval
+inner join stock_landed_cost_lines slcl on slcl.id=sval.cost_line_id
+inner join product_product pp on pp.id=slcl.product_id
+inner join product_template pt on pt.id=pp.product_tmpl_id
+inner join stock_landed_cost slc on slc.id=sval.cost_id 
+where slc.sv_declaracion='425334'
+and pt.landed_cost_ok=true
+and pt.sv_tipo_costo='Flete';
+
++==+++++++++++++++++++++++++++++++++++CORECTO+++++++++++++++++++++++++++++++++
+
+
+Select R.codigo as codigo 
+--,R.descripcion as descripcion
+--,R.aduana_des as aduana_des
+--,R.posicion as posicion
+,R.cantidad as cantidad
+,R.precio_unit as precio_unit
+,R.fob as fob
+,R.seguro as seguro
+,R.flete as flete
+,sum(R.fob+R.seguro+R.flete) as cif
+,R.impuesto as impuesto
+,R.otros as otros
+,sum(R.fob+R.seguro+R.flete+R.impuesto+R.otros) as costo_total
+,(sum(R.fob+R.seguro+R.flete+R.impuesto+R.otros)/R.cantidad) as costo_unitario
+from (
+select DISTINCT coalesce(coalesce(pp.default_code,pt.default_code),cast(10000+pp.id as VARCHAR)) as codigo
+--,coalesce(coalesce(pt.description_purchase,pt.description),pt.name) as descripcion
+--,(select name from purchase_order_line pol where pol.product_id=pp.id group by name) as aduana_des
+--,null as posicion
+,cast(sval.quantity as integer) as cantidad
+,sval.former_cost_per_unit as precio_unit
+,sval.former_cost as fob
+
+,/*Calculando Seguros*/
+coalesce((select sum(sval1.additional_landed_cost)
+from stock_valuation_adjustment_lines sval1
+inner join stock_landed_cost_lines slcl1 on slcl1.id=sval1.cost_line_id
+inner join product_product pp1 on pp1.id=slcl1.product_id
+inner join product_template pt1 on pt1.id=pp1.product_tmpl_id
+inner join stock_landed_cost slc1 on slc1.id=sval1.cost_id 
+where slc1.sv_declaracion='425334'
+and sval1.product_id=pp.id
+and pt1.landed_cost_ok=true
+and pt1.sv_tipo_costo='Seguro'), 0.00) as seguro
+
+,/*Calculando Flete*/
+coalesce((select sum(sval2.additional_landed_cost)
+from stock_valuation_adjustment_lines sval2
+inner join stock_landed_cost_lines slcl2 on slcl2.id=sval2.cost_line_id
+inner join product_product pp2 on pp2.id=slcl2.product_id
+inner join product_template pt2 on pt2.id=pp2.product_tmpl_id
+inner join stock_landed_cost slc2 on slc2.id=sval2.cost_id 
+where slc2.sv_declaracion='425334'
+and sval2.product_id=pp.id
+and pt2.landed_cost_ok=true
+and pt2.sv_tipo_costo='Flete'), 0.00) as flete
+
+,/*Calculando Impuestos*/
+coalesce((select sum(sval3.additional_landed_cost)
+from stock_valuation_adjustment_lines sval3
+inner join stock_landed_cost_lines slcl3 on slcl3.id=sval3.cost_line_id
+inner join product_product pp3 on pp3.id=slcl3.product_id
+inner join product_template pt3 on pt3.id=pp3.product_tmpl_id
+inner join stock_landed_cost slc3 on slc3.id=sval3.cost_id 
+where slc3.sv_declaracion='425334'
+and sval3.product_id=pp.id
+and pt3.landed_cost_ok=true
+and pt3.sv_tipo_costo='Impuestos'), 0.00) as impuesto
+
+,/*Calculando Otros*/
+coalesce((select sum(sval4.additional_landed_cost)
+from stock_valuation_adjustment_lines sval4
+inner join stock_landed_cost_lines slcl4 on slcl4.id=sval4.cost_line_id
+inner join product_product pp4 on pp4.id=slcl4.product_id
+inner join product_template pt4 on pt4.id=pp4.product_tmpl_id
+inner join stock_landed_cost slc4 on slc4.id=sval4.cost_id 
+where slc4.sv_declaracion='425334'
+and sval4.product_id=pp.id
+and pt4.landed_cost_ok=true
+and pt4.sv_tipo_costo='Otros'), 0.00) as otros
+
+
+from stock_valuation_adjustment_lines sval 
+inner join product_product pp on pp.id=sval.product_id 
+inner join product_template pt on pt.id=pp.product_tmpl_id
+inner join stock_landed_cost_lines slcl on slcl.id=sval.cost_line_id
+inner join stock_landed_cost slc on slc.id=sval.cost_id
+
+where slc.sv_declaracion='425334'
+
+group by codigo,
+--descripcion,
+--aduana_des,
+cantidad, 
+precio_unit, fob, slcl.id, sval.cost_line_id,pp.id,pt.id,seguro,flete
+order by codigo asc) R group by 
+codigo,
+--descripcion,
+--aduana_des,
+cantidad,
+precio_unit,
+fob,
+seguro,
+flete,
+impuesto,
+otros
+order by R.codigo;
+
+
+Select R.codigo as codigo
+            ,R.descripcion as descripcion
+            ,R.aduana_des as aduana_des
+            ,R.posicion as posicion
+            ,R.cantidad as cantidad
+            ,R.precio_unit as precio_unit
+            ,R.fob as fob
+            ,R.seguro as seguro
+            ,R.flete as flete
+            /*Calculando CIF*/
+            ,sum(R.fob+R.seguro+R.flete) as cif
+            ,R.impuesto as impuesto
+            ,R.otros as otros
+            /*Calculando Costo Total*/
+            ,sum(R.fob+R.seguro+R.flete+R.impuesto+R.otros) as costo_total
+            /*Calculando Costo Unitario*/
+            ,(sum(R.fob+R.seguro+R.flete+R.impuesto+R.otros)/R.cantidad) as costo_unitario
+            from (
+            select DISTINCT coalesce(coalesce(pp.default_code,pt.default_code),cast(10000+pp.id as VARCHAR)) as codigo
+            ,coalesce(coalesce(pt.description_purchase,pt.description),pt.name) as descripcion
+            ,(select name from purchase_order_line pol where pol.product_id=pp.id group by name) as aduana_des
+            ,null as posicion
+            ,cast(sval.quantity as integer) as cantidad
+            ,sval.former_cost_per_unit as precio_unit
+            ,sval.former_cost as fob
+
+            ,/*Calculando Seguros*/
+            coalesce((select sum(sval1.additional_landed_cost)
+            from stock_valuation_adjustment_lines sval1
+            inner join stock_landed_cost_lines slcl1 on slcl1.id=sval1.cost_line_id
+            inner join product_product pp1 on pp1.id=slcl1.product_id
+            inner join product_template pt1 on pt1.id=pp1.product_tmpl_id
+            inner join stock_landed_cost slc1 on slc1.id=sval1.cost_id
+            where slc1.sv_declaracion=cast(425334 as VARCHAR)
+            and sval1.product_id=pp.id
+            and pt1.landed_cost_ok=true
+            and pt1.sv_tipo_costo='Seguro'), 0.00) as seguro
+
+            ,/*Calculando Flete*/
+            coalesce((select sum(sval2.additional_landed_cost)
+            from stock_valuation_adjustment_lines sval2
+            inner join stock_landed_cost_lines slcl2 on slcl2.id=sval2.cost_line_id
+            inner join product_product pp2 on pp2.id=slcl2.product_id
+            inner join product_template pt2 on pt2.id=pp2.product_tmpl_id
+            inner join stock_landed_cost slc2 on slc2.id=sval2.cost_id
+            where slc2.sv_declaracion=cast(425334 as VARCHAR)
+            and sval2.product_id=pp.id
+            and pt2.landed_cost_ok=true
+            and pt2.sv_tipo_costo='Flete'), 0.00) as flete
+
+            ,/*Calculando Impuestos*/
+            coalesce((select sum(sval3.additional_landed_cost)
+            from stock_valuation_adjustment_lines sval3
+            inner join stock_landed_cost_lines slcl3 on slcl3.id=sval3.cost_line_id
+            inner join product_product pp3 on pp3.id=slcl3.product_id
+            inner join product_template pt3 on pt3.id=pp3.product_tmpl_id
+            inner join stock_landed_cost slc3 on slc3.id=sval3.cost_id
+            where slc3.sv_declaracion=cast(425334 as VARCHAR)
+            and sval3.product_id=pp.id
+            and pt3.landed_cost_ok=true
+            and pt3.sv_tipo_costo='Impuestos'), 0.00) as impuesto
+
+            ,/*Calculando Otros*/
+            coalesce((select sum(sval4.additional_landed_cost)
+            from stock_valuation_adjustment_lines sval4
+            inner join stock_landed_cost_lines slcl4 on slcl4.id=sval4.cost_line_id
+            inner join product_product pp4 on pp4.id=slcl4.product_id
+            inner join product_template pt4 on pt4.id=pp4.product_tmpl_id
+            inner join stock_landed_cost slc4 on slc4.id=sval4.cost_id
+            where slc4.sv_declaracion=cast(425334 as VARCHAR)
+            and sval4.product_id=pp.id
+            and pt4.landed_cost_ok=true
+            and pt4.sv_tipo_costo='Otros'), 0.00) as otros
+
+
+            from stock_valuation_adjustment_lines sval
+            inner join product_product pp on pp.id=sval.product_id
+            inner join product_template pt on pt.id=pp.product_tmpl_id
+            inner join stock_landed_cost_lines slcl on slcl.id=sval.cost_line_id
+            inner join stock_landed_cost slc on slc.id=sval.cost_id
+            /*Condiciones*/
+            where slc.sv_declaracion=cast(425334 as VARCHAR)
+            /*Agrupaciones*/
+            group by codigo,
+            descripcion,
+            aduana_des,
+            cantidad,
+            precio_unit, fob, slcl.id, sval.cost_line_id,pp.id,pt.id,seguro,flete
+            order by codigo asc) R group by
+            codigo,
+            descripcion,
+            aduana_des,
+            posicion,
+            cantidad,
+            precio_unit,
+            fob,
+            seguro,
+            flete,
+            impuesto,
+            otros
+            /*Orden*/
+            order by R.codigo
+========================================================================================
+FACTURA ESKBAL
+
+select 
+ail.name as fact_nombre
+,ail.quantity as canti
+,ail.price_unit as u_p
+,ail.price_subtotal as sub_t
+,ail.price_total as t
+,at.name as imp_name
+,at.type_tax_use as uso
+,at.description as descrip
+from account_invoice ai
+inner join account_invoice_line ail on ail.invoice_id=ai.id
+inner join account_invoice_line_tax ailt on ailt.invoice_line_id=ail.id
+inner join account_tax at on at.id=ailt.tax_id
+where ai.reference='093'
+group by imp_name, fact_nombre, canti, u_p,sub_t,t,uso,descrip;
+
+
+select 
+--ail.id as iden
+--,ail.name as fact_nombre
+--,ail.quantity as canti
+--,ail.price_unit as u_p
+--,ail.price_subtotal as sub_t
+--,ail.price_total as t
+at.name as imp_name
+--,at.type_tax_use as uso
+--,at.description as descrip
+from account_invoice ai
+inner join account_invoice_line ail on ail.invoice_id=ai.id
+inner join account_invoice_line_tax ailt on ailt.invoice_line_id=ail.id
+inner join account_tax at on at.id=ailt.tax_id
+where ai.reference='165'
+and at.type_tax_use = 'sale'
+and ail.id=2366
+;
+
+
+
+
+
