@@ -102,6 +102,87 @@ CREATE OR REPLACE VIEW strategiksv_reportesv_purchase_report AS (select * from (
 
         union all
 
+	select coalesce(ai.sv_fecha_tax,ai.date_invoice) as fecha
+        ,ai.reference as factura
+        ,rp.name as proveedor
+        ,rp.vat as NRC
+        ,case
+        when rp.country_id=211 then False
+        when rp.country_id is null then False
+        when rp.country_id=209 then False
+        else True end as Importacion
+        ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
+        (select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as Gravado,
+        /*Calculando el excento que no tiene iva*/
+        (Select coalesce(sum(price_subtotal_signed),0.00)
+        from account_invoice_line ail
+        where invoice_id=ai.id
+        and not exists(select ailt.tax_id
+        from account_invoice_line_tax ailt
+        inner join account_tax atx on ailt.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where ailt.invoice_line_id=ail.id and atg.name='iva')
+        ) as Exento
+        ,/*Calculando el iva*/
+        -(Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='iva'
+        ) as Iva
+        ,/*Calculando el retenido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='retencion'
+        ) as Retenido
+        ,/*Calculando el percibido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='percepcion'
+        ) as Percibido
+        ,/*Calculando el excluido*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='excluido'
+        ) as Excluido
+        ,/*Calculando el retencion a terceros*/
+        (Select coalesce(sum(ait.amount),0.00)
+        from account_invoice_tax ait
+        inner join account_tax atx on ait.tax_id=atx.id
+        inner join account_tax_group atg on atx.tax_group_id=atg.id
+        where invoice_id=ai.id
+        and atg.name='retencion3'
+        ) as retencion3
+        from account_invoice ai
+        inner join res_partner rp on ai.partner_id=rp.id
+        where ai.company_id= 1
+        and date_part('year',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  2019
+        and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  6
+        and ai.type='in_refund'
+        and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
+        and ai.state in ('open','paid')
+        and ((ai.sv_importacion_number is null) or (trim(ai.sv_importacion_number)=''))
+
+        union all
+
         select min(SI.fecha) as fecha
         ,SI.sv_importacion_number as factura
         ,'DGT' as proveedor
@@ -196,87 +277,6 @@ CREATE OR REPLACE VIEW strategiksv_reportesv_purchase_report AS (select * from (
         ) SI group by   SI.sv_importacion_number
 
 	union all
-
-	select coalesce(ai.sv_fecha_tax,ai.date_invoice) as fecha
-        ,ai.reference as factura
-        ,rp.name as proveedor
-        ,rp.vat as NRC
-        ,case
-        when rp.country_id=211 then False
-        when rp.country_id is null then False
-        when rp.country_id=209 then False
-        else True end as Importacion
-        ,/*Calculando el gravado (todo lo que tiene un impuesto aplicado de iva)*/
-        (select coalesce(sum(price_subtotal_signed),0.00)
-        from account_invoice_line ail
-        where invoice_id=ai.id
-        and exists(select ailt.tax_id
-        from account_invoice_line_tax ailt
-        inner join account_tax atx on ailt.tax_id=atx.id
-        inner join account_tax_group atg on atx.tax_group_id=atg.id
-        where ailt.invoice_line_id=ail.id and atg.name='iva')
-        ) as Gravado,
-        /*Calculando el excento que no tiene iva*/
-        (Select coalesce(sum(price_subtotal_signed),0.00)
-        from account_invoice_line ail
-        where invoice_id=ai.id
-        and not exists(select ailt.tax_id
-        from account_invoice_line_tax ailt
-        inner join account_tax atx on ailt.tax_id=atx.id
-        inner join account_tax_group atg on atx.tax_group_id=atg.id
-        where ailt.invoice_line_id=ail.id and atg.name='iva')
-        ) as Exento
-        ,/*Calculando el iva*/
-        (Select coalesce(sum(ait.amount),0.00)
-        from account_invoice_tax ait
-        inner join account_tax atx on ait.tax_id=atx.id
-        inner join account_tax_group atg on atx.tax_group_id=atg.id
-        where invoice_id=ai.id
-        and atg.name='iva'
-        ) as Iva
-        ,/*Calculando el retenido*/
-        (Select coalesce(sum(ait.amount),0.00)
-        from account_invoice_tax ait
-        inner join account_tax atx on ait.tax_id=atx.id
-        inner join account_tax_group atg on atx.tax_group_id=atg.id
-        where invoice_id=ai.id
-        and atg.name='retencion'
-        ) as Retenido
-        ,/*Calculando el percibido*/
-        (Select coalesce(sum(ait.amount),0.00)
-        from account_invoice_tax ait
-        inner join account_tax atx on ait.tax_id=atx.id
-        inner join account_tax_group atg on atx.tax_group_id=atg.id
-        where invoice_id=ai.id
-        and atg.name='percepcion'
-        ) as Percibido
-        ,/*Calculando el excluido*/
-        (Select coalesce(sum(ait.amount),0.00)
-        from account_invoice_tax ait
-        inner join account_tax atx on ait.tax_id=atx.id
-        inner join account_tax_group atg on atx.tax_group_id=atg.id
-        where invoice_id=ai.id
-        and atg.name='excluido'
-        ) as Excluido
-        ,/*Calculando el retencion a terceros*/
-        (Select coalesce(sum(ait.amount),0.00)
-        from account_invoice_tax ait
-        inner join account_tax atx on ait.tax_id=atx.id
-        inner join account_tax_group atg on atx.tax_group_id=atg.id
-        where invoice_id=ai.id
-        and atg.name='retencion3'
-        ) as retencion3
-        from account_invoice ai
-        inner join res_partner rp on ai.partner_id=rp.id
-        where ai.company_id= {0}
-        and date_part('year',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  {1}
-        and date_part('month',COALESCE(ai.sv_fecha_tax,ai.date_invoice))=  {2}
-        and ai.type='in_refund'
-        and ((ai.sv_no_tax is null ) or (ai.sv_no_tax=false))
-        and ai.state in ('open','paid')
-        and ((ai.sv_importacion_number is null) or (trim(ai.sv_importacion_number)=''))
-
-        union all
 
         select aml.date as fecha
         ,am.ref as factura
